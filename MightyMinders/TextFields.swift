@@ -25,23 +25,3 @@ class MMTextField : UITextField {
         return newBounds
     }
 }
-
-
-// Class for top margin and bottom margin
-class MMTextFieldTopAndLeft : UITextField {
-    var leftMargin : CGFloat = 10.0
-    
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
-        var newBounds = bounds
-        newBounds.origin.x += leftMargin
-        newBounds.origin.y += leftMargin
-        return newBounds
-    }
-    
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
-        var newBounds = bounds
-        newBounds.origin.x += leftMargin
-        newBounds.origin.y += leftMargin
-        return newBounds
-    }
-}

@@ -15,6 +15,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     let locationManager: CLLocationManager = CLLocationManager()
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     
     var privateData: FDataSnapshot!
     var sharedData: FDataSnapshot!
@@ -250,18 +251,6 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             
             for annotation in sharedAnnotations {
                 
-                // fire notification if new reminder
-                if UIApplication.sharedApplication().applicationState != UIApplicationState.Active {
-                    if !(reminderKeys.contains(annotation.key)) {
-                        let ln:UILocalNotification = UILocalNotification()
-                        ln.alertAction = annotation.title
-                        ln.alertBody = annotation.content
-                        ln.fireDate = NSDate(timeIntervalSinceNow: 2)
-                        ln.soundName = UILocalNotificationDefaultSoundName
-                        UIApplication.sharedApplication().scheduleLocalNotification(ln)
-                    }
-                }
-                
                 // remove annotation from map
                 if let annotations = self.mapView?.annotations as? [Annotation] {
                     if annotations.count > 0 {
@@ -295,6 +284,9 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             
         }
         
+        // insert keys to defaults
+        userDefaults.setObject(Array(reminderKeys), forKey: "reminderKeys")
+        
         // update total
         totalMindersLbl.text = String(reminderKeys.count)
         
@@ -321,6 +313,9 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                             self.totalMindersLbl.text = String(self.reminderKeys.count)
                         }
                     })
+                    
+                    // insert keys to defaults
+                    userDefaults.setObject(Array(reminderKeys), forKey: "reminderKeys")
                     
                 }
             }
@@ -372,7 +367,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        let alert = UIAlertController(title: "Location Error", message: "There was an error geting your location: \(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Location Error", message: "There was an error getting your location. MightyMinders needs your location to work correctly. Please adjust your location settings in the Settings app.", preferredStyle: UIAlertControllerStyle.Alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
         
         // Add the actions

@@ -8,13 +8,16 @@
 
 import UIKit
 import CoreLocation
+import AeroGearPush
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     
     var window: UIWindow?
+    var reminderKeys = [String]()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -25,13 +28,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         // push notifications
-        application.registerForRemoteNotifications()
+        UIApplication.sharedApplication().registerForRemoteNotifications()
         
         // background fetch - dont need it currently but setting it up anyway
         UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
+        // push analytics
+        AGPushAnalytics.sendMetricsWhenAppLaunched(launchOptions)
+        
         return true
     }
+    
+    
+    // recieve push
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        
+        // push analytics
+        AGPushAnalytics.sendMetricsWhenAppAwoken(application.applicationState, userInfo: userInfo)
+        
+    }
+    
+    // register for push
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        print("APNS Success")
+        
+        let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
+        
+        registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
+            
+            // apply the token, to identify this device
+            clientInfo.deviceToken = deviceToken
+            // store token for later
+            self.userDefaults.setObject(deviceToken, forKey:  "deviceToken")
+            
+            clientInfo.variantID = "eb234d8c-1829-483b-ad2a-a855eeacc2b2"
+            clientInfo.variantSecret = "2f2f8f44-a6ba-40f4-b8a1-fc06ac367315"
+            
+            // --optional config--
+            // set some 'useful' hardware information params
+            let currentDevice = UIDevice()
+            clientInfo.operatingSystem = currentDevice.systemName
+            clientInfo.osVersion = currentDevice.systemVersion
+            clientInfo.deviceType = currentDevice.model
+            
+            if self.ref.authData != nil {
+                if let email = self.ref.authData.providerData["email"] as? String {
+                    clientInfo.alias = email
+                }
+            }
+            
+            }, success: {
+                print("UPS registration worked");
+                
+            }, failure: { (error:NSError!) -> () in
+                print("UPS registration Error: \(error.localizedDescription)")
+        })
+    }
+    
+    // failed to register
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        print(error)
+    }
+    
     
     // Required methods
 

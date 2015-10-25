@@ -7,22 +7,26 @@
 //
 
 import UIKit
+import AeroGearPush
 
 class LoginViewController: UIViewController {
 
     let ref = Firebase(url: "https://mightyminders.firebaseio.com")
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     
     @IBOutlet weak var emailFld: UITextField!
     @IBOutlet weak var passFld: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var errorTxt: UILabel!
+    @IBOutlet weak var forgotPasswd: UIButton!
+    @IBOutlet weak var activity: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+        activity.hidden = true
         if let error = errorTxt {
             error.hidden = true;
         }
@@ -46,7 +50,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func doLogin(sender: AnyObject) {
-        
+        activity.hidden = false
         ref.authUser(emailFld.text, password: passFld.text,
             withCompletionBlock: { error, authData in
                 if error != nil {
@@ -76,9 +80,56 @@ class LoginViewController: UIViewController {
                     }
                 } else {
                     // We are now logged in
+                    
+                    let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
+                    
+                    registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
+                        
+                        // apply the token, to identify this device
+                        clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
+                        
+                        clientInfo.variantID = "eb234d8c-1829-483b-ad2a-a855eeacc2b2"
+                        clientInfo.variantSecret = "2f2f8f44-a6ba-40f4-b8a1-fc06ac367315"
+                        
+                        // --optional config--
+                        // set some 'useful' hardware information params
+                        clientInfo.alias = self.ref.authData.providerData["email"] as? String
+                        
+                        }, success: {
+                            print("device alias updated");
+                            
+                        }, failure: { (error:NSError!) -> () in
+                            print("device alias update error: \(error.localizedDescription)")
+                    })
+                    
+                    
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
+                self.activity.hidden = true
         })
+        
+    }
+    
+    @IBAction func forgetPasswdAction(sender: AnyObject) {
+        
+        if emailFld.text != "" {
+            ref.resetPasswordForUser(emailFld.text, withCompletionBlock: { error in
+                if error != nil {
+                    // There was an error processing the request
+                    let passwdError = UIAlertView(title: "Error", message: "There was an error resetting your password, please try again.", delegate: nil, cancelButtonTitle: "OK")
+                    passwdError.show()
+                } else {
+                    // Password reset sent successfully
+                    let emailError = UIAlertView(title: "Success", message: "Plesae check your email for instructions on resetting your password.", delegate: nil, cancelButtonTitle: "OK")
+                    emailError.show()
+                }
+            })
+        } else {
+            let emailError = UIAlertView(title: "Error", message: "Please enter you email address and click \"I forgot my password\" again.", delegate: nil, cancelButtonTitle: "OK")
+            emailError.show()
+        }
+        
+        
         
     }
     

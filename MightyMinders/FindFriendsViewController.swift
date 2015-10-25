@@ -109,7 +109,7 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         
-        if searchText != "" && searchText.characters.count > 3 {
+        if searchText != "" && searchText.characters.count >= 2 && searchText.containsString("@") {
             
             // user authenticated with Firebase
             let usersRef = ref.childByAppendingPath("users")

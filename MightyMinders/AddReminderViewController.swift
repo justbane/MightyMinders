@@ -11,7 +11,6 @@ import UIKit
 class AddReminderViewController: MMCustomViewController {
 
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
-    let userDefaults = NSUserDefaults.standardUserDefaults()
     var selectedLocation = [String: AnyObject]()
     var selectedFriend = [String: AnyObject]()
     

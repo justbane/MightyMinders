@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import AeroGearPush
 
 class RegisterViewController: UIViewController {
 
     let ref = Firebase(url: "https://mightyminders.firebaseio.com")
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     
     @IBOutlet weak var emailFld: UITextField!
     @IBOutlet weak var passFld: UITextField!
@@ -20,13 +22,14 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var lnameFld: UITextField!
     
     @IBOutlet weak var blueView: UIView!
+    @IBOutlet weak var activity: UIActivityIndicatorView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+        activity.hidden = true
         // set the background color
         // let background = Colors(colorString: "blue").getGradient()
         // background.frame = self.view.bounds
@@ -82,7 +85,7 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func doRegistration(sender: AnyObject) {
-        
+        activity.hidden = false
         if (validate() && ref.authData == nil) {
             ref.createUser(emailFld.text, password: passFld.text,
                 withValueCompletionBlock: { error, result in
@@ -121,6 +124,29 @@ class RegisterViewController: UIViewController {
                                     // There was an error logging in to this account
                                 } else {
                                     // We are now logged in
+                                    
+                                    let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
+                                    
+                                    // update alias
+                                    registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
+                                        
+                                        // apply the token, to identify this device
+                                        clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
+                                        
+                                        clientInfo.variantID = "eb234d8c-1829-483b-ad2a-a855eeacc2b2"
+                                        clientInfo.variantSecret = "2f2f8f44-a6ba-40f4-b8a1-fc06ac367315"
+                                        
+                                        // --optional config--
+                                        // set some 'useful' hardware information params
+                                        clientInfo.alias = self.ref.authData.providerData["email"] as? String
+                                        
+                                        }, success: {
+                                            print("device alias updated");
+                                            
+                                        }, failure: { (error:NSError!) -> () in
+                                            print("device alias update error: \(error.localizedDescription)")
+                                    })
+                                    
                                     self.saveProfileData()
                                 }
                                 
@@ -160,6 +186,8 @@ class RegisterViewController: UIViewController {
                     self.dismissViewControllerAnimated(true, completion: nil)
                     
                 }
+                
+                self.activity.hidden = true
                 
             })
         }

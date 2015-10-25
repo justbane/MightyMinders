@@ -28,6 +28,7 @@
 		394E81E31B52218A00C81664 /* ViewReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394E81E21B52218A00C81664 /* ViewReminderViewController.swift */; };
 		394E91E51B00FB3A00C701D3 /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394E91E41B00FB3A00C701D3 /* AddLocationViewController.swift */; };
 		3955CF821B9FE48B0037FA91 /* AddFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3955CF811B9FE48B0037FA91 /* AddFriendViewController.swift */; };
+		39589CB21BCCBC8800D9D804 /* AeroGearPush.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 39589CAC1BCCBBF500D9D804 /* AeroGearPush.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3960ACB11B901CD50064B2BE /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */; };
 		3960ACB21B901CD50064B2BE /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C0A3AC1B76935C000A6CAD /* CustomView.swift */; };
 		3960ACB31B901CD50064B2BE /* AddRemoveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */; };
@@ -52,9 +53,41 @@
 			remoteGlobalIDString = 39305A911AE9EF9300773849;
 			remoteInfo = MightyMinders;
 		};
+		39589CAB1BCCBBF500D9D804 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6F71353119646266009B26D8;
+			remoteInfo = AeroGearPush;
+		};
+		39589CAD1BCCBBF500D9D804 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6F71353C19646266009B26D8;
+			remoteInfo = AeroGearPushTests;
+		};
+		39589CAF1BCCBC4200D9D804 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F71353019646266009B26D8;
+			remoteInfo = AeroGearPush;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		39589CB11BCCBC5E00D9D804 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				39589CB21BCCBC8800D9D804 /* AeroGearPush.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		39C0A3AA1B769330000A6CAD /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -94,6 +127,7 @@
 		394E81E21B52218A00C81664 /* ViewReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewReminderViewController.swift; sourceTree = "<group>"; };
 		394E91E41B00FB3A00C701D3 /* AddLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		3955CF811B9FE48B0037FA91 /* AddFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendViewController.swift; sourceTree = "<group>"; };
+		39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AeroGearPush.xcodeproj; path = "aerogear-ios-push/AeroGearPush.xcodeproj"; sourceTree = "<group>"; };
 		397C5FB41AF1E7C40063E9DE /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		397E8D291B64247F0095B30D /* Logo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsRemindViewController.swift; sourceTree = "<group>"; };
@@ -151,6 +185,7 @@
 				39305A941AE9EF9300773849 /* MightyMinders */,
 				39305AAA1AE9EF9300773849 /* MightyMindersTests */,
 				39305A931AE9EF9300773849 /* Products */,
+				39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -222,6 +257,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		39589CA71BCCBBF500D9D804 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				39589CAC1BCCBBF500D9D804 /* AeroGearPush.framework */,
+				39589CAE1BCCBBF500D9D804 /* AeroGearPushTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -233,10 +277,12 @@
 				39305A8F1AE9EF9300773849 /* Frameworks */,
 				39305A901AE9EF9300773849 /* Resources */,
 				39C0A3AA1B769330000A6CAD /* Embed Frameworks */,
+				39589CB11BCCBC5E00D9D804 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				39589CB01BCCBC4200D9D804 /* PBXTargetDependency */,
 			);
 			name = MightyMinders;
 			productName = MightyMinders;
@@ -304,6 +350,12 @@
 			mainGroup = 39305A891AE9EF9300773849;
 			productRefGroup = 39305A931AE9EF9300773849 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 39589CA71BCCBBF500D9D804 /* Products */;
+					ProjectRef = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				39305A911AE9EF9300773849 /* MightyMinders */,
@@ -311,6 +363,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		39589CAC1BCCBBF500D9D804 /* AeroGearPush.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AeroGearPush.framework;
+			remoteRef = 39589CAB1BCCBBF500D9D804 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		39589CAE1BCCBBF500D9D804 /* AeroGearPushTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AeroGearPushTests.xctest;
+			remoteRef = 39589CAD1BCCBBF500D9D804 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		39305A901AE9EF9300773849 /* Resources */ = {
@@ -378,6 +447,11 @@
 			isa = PBXTargetDependency;
 			target = 39305A911AE9EF9300773849 /* MightyMinders */;
 			targetProxy = 39305AA81AE9EF9300773849 /* PBXContainerItemProxy */;
+		};
+		39589CB01BCCBC4200D9D804 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AeroGearPush;
+			targetProxy = 39589CAF1BCCBC4200D9D804 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -499,11 +573,11 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MightyMinders/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "3797d167-8962-489d-8ea5-90985d11c918";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -523,11 +597,11 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MightyMinders/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "3797d167-8962-489d-8ea5-90985d11c918";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 			};
 			name = Release;
