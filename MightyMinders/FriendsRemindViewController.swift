@@ -22,6 +22,7 @@ class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, 
         
         // Do any additional setup after loading the view.
         
+        
         // table view setup
         tableView.delegate = self
         tableView.dataSource = self
@@ -49,7 +50,6 @@ class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, 
     }
     
     override func viewDidAppear(animated: Bool) {
-        
         if ref.authData == nil {
             super.showLogin()
         }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListRemindersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, UITableViewDataSource {
 
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -33,6 +33,13 @@ class ListRemindersViewController: UIViewController, UITableViewDelegate, UITabl
         
         self.getReminders()
         
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // check for valid user
+        if ref.authData == nil {
+            super.showLogin()
+        }
     }
     
     override func didReceiveMemoryWarning() {

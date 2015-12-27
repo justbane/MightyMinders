@@ -83,16 +83,11 @@ class AddReminderViewController: MMCustomViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        
         // view is shown again
-        // println("Updates viewDidAppear fired")
-        
-        if ref.authData != nil {
-            // user authenticated with Firebase
-        } else {
+        // check for valid user
+        if ref.authData == nil {
             super.showLogin()
         }
-        
     }
     
     override func didReceiveMemoryWarning() {

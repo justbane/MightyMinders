@@ -49,7 +49,6 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
     }
     
     override func viewDidAppear(animated: Bool) {
-        
         if ref.authData == nil {
             super.showLogin()
         }

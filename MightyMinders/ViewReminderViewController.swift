@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewReminderViewController: UIViewController {
+class ViewReminderViewController: MMCustomViewController {
     
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     
@@ -56,6 +56,13 @@ class ViewReminderViewController: UIViewController {
             })
         }
         
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // check for valid user
+        if ref.authData == nil {
+            super.showLogin()
+        }
     }
 
     override func didReceiveMemoryWarning() {

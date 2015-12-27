@@ -126,7 +126,7 @@ class LoginViewController: UIViewController {
                 }
             })
         } else {
-            let emailError = UIAlertView(title: "Error", message: "Please enter you email address and click \"I forgot my password\" again.", delegate: nil, cancelButtonTitle: "OK")
+            let emailError = UIAlertView(title: "Error", message: "Please enter your email address and click \"I forgot my password\" again.", delegate: nil, cancelButtonTitle: "OK")
             emailError.show()
         }
         

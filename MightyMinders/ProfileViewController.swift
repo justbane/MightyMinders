@@ -9,7 +9,7 @@
 import UIKit
 import AeroGearPush
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: MMCustomViewController {
     
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -41,6 +41,13 @@ class ProfileViewController: UIViewController {
             
         })
         
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // check for valid user
+        if ref.authData == nil {
+            super.showLogin()
+        }
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class AddLocationViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     var currentLocation: CLLocation!
     var selectedLocation = [String: AnyObject]()
@@ -43,6 +43,13 @@ class AddLocationViewController: UIViewController, MKMapViewDelegate, CLLocation
         
         mapView.addGestureRecognizer(lpgr)
         
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // check for valid user
+        if ref.authData == nil {
+            super.showLogin()
+        }
     }
     
     override func didReceiveMemoryWarning() {

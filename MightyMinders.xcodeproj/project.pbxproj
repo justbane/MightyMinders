@@ -24,8 +24,6 @@
 		39305AC61AE9FDF000773849 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39305AC51AE9FDF000773849 /* SystemConfiguration.framework */; };
 		39331AD71BA2945700625AF5 /* Minders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39331AD61BA2945700625AF5 /* Minders.swift */; };
 		3934F4921B38B50E00F395D2 /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3934F4911B38B50E00F395D2 /* Annotation.swift */; };
-		39423FFC1BE32FA600435724 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39423FEB1BE32DB800435724 /* Alamofire.framework */; };
-		39423FFD1BE32FA600435724 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 39423FEB1BE32DB800435724 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		394259D21B0A40ED00918534 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394259D11B0A40ED00918534 /* CoreLocation.framework */; };
 		394E71881B77F03C0053B47B /* RemindFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394E71871B77F03C0053B47B /* RemindFriendsViewController.swift */; };
 		394E718A1B77F9380053B47B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394E71891B77F9380053B47B /* ProfileViewController.swift */; };
@@ -108,13 +106,6 @@
 			remoteGlobalIDString = E4202FE01B667AA100C997FB;
 			remoteInfo = "Alamofire watchOS";
 		};
-		39423FFE1BE32FA600435724 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 39423FE01BE32DB700435724 /* Alamofire.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
-			remoteInfo = "Alamofire iOS";
-		};
 		39589CAB1BCCBBF500D9D804 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
@@ -139,7 +130,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				39589CB21BCCBC8800D9D804 /* AeroGearPush.framework in Copy Frameworks */,
-				39423FFD1BE32FA600435724 /* Alamofire.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -201,7 +191,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				39AEAC8F1BAE2D7700E33F3E /* libicucore.A.dylib in Frameworks */,
-				39423FFC1BE32FA600435724 /* Alamofire.framework in Frameworks */,
 				39AEAC8D1BAE2D5300E33F3E /* libc++.1.dylib in Frameworks */,
 				394259D21B0A40ED00918534 /* CoreLocation.framework in Frameworks */,
 				39305AC61AE9FDF000773849 /* SystemConfiguration.framework in Frameworks */,
@@ -352,7 +341,6 @@
 			);
 			dependencies = (
 				39589CB01BCCBC4200D9D804 /* PBXTargetDependency */,
-				39423FFF1BE32FA600435724 /* PBXTargetDependency */,
 			);
 			name = MightyMinders;
 			productName = MightyMinders;
@@ -567,11 +555,6 @@
 			isa = PBXTargetDependency;
 			target = 39305A911AE9EF9300773849 /* MightyMinders */;
 			targetProxy = 39305AA81AE9EF9300773849 /* PBXContainerItemProxy */;
-		};
-		39423FFF1BE32FA600435724 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Alamofire iOS";
-			targetProxy = 39423FFE1BE32FA600435724 /* PBXContainerItemProxy */;
 		};
 		39589CB01BCCBC4200D9D804 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

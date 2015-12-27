@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     
@@ -46,6 +46,13 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
             }
         })
         
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // check for valid user
+        if ref.authData == nil {
+            super.showLogin()
+        }
     }
 
     override func didReceiveMemoryWarning() {
