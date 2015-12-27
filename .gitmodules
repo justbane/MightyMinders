@@ -1,3 +1,6 @@
 [submodule "aerogear-ios-push"]
 	path = aerogear-ios-push
 	url = https://github.com/aerogear/aerogear-ios-push.git
+[submodule "Alamofire"]
+	path = Alamofire
+	url = https://github.com/Alamofire/Alamofire.git

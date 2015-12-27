@@ -11,6 +11,7 @@ import UIKit
 @IBDesignable class AddRemoveButtonView: UIButton {
     
     var actionData: [String: String]!
+    var locationData: [String: Double]!
     
     @IBInspectable var plusButton: Bool = true
     

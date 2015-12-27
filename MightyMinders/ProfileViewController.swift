@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import AeroGearPush
 
 class ProfileViewController: UIViewController {
     
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     var profileData: FDataSnapshot!
     
     @IBOutlet weak var closeBtn: UIButton!
@@ -126,6 +128,29 @@ class ProfileViewController: UIViewController {
         if dataToUpdate.count > 0 {
             let profileRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
             profileRef.setValue(dataToUpdate)
+            
+            let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
+            
+            registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
+                
+                // apply the token, to identify this device
+                clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
+                
+                clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
+                clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
+                
+                // --optional config--
+                // set some 'useful' hardware information params
+                clientInfo.alias = dataToUpdate["email_address"]
+                self.userDefaults.setValue(dataToUpdate["email_address"], forKey: "storedUserEmail")
+                
+                }, success: {
+                    print("device alias updated");
+                    
+                }, failure: { (error:NSError!) -> () in
+                    print("device alias update error: \(error.localizedDescription)")
+            })
+            
             let profileMsg = UIAlertView(title: "Success!", message: "Your profile information has been updated.", delegate: nil, cancelButtonTitle: "OK")
             profileMsg.show()
         }

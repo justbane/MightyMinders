@@ -11,6 +11,7 @@ import UIKit
 @IBDesignable public class CustomButton: UIButton {
     
     var actionData: String!
+    var locationData: [String: Double]!
     
     override public class func layerClass()->AnyClass{
         return CAGradientLayer.self

@@ -88,12 +88,13 @@ class LoginViewController: UIViewController {
                         // apply the token, to identify this device
                         clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
                         
-                        clientInfo.variantID = "eb234d8c-1829-483b-ad2a-a855eeacc2b2"
-                        clientInfo.variantSecret = "2f2f8f44-a6ba-40f4-b8a1-fc06ac367315"
+                        clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
+                        clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
                         
                         // --optional config--
                         // set some 'useful' hardware information params
                         clientInfo.alias = self.ref.authData.providerData["email"] as? String
+                        self.userDefaults.setValue(self.ref.authData.providerData["email"] as? String, forKey: "storedUserEmail")
                         
                         }, success: {
                             print("device alias updated");

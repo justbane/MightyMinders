@@ -44,10 +44,17 @@ class Minders {
                 setBy = data.value.valueForKey("set-by") as! String
             }
             
+            var address = "";
+            if pinLocation.valueForKey("address") == nil {
+                address = "Unknown Address"
+            } else {
+                address = pinLocation.valueForKey("address") as! String
+            }
+            
             let annotation = Annotation(
                 key: data.key,
                 title: pinLocation.valueForKey("name") as! String,
-                subtitle: pinLocation.valueForKey("address") as! String,
+                subtitle: address,
                 content: data.value.valueForKey("content") as! String,
                 type: self.type,
                 event: timing,

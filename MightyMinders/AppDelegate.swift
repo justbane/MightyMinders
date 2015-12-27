@@ -24,9 +24,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         application.setStatusBarStyle(UIStatusBarStyle.Default, animated: false)
         
-        // local notifications
-        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        // clear all the notifications
+        // UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
+        // store push server keys - prod
+        userDefaults.setValue("d90767e5-86b1-4169-a15c-2422cdcd3c1c", forKey: "variantID")
+        userDefaults.setValue("946dfa15-3eb6-4e9f-9578-752be6094358", forKey: "variantSecret")
+        
+        // store push server keys - dev
+        // userDefaults.setValue("eb234d8c-1829-483b-ad2a-a855eeacc2b2", forKey: "variantID")
+        // userDefaults.setValue("2f2f8f44-a6ba-40f4-b8a1-fc06ac367315", forKey: "variantSecret")
+        
+        // actions
+        let addMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
+        addMinderAction.identifier = "ADD_MINDER"
+        addMinderAction.title = "Accept"
+        addMinderAction.activationMode = UIUserNotificationActivationMode.Foreground
+        addMinderAction.authenticationRequired = false
+        addMinderAction.destructive = false
+        
+        let ignoreMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
+        ignoreMinderAction.identifier = "IGNORE_MINDER"
+        ignoreMinderAction.title = "Ignore"
+        ignoreMinderAction.activationMode = UIUserNotificationActivationMode.Background
+        ignoreMinderAction.authenticationRequired = false
+        ignoreMinderAction.destructive = true
+        
+        // categories
+        let mainCategory: UIMutableUserNotificationCategory = UIMutableUserNotificationCategory()
+        mainCategory.identifier = "MAIN_CATEGORY"
+        
+        let minimalActionsArray: NSArray = [addMinderAction, ignoreMinderAction]
+        
+        mainCategory.setActions(minimalActionsArray as? [UIUserNotificationAction], forContext: UIUserNotificationActionContext.Minimal)
+        
+        // add notification set
+        let categories: NSSet = NSSet(objects: mainCategory)
+        
+        // notifications
+        let mySettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: categories as? Set<UIUserNotificationCategory>)
+        UIApplication.sharedApplication().registerUserNotificationSettings(mySettings)
+        
         // push notifications
         UIApplication.sharedApplication().registerForRemoteNotifications()
         
@@ -39,6 +77,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    
+    // handle remote notification action
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], withResponseInfo responseInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        
+        if identifier == "ADD_MINDER" {
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("addMinderPressed", object: nil, userInfo: userInfo)
+            
+        }
+        
+        if identifier == "IGNORE_MINDER" {
+            
+            // what shall we do here?
+            print("ignored")
+            
+        }
+        
+        completionHandler()
+    }
     
     // recieve push
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
@@ -61,8 +118,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // store token for later
             self.userDefaults.setObject(deviceToken, forKey:  "deviceToken")
             
-            clientInfo.variantID = "eb234d8c-1829-483b-ad2a-a855eeacc2b2"
-            clientInfo.variantSecret = "2f2f8f44-a6ba-40f4-b8a1-fc06ac367315"
+            clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
+            clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
             
             // --optional config--
             // set some 'useful' hardware information params
@@ -71,8 +128,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             clientInfo.osVersion = currentDevice.systemVersion
             clientInfo.deviceType = currentDevice.model
             
-            if self.ref.authData != nil {
-                if let email = self.ref.authData.providerData["email"] as? String {
+            if self.userDefaults.valueForKey("storedUserEmail") != nil {
+                if let email = self.userDefaults.valueForKeyPath("storedUserEmail") as? String {
                     clientInfo.alias = email
                 }
             }

@@ -10,7 +10,6 @@ import UIKit
 
 class AddFriendViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
-    
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     let userDefaults = NSUserDefaults.standardUserDefaults()
     var friendData: [FDataSnapshot!] = []

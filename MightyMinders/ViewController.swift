@@ -27,9 +27,13 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     @IBOutlet weak var totalMindersLbl: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var locationMarkBtn: UIButton!
+    @IBOutlet weak var listViewBtn: CustomButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // listen for notification actions
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addMinderFromNotification:", name: "addMinderPressed", object: nil)
         
         // do any additional setup after loading the view, typically from a nib.
         // ref.unauth()
@@ -94,6 +98,31 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         }
     }
     
+    // notification action
+    func addMinderFromNotification(notification: NSNotification) {
+        
+        let data = notification.userInfo! as Dictionary
+        var latitude = 0.0
+        var longitude = 0.0
+        
+        if let aps = data["aps"] {
+            if let urlArgs = aps["url-args"] {
+                if let lat = urlArgs![0] as? String {
+                    latitude = Double(lat)!
+                }
+                if let long = urlArgs![1] as? String {
+                    longitude = Double(long)!
+                }
+            }
+        }
+        
+        let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+        // center map on new minder
+        mapView.setCenterCoordinate(coordinates, animated: true)
+        
+    }
+    
     @IBAction func unwindFromViewReminder(segue: UIStoryboardSegue) {
         if segue.identifier == "CompleteBtnUnwindSegue" {
             if let reminderViewController = segue.sourceViewController as? ViewReminderViewController {
@@ -120,6 +149,32 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         }
     }
     
+    @IBAction func unwindFromReminderListView(segue: UIStoryboardSegue) {
+        
+        let listController = segue.sourceViewController as! ListRemindersViewController
+        
+        if segue.identifier == "ListViewUnwindSegue" {
+            
+            let data = listController.selectedReminder
+            var latitude = 0.0
+            var longitude = 0.0
+            
+            if let lat = data["latitude"] {
+                latitude = lat
+            }
+            if let long = data["longitude"] {
+                longitude = long
+            }
+            
+            let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            
+            // center map on new minder
+            mapView.setCenterCoordinate(coordinates, animated: true)
+            
+        }
+        
+    }
+    
     @IBAction func locateMe(sender: UIButton) {
         if mapView.userTrackingMode.rawValue == 0 {
             mapView.setUserTrackingMode(.Follow, animated: true)
@@ -128,8 +183,6 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         }
         
     }
-    
-    
     
     // App functions
     
@@ -317,6 +370,9 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                     // insert keys to defaults
                     userDefaults.setObject(Array(reminderKeys), forKey: "reminderKeys")
                     
+                    // get/update the reminders
+                    self.getReminders()
+                    
                 }
             }
         }
@@ -345,14 +401,27 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     // Regions & Overlays
     
     func regionWithMinder(annotation: Annotation) -> CLCircularRegion {
-        let region = CLCircularRegion(center: annotation.coordinate, radius: 100, identifier: annotation.key)
+        
+        var radius = 200.00
+        if annotation.event == 1 {
+            radius = 100.00
+        }
+        
+        let region = CLCircularRegion(center: annotation.coordinate, radius: radius, identifier: annotation.key)
         region.notifyOnEntry = (annotation.event == 0)
         region.notifyOnExit = (annotation.event == 1)
         return region
     }
     
     func addRadiusOverlayForMinder(annotation: Annotation) {
-        mapView?.addOverlay(MKCircle(centerCoordinate: annotation.coordinate, radius: 100))
+        
+        var radius = 200.00
+        if annotation.event == 1 {
+            radius = 100.00
+        }
+        
+        let circle = MKCircle(centerCoordinate: annotation.coordinate, radius: radius)
+        mapView?.addOverlay(circle)
     }
     
     
@@ -444,6 +513,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     }
     
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        
         let circleRenderer = MKCircleRenderer(overlay: overlay)
         circleRenderer.lineWidth = 1.0
         circleRenderer.strokeColor = UIColor.grayColor()

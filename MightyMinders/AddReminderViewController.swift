@@ -11,6 +11,8 @@ import UIKit
 class AddReminderViewController: MMCustomViewController {
 
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let userDefaults = NSUserDefaults.standardUserDefaults()
+    
     var selectedLocation = [String: AnyObject]()
     var selectedFriend = [String: AnyObject]()
     
@@ -29,12 +31,19 @@ class AddReminderViewController: MMCustomViewController {
     @IBOutlet weak var addLocationBtn: UIButton!
     @IBOutlet weak var addFriendBtn: UIButton!
     @IBOutlet weak var whenSelector: UISegmentedControl!
-    
+    @IBOutlet weak var activity: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        activity.hidden = true
+        
+        // setup swipe down to hide keyboard
+        let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "dismissKeyboard")
+        swipe.direction = UISwipeGestureRecognizerDirection.Down
+        self.view.addGestureRecognizer(swipe)
+        
         
         // Setup interface values if editing a reminder -- FIXME!
         if let _ = reminderIdentifier {
@@ -96,7 +105,15 @@ class AddReminderViewController: MMCustomViewController {
         super.touchesBegan(touches, withEvent: event)
     }
     
+    func dismissKeyboard() {
+        
+        reminderTxt.resignFirstResponder()
+        
+    }
+    
     @IBAction func addReminder(sender: AnyObject) {
+        
+        activity.hidden = false
         
         let userMinder = [
             "content": reminderTxt.text,
@@ -141,6 +158,7 @@ class AddReminderViewController: MMCustomViewController {
                         let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
                         saveError.show()
                     } else {
+                        self.activity.hidden = true
                         self.navigationController?.popViewControllerAnimated(true)
                     }
                 })
@@ -149,6 +167,7 @@ class AddReminderViewController: MMCustomViewController {
                 if (self.selectedFriend.count > 0 && selectedFriend["id"] as! String != ref.authData.uid as String) {
                     let usersMinderRemove = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
                     usersMinderRemove.removeValue()
+                    self.sendReminderNotification(userMinder)
                 }
                 
             } else {
@@ -158,12 +177,75 @@ class AddReminderViewController: MMCustomViewController {
                         let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
                         saveError.show()
                     } else {
-                        self.navigationController?.popViewControllerAnimated(true)
+                        self.sendReminderNotification(userMinder)
                     }
                 })
                 
             }
             
+        }
+    }
+    
+    func sendReminderNotification(userMinder: NSDictionary) {
+        
+        if ref.authData.uid as String != userMinder["set-for"] as! String {
+            
+            let restReq = HTTPRequests()
+            let setBy = userMinder["set-by"] as! String
+            let setFor = userMinder["set-for"] as! String
+            let content = userMinder["content"] as! String
+            
+            var senderName: String = "Someone"
+            
+            // get sender profile data
+            let setByRef = self.ref.childByAppendingPath("users/\(setBy)")
+            setByRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+                let first_name: String = snapshot.value.objectForKey("first_name") as! String
+                let last_name: String = snapshot.value.objectForKey("last_name") as! String
+                senderName = "\(first_name) \(last_name)"
+                
+                // go reciever profile
+                let setForRef = self.ref.childByAppendingPath("users/\(setFor)")
+                setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+                    let email: String = snapshot.value.objectForKey("email_address") as! String
+                    
+                    let data: [String: [String: AnyObject]] = [
+                        "message": [
+                            "alert": "\(senderName) set a reminder for you - Swipe to Accept: \(content)",
+                            "sound": "default",
+                            "apns": [
+                                "action-category": "MAIN_CATEGORY",
+                                "url-args" :["\(self.selectedLocation["latitude"]!)","\(self.selectedLocation["longitude"]!)"]
+                            ]
+                        ],
+                        "criteria": [
+                            "alias": ["\(email)"],
+                            "variants": ["\(self.userDefaults.valueForKey("variantID") as! String)"]
+                        ]
+                    ]
+                    
+                    // send to push server
+                    restReq.sendPostRequest(data, url: "https://push-baneville.rhcloud.com/ag-push/rest/sender") { (success, msg) -> () in
+                        // completion code here
+                        // println(success)
+                        
+                        let status = msg["status"] as! String
+                        if status.containsString("FAILURE") {
+                            print(status)
+                        }
+                        // dismiss
+                        self.activity.hidden = true
+                        self.navigationController?.popViewControllerAnimated(true)
+                        
+                    }
+                    
+                })
+                
+            })
+            
+        } else {
+            self.activity.hidden = true
+            navigationController?.popViewControllerAnimated(true)
         }
     }
     
@@ -174,11 +256,14 @@ class AddReminderViewController: MMCustomViewController {
         if segue.identifier == "LocationUnwindSegue" {
             
             // set data from location controller
-            let nameForLocation = locationController.selectedLocation["name"]! as! String == "My current location" ? "Dropped pin" : locationController.selectedLocation["name"]! as! String
+            let nameForLocation = locationController.selectedLocation["name"] as! String == "My current location" ? "Dropped pin" : locationController.selectedLocation["name"] as! String
+            locationController.selectedLocation["name"] = nameForLocation
             
-            let name: String = nameForLocation
-            let address: String = locationController.selectedLocation["address"]! as! String
-            addLocationBtn.setTitle("\(name) at \(address)", forState: .Normal)
+            var name: String = nameForLocation
+            if let address: String = locationController.selectedLocation["address"] as? String {
+                name += " at \(address)"
+            }
+            addLocationBtn.setTitle("\(name)", forState: .Normal)
             
             // set local selectedLocation
             selectedLocation = locationController.selectedLocation
