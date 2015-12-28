@@ -23,6 +23,7 @@ class ProfileViewController: MMCustomViewController {
     @IBOutlet weak var newPasswdFld: MMTextField!
     @IBOutlet var logoutBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
+    @IBOutlet weak var profileActivity: UIActivityIndicatorView!
     
     
     override func viewDidLoad() {
@@ -30,23 +31,31 @@ class ProfileViewController: MMCustomViewController {
 
         // Do any additional setup after loading the view.
         
-        // get user data to fields
-        let usersRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
-        usersRef.observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            // set reminders object
-            self.profileData = snapshot
-            self.firstNameFld.text = self.profileData.value.objectForKey("first_name") as? String
-            self.lastNameFld.text = self.profileData.value.objectForKey("last_name") as? String
-            self.emailFld.text = self.profileData.value.objectForKey("email_address") as? String
-            
-        })
-        
     }
     
     override func viewDidAppear(animated: Bool) {
         // check for valid user
+        
+        // show activity
+        profileActivity.startAnimating()
+        profileActivity.hidden = false
+        
         if ref.authData == nil {
             super.showLogin()
+        } else {
+            // get user data to fields
+            let usersRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
+            usersRef.observeEventType(.Value, withBlock: { (snapshot) -> Void in
+                // set reminders object
+                self.profileData = snapshot
+                self.firstNameFld.text = self.profileData.value.objectForKey("first_name") as? String
+                self.lastNameFld.text = self.profileData.value.objectForKey("last_name") as? String
+                self.emailFld.text = self.profileData.value.objectForKey("email_address") as? String
+                
+                // hide the activity
+                self.profileActivity.stopAnimating()
+                self.profileActivity.hidden = true;
+            })
         }
     }
     

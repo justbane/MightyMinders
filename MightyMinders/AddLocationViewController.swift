@@ -12,6 +12,7 @@ import CoreLocation
 
 class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
+    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     var currentLocation: CLLocation!
     var selectedLocation = [String: AnyObject]()
     var matchingItems: [MKMapItem] = [MKMapItem]()

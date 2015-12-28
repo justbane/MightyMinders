@@ -16,7 +16,9 @@ class MMCustomViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         // logo
-        navigationItem.titleView = Logo(imgName: "MightyMinders", navController: navigationController!).getLogoImage()
+        if let navControl = navigationController  {
+            navigationItem.titleView = Logo(imgName: "MightyMinders", navController: navControl).getLogoImage()
+        }
         
     }
 

@@ -20,6 +20,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
     @IBOutlet weak var closeBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var searchActivity: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +51,10 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
     
     override func viewDidAppear(animated: Bool) {
         // check for valid user
+        
+        // hide the activity
+        self.searchActivity.hidden = true
+        
         if ref.authData == nil {
             super.showLogin()
         }
@@ -118,6 +123,10 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         
         if searchText != "" && searchText.characters.count >= 2 && searchText.containsString("@") {
             
+            // show activity
+            searchActivity.startAnimating()
+            searchActivity.hidden = false
+            
             // user authenticated with Firebase
             let usersRef = ref.childByAppendingPath("users")
             
@@ -145,7 +154,12 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
                         self.searchDataCount = self.friendData.count
                         self.tableView.reloadData()
                     }
+                    
                 }
+                
+                // hide the activity
+                self.searchActivity.stopAnimating()
+                self.searchActivity.hidden = true
                 
             })
             

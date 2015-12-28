@@ -39,6 +39,8 @@
 		398D959E1B88FBAE00D85F40 /* FriendsRemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */; };
 		398D95A21B8901AF00D85F40 /* MMCustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */; };
 		39947ACC1B0B824E003F142A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39947ACB1B0B824E003F142A /* MapKit.framework */; };
+		39958F831C30769B00F7CFA4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39423FEB1BE32DB800435724 /* Alamofire.framework */; };
+		39958F841C30769B00F7CFA4 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 39423FEB1BE32DB800435724 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39962C221B8D865900E264E2 /* FindFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */; };
 		39AEAC8D1BAE2D5300E33F3E /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AEAC8C1BAE2D5300E33F3E /* libc++.1.dylib */; };
 		39AEAC8F1BAE2D7700E33F3E /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AEAC8E1BAE2D7700E33F3E /* libicucore.A.dylib */; };
@@ -120,6 +122,13 @@
 			remoteGlobalIDString = 6F71353019646266009B26D8;
 			remoteInfo = AeroGearPush;
 		};
+		39958F851C30769B00F7CFA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39423FE01BE32DB700435724 /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -130,6 +139,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				39589CB21BCCBC8800D9D804 /* AeroGearPush.framework in Copy Frameworks */,
+				39958F841C30769B00F7CFA4 /* Alamofire.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39AEAC8F1BAE2D7700E33F3E /* libicucore.A.dylib in Frameworks */,
+				39958F831C30769B00F7CFA4 /* Alamofire.framework in Frameworks */,
 				39AEAC8D1BAE2D5300E33F3E /* libc++.1.dylib in Frameworks */,
 				394259D21B0A40ED00918534 /* CoreLocation.framework in Frameworks */,
 				39305AC61AE9FDF000773849 /* SystemConfiguration.framework in Frameworks */,
@@ -341,6 +352,7 @@
 			);
 			dependencies = (
 				39589CB01BCCBC4200D9D804 /* PBXTargetDependency */,
+				39958F861C30769B00F7CFA4 /* PBXTargetDependency */,
 			);
 			name = MightyMinders;
 			productName = MightyMinders;
@@ -560,6 +572,11 @@
 			isa = PBXTargetDependency;
 			name = AeroGearPush;
 			targetProxy = 39589CAF1BCCBC4200D9D804 /* PBXContainerItemProxy */;
+		};
+		39958F861C30769B00F7CFA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Alamofire iOS";
+			targetProxy = 39958F851C30769B00F7CFA4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

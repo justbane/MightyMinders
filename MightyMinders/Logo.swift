@@ -11,28 +11,28 @@ import UIKit
 
 class Logo {
     
-    let imageView: UIImageView
+    let imageView: UIImageView?
     
     init(imgName: String, navController: UINavigationController) {
         
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 175, height: 35))
-        imageView.contentMode = .ScaleAspectFit
+        imageView!.contentMode = .ScaleAspectFit
         let image = UIImage(named: imgName)
-        imageView.image = image
+        imageView!.image = image
         
     }
     
     init(imgName: String, tabController: UITabBarController) {
         
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 175, height: 35))
-        imageView.contentMode = .ScaleAspectFit
+        imageView!.contentMode = .ScaleAspectFit
         let image = UIImage(named: imgName)
-        imageView.image = image
+        imageView!.image = image
     
     }
     
     func getLogoImage() -> UIImageView {
-        return self.imageView
+        return self.imageView!
     }
     
     

@@ -16,6 +16,7 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
     var friendKeys: [String] = []
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var friendsActivity: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,30 +28,40 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
         tableView.dataSource = self
         tableView.separatorInset = UIEdgeInsetsZero
         
-        // get keys data
-        let canRemindKeys = ref.childByAppendingPath("friends/\(ref.authData.uid)/can-remind")
-        canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            // set object
-            let enumerator = snapshot.children
-            
-            // reset arrays - reset the table
-            self.friendKeys.removeAll(keepCapacity: false)
-            self.friendData.removeAll(keepCapacity: false)
-            self.tableView.reloadData()
-            
-            // iterate over data
-            while let data = enumerator.nextObject() as? FDataSnapshot {
-                self.friendKeys.append(data.key)
-            }
-            // get friends
-            self.getFriends()
-        })
-        
     }
     
     override func viewDidAppear(animated: Bool) {
+        
+        // friends activity
+        friendsActivity.startAnimating()
+        friendsActivity.hidden = false
+        
         if ref.authData == nil {
             super.showLogin()
+        } else {
+            // get keys data
+            let canRemindKeys = ref.childByAppendingPath("friends/\(ref.authData.uid)/can-remind")
+            canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
+                // set object
+                let enumerator = snapshot.children
+                
+                // reset arrays - reset the table
+                self.friendKeys.removeAll(keepCapacity: false)
+                self.friendData.removeAll(keepCapacity: false)
+                self.tableView.reloadData()
+                
+                // iterate over data
+                while let data = enumerator.nextObject() as? FDataSnapshot {
+                    self.friendKeys.append(data.key)
+                }
+                // get friends
+                self.getFriends()
+                
+                // hide activity
+                self.friendsActivity.stopAnimating()
+                self.friendsActivity.hidden = true
+            })
+
         }
     }
 

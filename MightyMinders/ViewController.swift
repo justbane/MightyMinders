@@ -28,6 +28,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var locationMarkBtn: UIButton!
     @IBOutlet weak var listViewBtn: CustomButton!
+    @IBOutlet weak var minderActivity: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +51,10 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     override func viewDidAppear(animated: Bool) {
         // view is shown again
         // println("Updates viewDidAppear fired")
+        
+        // show the activity
+        minderActivity.startAnimating()
+        minderActivity.hidden = false;
         
         // check for valid user
         if ref.authData == nil {
@@ -343,6 +348,9 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         // update total
         totalMindersLbl.text = String(reminderKeys.count)
         
+        // hide activity
+        minderActivity.stopAnimating()
+        minderActivity.hidden = true;
     }
     
     func removeMinder(key: String) {
