@@ -259,10 +259,11 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     }
     
     func updateReminders(type: String) {
+        
+        // cancel the notifications then add from firebase
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
         if type == "private" {
-            
-            // cancel the notifications
-            UIApplication.sharedApplication().cancelAllLocalNotifications()
             
             // process private minders
             let privateAnnotations = Minders(reminderSubData: privateData!, type: "private").processMinders()
