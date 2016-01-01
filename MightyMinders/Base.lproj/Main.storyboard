@@ -357,7 +357,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v9G-1E-d0V" customClass="CustomView" customModule="MightyMinders">
-                                                            <rect key="frame" x="0.0" y="8" width="320" height="82"/>
+                                                            <rect key="frame" x="0.0" y="8" width="320" height="90"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email@address.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="inx-11-Vkb">
                                                                     <rect key="frame" x="16" y="41" width="153" height="20"/>
@@ -372,7 +372,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ijh-Uj-Kd6" customClass="CustomButton" customModule="MightyMinders">
-                                                                    <rect key="frame" x="239" y="29" width="73" height="24"/>
+                                                                    <rect key="frame" x="239" y="33" width="73" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="24" id="DRe-WG-Pyc"/>
                                                                         <constraint firstAttribute="width" constant="73" id="oJd-em-jpF"/>
@@ -431,8 +431,8 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="v9G-1E-d0V" firstAttribute="top" secondItem="FSL-AZ-9Gp" secondAttribute="topMargin" id="7gN-RE-R6a"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="v9G-1E-d0V" secondAttribute="bottom" constant="-16" id="DsE-hq-9vv"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="v9G-1E-d0V" secondAttribute="trailing" constant="-8" id="gip-WD-ISK"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="v9G-1E-d0V" secondAttribute="bottom" constant="-8" id="lSj-Ge-VZz"/>
                                                         <constraint firstItem="v9G-1E-d0V" firstAttribute="leading" secondItem="FSL-AZ-9Gp" secondAttribute="leadingMargin" constant="-8" id="ovV-Jr-hNS"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
@@ -532,7 +532,7 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="krE-Pb-0ya" customClass="CustomView" customModule="MightyMinders">
-                                                                        <rect key="frame" x="0.0" y="8" width="288" height="82"/>
+                                                                        <rect key="frame" x="0.0" y="8" width="288" height="90"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First and Last" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rg1-nr-Pic">
                                                                                 <rect key="frame" x="16" y="11" width="129" height="26"/>
@@ -547,7 +547,7 @@
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ZX-b7-oU6" customClass="CustomButton" customModule="MightyMinders">
-                                                                                <rect key="frame" x="199" y="29" width="73" height="24"/>
+                                                                                <rect key="frame" x="199" y="33" width="73" height="24"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="73" id="4pP-k2-VMH"/>
                                                                                     <constraint firstAttribute="height" constant="24" id="rO9-4Q-7cr"/>
@@ -609,7 +609,7 @@
                                                                     <constraint firstItem="krE-Pb-0ya" firstAttribute="top" secondItem="dVR-zT-VrK" secondAttribute="topMargin" id="4yo-VA-CJC"/>
                                                                     <constraint firstAttribute="trailingMargin" secondItem="krE-Pb-0ya" secondAttribute="trailing" constant="-8" id="DCn-9D-H2f"/>
                                                                     <constraint firstItem="krE-Pb-0ya" firstAttribute="leading" secondItem="dVR-zT-VrK" secondAttribute="leadingMargin" constant="-8" id="S9n-rb-buj"/>
-                                                                    <constraint firstAttribute="bottomMargin" secondItem="krE-Pb-0ya" secondAttribute="bottom" constant="-8" id="zHi-CL-zK5"/>
+                                                                    <constraint firstAttribute="bottomMargin" secondItem="krE-Pb-0ya" secondAttribute="bottom" constant="-16" id="pDs-TO-RJv"/>
                                                                 </constraints>
                                                             </tableViewCellContentView>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1440,7 +1440,7 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RnK-5K-vg2" customClass="CustomView" customModule="MightyMinders">
-                                                                        <rect key="frame" x="0.0" y="8" width="288" height="82"/>
+                                                                        <rect key="frame" x="0.0" y="8" width="288" height="90"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First and Last" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EcW-T5-asi">
                                                                                 <rect key="frame" x="16" y="11" width="170" height="26"/>
@@ -1462,7 +1462,7 @@
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1vo-rH-QXO" customClass="AddRemoveButtonView" customModule="MightyMinders">
-                                                                                <rect key="frame" x="217" y="18" width="46" height="46"/>
+                                                                                <rect key="frame" x="217" y="22" width="46" height="46"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="46" id="8UG-tI-MRd"/>
                                                                                     <constraint firstAttribute="width" constant="46" id="yKU-9z-vFz"/>
@@ -1505,9 +1505,9 @@
                                                                 </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="bottom" secondItem="RnK-5K-vg2" secondAttribute="bottom" id="0Q5-7I-7P8"/>
                                                                     <constraint firstAttribute="trailing" secondItem="RnK-5K-vg2" secondAttribute="trailing" id="1i1-h8-iQc"/>
                                                                     <constraint firstItem="RnK-5K-vg2" firstAttribute="top" secondItem="dZQ-Mb-D2E" secondAttribute="topMargin" id="66R-xT-PFg"/>
+                                                                    <constraint firstAttribute="bottomMargin" secondItem="RnK-5K-vg2" secondAttribute="bottom" constant="-16" id="9RF-EQ-rvE"/>
                                                                     <constraint firstItem="RnK-5K-vg2" firstAttribute="leading" secondItem="dZQ-Mb-D2E" secondAttribute="leading" id="UvO-eD-sjg"/>
                                                                 </constraints>
                                                             </tableViewCellContentView>
@@ -1814,7 +1814,7 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iCT-LB-vhc" customClass="CustomView" customModule="MightyMinders">
-                                                                        <rect key="frame" x="0.0" y="8" width="288" height="82"/>
+                                                                        <rect key="frame" x="0.0" y="8" width="288" height="90"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZRd-Wk-1lM">
                                                                                 <rect key="frame" x="16" y="11" width="170" height="26"/>
@@ -1836,7 +1836,7 @@
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QIB-v7-aND" customClass="CustomButton" customModule="MightyMinders" customModuleProvider="target">
-                                                                                <rect key="frame" x="219" y="23" width="35" height="35"/>
+                                                                                <rect key="frame" x="219" y="28" width="35" height="35"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="35" id="eMq-4V-qhV"/>
                                                                                     <constraint firstAttribute="height" constant="35" id="iz8-E5-Th6"/>
@@ -1879,7 +1879,7 @@
                                                                 <constraints>
                                                                     <constraint firstItem="iCT-LB-vhc" firstAttribute="top" secondItem="MAQ-bE-SPH" secondAttribute="topMargin" id="Bv0-AQ-a75"/>
                                                                     <constraint firstAttribute="trailing" secondItem="iCT-LB-vhc" secondAttribute="trailing" id="Sjn-os-DzL"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="iCT-LB-vhc" secondAttribute="bottom" id="ax8-AE-lJY"/>
+                                                                    <constraint firstAttribute="bottomMargin" secondItem="iCT-LB-vhc" secondAttribute="bottom" constant="-16" id="doI-hR-Q8h"/>
                                                                     <constraint firstItem="iCT-LB-vhc" firstAttribute="leading" secondItem="MAQ-bE-SPH" secondAttribute="leading" id="vgk-DI-Cze"/>
                                                                 </constraints>
                                                             </tableViewCellContentView>
