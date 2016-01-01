@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainCategory: UIMutableUserNotificationCategory = UIMutableUserNotificationCategory()
         mainCategory.identifier = "MAIN_CATEGORY"
         
-        let minimalActionsArray: NSArray = [addMinderAction, completeMinderAction, ignoreMinderAction]
+        let minimalActionsArray: NSArray = [addMinderAction, ignoreMinderAction]
         
         mainCategory.setActions(minimalActionsArray as? [UIUserNotificationAction], forContext: UIUserNotificationActionContext.Minimal)
         
