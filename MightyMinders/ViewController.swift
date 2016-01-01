@@ -125,13 +125,13 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                 if let long = urlArgs![1] as? String {
                     longitude = Double(long)!
                 }
+                
+                let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                
+                // center map on new minder
+                mapView.setCenterCoordinate(coordinates, animated: true)
             }
         }
-        
-        let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        
-        // center map on new minder
-        mapView.setCenterCoordinate(coordinates, animated: true)
         
     }
     
