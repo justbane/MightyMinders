@@ -109,6 +109,7 @@ class AddReminderViewController: MMCustomViewController {
     @IBAction func addReminder(sender: AnyObject) {
         
         activity.hidden = false
+        activity.startAnimating()
         
         let userMinder = [
             "content": reminderTxt.text,
@@ -154,6 +155,7 @@ class AddReminderViewController: MMCustomViewController {
                         saveError.show()
                     } else {
                         self.activity.hidden = true
+                        self.activity.stopAnimating()
                         self.navigationController?.popViewControllerAnimated(true)
                     }
                 })
@@ -230,6 +232,7 @@ class AddReminderViewController: MMCustomViewController {
                         }
                         // dismiss
                         self.activity.hidden = true
+                        self.activity.stopAnimating()
                         self.navigationController?.popViewControllerAnimated(true)
                         
                     }
@@ -239,7 +242,8 @@ class AddReminderViewController: MMCustomViewController {
             })
             
         } else {
-            self.activity.hidden = true
+            activity.hidden = true
+            activity.stopAnimating()
             navigationController?.popViewControllerAnimated(true)
         }
     }

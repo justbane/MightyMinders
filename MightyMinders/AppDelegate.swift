@@ -43,6 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         addMinderAction.authenticationRequired = false
         addMinderAction.destructive = false
         
+        let completeMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
+        completeMinderAction.identifier = "COMPLETE_MINDER"
+        completeMinderAction.title = "Reminders"
+        completeMinderAction.activationMode = UIUserNotificationActivationMode.Foreground
+        completeMinderAction.authenticationRequired = false
+        completeMinderAction.destructive = true
+        
         let ignoreMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
         ignoreMinderAction.identifier = "IGNORE_MINDER"
         ignoreMinderAction.title = "Ignore"
@@ -54,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainCategory: UIMutableUserNotificationCategory = UIMutableUserNotificationCategory()
         mainCategory.identifier = "MAIN_CATEGORY"
         
-        let minimalActionsArray: NSArray = [addMinderAction, ignoreMinderAction]
+        let minimalActionsArray: NSArray = [addMinderAction, completeMinderAction, ignoreMinderAction]
         
         mainCategory.setActions(minimalActionsArray as? [UIUserNotificationAction], forContext: UIUserNotificationActionContext.Minimal)
         
@@ -84,6 +91,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if identifier == "ADD_MINDER" {
             
             NSNotificationCenter.defaultCenter().postNotificationName("addMinderPressed", object: nil, userInfo: userInfo)
+            
+        }
+        
+        if identifier == "COMPLETE_MINDER" {
+            
+            // just launch the app
             
         }
         

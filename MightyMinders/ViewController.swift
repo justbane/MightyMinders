@@ -52,10 +52,6 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         // view is shown again
         // println("Updates viewDidAppear fired")
         
-        // show the activity
-        minderActivity.startAnimating()
-        minderActivity.hidden = false;
-        
         // check for valid user
         if ref.authData == nil {
             super.showLogin()
@@ -69,6 +65,17 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // dispose of any resources that can be recreated.
+    }
+    
+    func startActivity() {
+        // show the activity
+        minderActivity.startAnimating()
+        minderActivity.hidden = false;
+    }
+    
+    func stopActivity() {
+        minderActivity.stopAnimating()
+        minderActivity.hidden = true;
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -189,6 +196,8 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         
     }
     
+    
+    
     // App functions
     
     func getReminders() {
@@ -208,9 +217,12 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // listen for add of new minders
             userMindersRef.observeEventType(.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
+                self.startActivity()
                 self.privateData = snapshot
                 if self.privateData!.value.count != nil {
                     self.updateReminders("private")
+                } else {
+                    self.stopActivity()
                 }
             })
             
@@ -221,16 +233,22 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // set for you
             sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue(ref.authData.uid).observeEventType(.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
+                self.startActivity()
                 self.sharedData = snapshot
                 if self.sharedData!.value.count != nil {
                     self.updateReminders("shared")
+                } else {
+                    self.stopActivity()
                 }
             })
             // set for you (removal)
             sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue(ref.authData.uid).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
                 // remove the offending minder
+                self.startActivity()
                 if snapshot.value.count != nil {
                     self.removeMinder(snapshot.key)
+                } else {
+                    self.stopActivity()
                 }
             })
             
@@ -239,20 +257,25 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // set by you
             sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue(ref.authData.uid).observeEventType(.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
+                self.startActivity()
                 self.sharedByData = snapshot
                 if self.sharedByData!.value.count != nil {
                     self.updateReminders("shared-set-by")
+                } else {
+                    self.stopActivity()
                 }
             })
             
             // set by you (removal)
             sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue(ref.authData.uid).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
                 // remove the offending minder
+                self.startActivity()
                 if snapshot.value.count != nil {
                     self.removeMinder(snapshot.key)
+                } else {
+                    self.stopActivity()
                 }
             })
-            
             
         }
         
@@ -350,8 +373,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         totalMindersLbl.text = String(reminderKeys.count)
         
         // hide activity
-        minderActivity.stopAnimating()
-        minderActivity.hidden = true;
+        stopActivity()
     }
     
     func removeMinder(key: String) {
@@ -373,6 +395,8 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                             self.reminderKeys.remove(key)
                             // update total
                             self.totalMindersLbl.text = String(self.reminderKeys.count)
+                            // send the notification
+                            self.sendCompleteNotification(minderAnnotation)
                         }
                     })
                     
@@ -402,6 +426,62 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                     }
                 }
             }
+        }
+    }
+    
+    func sendCompleteNotification(userMinder: Annotation) {
+        
+        if ref.authData.uid as String != userMinder.setBy {
+            
+            let restReq = HTTPRequests()
+            let setBy = userMinder.setBy
+            let setFor = userMinder.setFor
+            let content = userMinder.content
+            
+            var senderName: String = "Someone"
+            
+            // get sender profile data
+            let setByRef = self.ref.childByAppendingPath("users/\(setFor)")
+            setByRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+                let first_name: String = snapshot.value.objectForKey("first_name") as! String
+                let last_name: String = snapshot.value.objectForKey("last_name") as! String
+                senderName = "\(first_name) \(last_name)"
+                
+                // go reciever profile
+                let setForRef = self.ref.childByAppendingPath("users/\(setBy)")
+                setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+                    let email: String = snapshot.value.objectForKey("email_address") as! String
+                    
+                    let data: [String: [String: AnyObject]] = [
+                        "message": [
+                            "alert": "\(senderName) completed a shared reminder: \(content) - Swipe to update your reminders",
+                            "sound": "default",
+                            "apns": [
+                                "action-category": "MAIN_CATEGORY"
+                            ]
+                        ],
+                        "criteria": [
+                            "alias": ["\(email)"],
+                            "variants": ["\(self.userDefaults.valueForKey("variantID") as! String)"]
+                        ]
+                    ]
+                    
+                    // send to push server
+                    restReq.sendPostRequest(data, url: "https://push-baneville.rhcloud.com/ag-push/rest/sender") { (success, msg) -> () in
+                        // completion code here
+                        // println(success)
+                        
+                        let status = msg["status"] as! String
+                        if status.containsString("FAILURE") {
+                            print(status)
+                        }
+                        
+                    }
+                    
+                })
+                
+            })
+            
         }
     }
     
@@ -498,7 +578,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             pinView!.centerOffset = CGPointMake(0, -8)
             
             // this is for pin view - requires different object type
-            //pinView!.pinColor = annotation.pinColor()
+            // pinView!.pinColor = annotation.pinColor()
             
             if annotation.setFor != ref.authData.uid || annotation.type == "private" {
                 let completeIcon = UIImage(named: "edit-notepad.png")
