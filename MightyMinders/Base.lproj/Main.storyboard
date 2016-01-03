@@ -365,47 +365,28 @@
                                                                     <color key="textColor" red="0.1764705882" green="0.1843137255" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ijh-Uj-Kd6" customClass="CustomButton" customModule="MightyMinders">
-                                                                    <rect key="frame" x="239" y="33" width="73" height="24"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="24" id="DRe-WG-Pyc"/>
-                                                                        <constraint firstAttribute="width" constant="73" id="oJd-em-jpF"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="15"/>
-                                                                    <state key="normal" title="Allow">
-                                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    </state>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                                                            <color key="value" red="0.20392156859999999" green="0.72941176470000002" blue="0.61960784310000006" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                                                            <color key="value" red="0.19215686269999999" green="0.63921568630000003" blue="0.5450980392" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="roundness">
-                                                                            <real key="value" value="6"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                            <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                                            <real key="value" value="0.0"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                </button>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" text="First and Last" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baa-3O-OLt">
                                                                     <rect key="frame" x="16" y="15" width="129" height="26"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="22"/>
                                                                     <color key="textColor" red="0.1764705882" green="0.1843137255" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lUS-4y-dM0" customClass="AddRemoveButtonView" customModule="MightyMinders">
+                                                                    <rect key="frame" x="256" y="22" width="46" height="46"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="46" id="7vA-ZU-Y2J"/>
+                                                                        <constraint firstAttribute="width" constant="46" id="PBP-Eb-zRG"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <segue destination="e3z-vr-Gro" kind="modal" identifier="SelectedFriendSegue" id="5QT-31-jrX"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstItem="inx-11-Vkb" firstAttribute="top" secondItem="baa-3O-OLt" secondAttribute="bottom" constant="8" id="08z-2P-nDX"/>
-                                                                <constraint firstAttribute="trailing" secondItem="Ijh-Uj-Kd6" secondAttribute="trailing" constant="8" id="6Kd-oW-2XM"/>
-                                                                <constraint firstItem="Ijh-Uj-Kd6" firstAttribute="centerY" secondItem="v9G-1E-d0V" secondAttribute="centerY" id="OWM-L1-DUc"/>
+                                                                <constraint firstAttribute="trailing" secondItem="lUS-4y-dM0" secondAttribute="trailing" constant="18" id="3By-KU-mEO"/>
+                                                                <constraint firstItem="lUS-4y-dM0" firstAttribute="centerY" secondItem="v9G-1E-d0V" secondAttribute="centerY" id="6xG-CX-Esb"/>
                                                                 <constraint firstItem="inx-11-Vkb" firstAttribute="leading" secondItem="v9G-1E-d0V" secondAttribute="leading" constant="16" id="iNW-N8-gIv"/>
                                                                 <constraint firstItem="baa-3O-OLt" firstAttribute="leading" secondItem="v9G-1E-d0V" secondAttribute="leading" constant="16" id="tn1-37-VeC"/>
                                                                 <constraint firstItem="baa-3O-OLt" firstAttribute="top" secondItem="v9G-1E-d0V" secondAttribute="top" constant="15" id="x7R-qs-6pg"/>
@@ -438,7 +419,7 @@
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <connections>
-                                                    <outlet property="allowBtn" destination="Ijh-Uj-Kd6" id="ipm-ML-YpS"/>
+                                                    <outlet property="addBtn" destination="lUS-4y-dM0" id="Psc-3A-WYB"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
@@ -1277,12 +1258,28 @@
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" keyboardAppearance="alert"/>
                                             </textView>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gH1-My-8G3">
+                                                <rect key="frame" x="290" y="0.0" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="J8z-Fk-wAT"/>
+                                                    <constraint firstAttribute="width" constant="30" id="W4o-RI-fzW"/>
+                                                </constraints>
+                                                <state key="normal" image="close">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="closeBtnAction:" destination="ZCb-54-6VZ" eventType="touchUpInside" id="5zi-DC-rao"/>
+                                                    <action selector="closeBtnAction:" destination="e3z-vr-Gro" eventType="touchUpInside" id="p4i-pX-jwm"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstItem="gH1-My-8G3" firstAttribute="leading" secondItem="DJb-SU-185" secondAttribute="trailing" constant="-22" id="BLr-Qe-SKh"/>
                                             <constraint firstAttribute="trailing" secondItem="DJb-SU-185" secondAttribute="trailing" constant="8" id="Drt-cH-YcC"/>
                                             <constraint firstItem="DJb-SU-185" firstAttribute="leading" secondItem="6CT-cX-wWL" secondAttribute="leading" constant="8" id="EAq-9p-44j"/>
                                             <constraint firstAttribute="bottom" secondItem="DJb-SU-185" secondAttribute="bottom" constant="9" id="rUc-Qr-8bY"/>
                                             <constraint firstItem="DJb-SU-185" firstAttribute="top" secondItem="6CT-cX-wWL" secondAttribute="top" constant="10" id="sya-h8-BnZ"/>
+                                            <constraint firstItem="DJb-SU-185" firstAttribute="top" secondItem="gH1-My-8G3" secondAttribute="bottom" constant="-20" id="u05-12-Gkf"/>
                                         </constraints>
                                     </view>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Ga3-eh-IfG">
@@ -1397,6 +1394,7 @@
                         <outlet property="addFriendBtn" destination="Ms3-WP-P3c" id="Hb7-hL-S5a"/>
                         <outlet property="addLocationBtn" destination="JV8-GA-oxA" id="ghD-O1-XYg"/>
                         <outlet property="addReminderBtn" destination="wzp-ko-jgN" id="0mY-Hf-mpO"/>
+                        <outlet property="closeBtn" destination="gH1-My-8G3" id="JXb-1A-Vzt"/>
                         <outlet property="reminderTxt" destination="DJb-SU-185" id="uvY-zQ-3IJ"/>
                         <outlet property="screenTitleLbl" destination="cM0-gE-ngk" id="E5g-AV-vgb"/>
                         <outlet property="whenSelector" destination="Ga3-eh-IfG" id="OE5-tb-5hE"/>
@@ -2334,5 +2332,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="leA-6m-Ifi"/>
+        <segue reference="rb4-aS-UQM"/>
     </inferredMetricsTieBreakers>
 </document>

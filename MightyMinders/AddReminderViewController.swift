@@ -32,21 +32,31 @@ class AddReminderViewController: MMCustomViewController {
     @IBOutlet weak var addFriendBtn: UIButton!
     @IBOutlet weak var whenSelector: UISegmentedControl!
     @IBOutlet weak var activity: UIActivityIndicatorView!
+    @IBOutlet weak var closeBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         activity.hidden = true
+        if isModal() {
+            closeBtn.hidden = false
+        }
         
         // setup swipe down to hide keyboard
         let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "dismissKeyboard")
         swipe.direction = UISwipeGestureRecognizerDirection.Down
         self.view.addGestureRecognizer(swipe)
         
+        // if selected friend exits
+        if !selectedFriend.isEmpty {
+            let first_name: String = selectedFriend["first_name"]! as! String
+            let last_name: String = selectedFriend["last_name"]! as! String
+            addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
+        }
         
-        // Setup interface values if editing a reminder -- FIXME!
-        if let _ = reminderIdentifier {
+        // Setup interface values if editing a reminder
+        if reminderIdentifier != nil {
             screenTitleLbl.text = "Edit Reminder"
             
             reminderTxt.text = reminderTextFromView
@@ -106,6 +116,22 @@ class AddReminderViewController: MMCustomViewController {
         
     }
     
+    func closeViewController() {
+        
+        if isModal() {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        
+    }
+    
+    @IBAction func closeBtnAction(sender: AnyObject) {
+        
+        closeViewController()
+        
+    }
+    
     @IBAction func addReminder(sender: AnyObject) {
         
         activity.hidden = false
@@ -156,7 +182,7 @@ class AddReminderViewController: MMCustomViewController {
                     } else {
                         self.activity.hidden = true
                         self.activity.stopAnimating()
-                        self.navigationController?.popViewControllerAnimated(true)
+                        self.closeViewController()
                     }
                 })
                 
@@ -175,6 +201,9 @@ class AddReminderViewController: MMCustomViewController {
                         saveError.show()
                     } else {
                         self.sendReminderNotification(userMinder)
+                        self.activity.hidden = true
+                        self.activity.stopAnimating()
+                        self.closeViewController()
                     }
                 })
                 
@@ -230,21 +259,12 @@ class AddReminderViewController: MMCustomViewController {
                         if status.containsString("FAILURE") {
                             print(status)
                         }
-                        // dismiss
-                        self.activity.hidden = true
-                        self.activity.stopAnimating()
-                        self.navigationController?.popViewControllerAnimated(true)
-                        
                     }
                     
                 })
                 
             })
             
-        } else {
-            activity.hidden = true
-            activity.stopAnimating()
-            navigationController?.popViewControllerAnimated(true)
         }
     }
     
@@ -286,6 +306,26 @@ class AddReminderViewController: MMCustomViewController {
             selectedFriend = friendController.selectedFriend
         }
         
+    }
+    
+    func isModal() -> Bool {
+        if((self.presentingViewController) != nil) {
+            return true
+        }
+        
+        if(self.presentingViewController?.presentedViewController == self) {
+            return true
+        }
+        
+        if(self.navigationController?.presentingViewController?.presentedViewController == self.navigationController) {
+            return true
+        }
+        
+        if((self.tabBarController?.presentingViewController?.isKindOfClass(UITabBarController)) != nil) {
+            return true
+        }
+        
+        return false
     }
 
 }

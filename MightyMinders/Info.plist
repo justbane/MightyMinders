@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>en_US</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -23,7 +23,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>MoghtyMinders requires your location to attach reminders to specific locations</string>
+	<string>MightyMinders requires your location to attach reminders to specific locations</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

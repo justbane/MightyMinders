@@ -14,6 +14,7 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
     let userDefaults = NSUserDefaults.standardUserDefaults()
     var friendData: [FDataSnapshot!] = []
     var friendKeys: [String] = []
+    var selectedFriend: [String: String]!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var friendsActivity: UIActivityIndicatorView!
@@ -83,7 +84,6 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
                         // reload the table
                         self.tableView.reloadData()
                     }
-                    
                 })
             }
             
@@ -91,38 +91,15 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
         
     }
     
-    @IBAction func allowBtnAction(sender: CustomButton) {
-        
-        var errors = false
-        
-        if (sender.actionData != nil) {
-            
-            // add to my allowed list
-            let remindMeRef = ref.childByAppendingPath("friends/\(ref.authData.uid)/remind-me")
-            remindMeRef.updateChildValues([sender.actionData: "true"] as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
-                if error != nil {
-                    let saveError = UIAlertView(title: "Error", message: "An error occured saving the data", delegate: nil, cancelButtonTitle: "OK")
-                    saveError.show()
-                    errors = true
-                }
-            })
-            
-            // add to their can remind list
-            let canRemindRef = ref.childByAppendingPath("friends/\(sender.actionData)/can-remind")
-            canRemindRef.updateChildValues([ref.authData.uid: "true"] as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
-                if error != nil {
-                    let saveError = UIAlertView(title: "Error", message: "An error occured saving the data", delegate: nil, cancelButtonTitle: "OK")
-                    saveError.show()
-                    errors = true
-                }
-            })
-            
-            if !errors {
-                sender.hidden = true
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "SelectedFriendSegue" {
+            let addReminderViewController = segue.destinationViewController as! AddReminderViewController
+            if let sendingBtn = sender as? AddRemoveButtonView {
+                addReminderViewController.selectedFriend = sendingBtn.actionData
             }
         }
-        
     }
+    
     
     // tableView requirements
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -143,8 +120,11 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
         // cell button setup
-        cell.allowBtn.actionData = friendData[indexPath.row].key
-        cell.allowBtn.addTarget(self, action: "allowBtnAction:", forControlEvents: .TouchUpInside)
+        cell.addBtn.actionData = [
+            "id": friendData[indexPath.row].key,
+            "first_name": friendData[indexPath.row].value.valueForKey("first_name") as! String,
+            "last_name": friendData[indexPath.row].value.valueForKey("last_name") as! String
+        ]
         
         var name : String = ""
         
