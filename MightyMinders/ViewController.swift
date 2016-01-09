@@ -116,20 +116,25 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         let data = notification.userInfo! as Dictionary
         var latitude = 0.0
         var longitude = 0.0
+        var centerMap = false
         
         if let aps = data["aps"] {
             if let urlArgs = aps["url-args"] {
                 if let lat = urlArgs![0] as? String {
                     latitude = Double(lat)!
+                    centerMap = true
                 }
                 if let long = urlArgs![1] as? String {
                     longitude = Double(long)!
+                    centerMap = true
                 }
                 
                 let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                 
                 // center map on new minder
-                mapView.setCenterCoordinate(coordinates, animated: true)
+                if centerMap {
+                    mapView.setCenterCoordinate(coordinates, animated: true)
+                }
             }
         }
         
@@ -213,6 +218,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             }
         }
         
+        self.startActivity()
         if ref.authData != nil {
 
             // private minders
@@ -221,7 +227,6 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // listen for add of new minders
             userMindersRef.observeEventType(.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
-                self.startActivity()
                 self.privateData = snapshot
                 if self.privateData!.value.count != nil {
                     self.updateReminders("private")
@@ -237,7 +242,6 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // set for you
             sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue(ref.authData.uid).observeEventType(.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
-                self.startActivity()
                 self.sharedData = snapshot
                 if self.sharedData!.value.count != nil {
                     self.updateReminders("shared")
@@ -247,8 +251,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             })
             // set for you (removal)
             sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue(ref.authData.uid).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
-                // remove the offending minder
-                self.startActivity()
+                // remove the offending minde
                 if snapshot.value.count != nil {
                     self.removeMinder(snapshot.key)
                 } else {
@@ -261,7 +264,6 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // set by you
             sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue(ref.authData.uid).observeEventType(.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
-                self.startActivity()
                 self.sharedByData = snapshot
                 if self.sharedByData!.value.count != nil {
                     self.updateReminders("shared-set-by")
@@ -273,7 +275,6 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // set by you (removal)
             sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue(ref.authData.uid).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
                 // remove the offending minder
-                self.startActivity()
                 if snapshot.value.count != nil {
                     self.removeMinder(snapshot.key)
                 } else {
