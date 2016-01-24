@@ -9,7 +9,7 @@
 import UIKit
 import AeroGearPush
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UITextFieldDelegate {
 
     let ref = Firebase(url: "https://mightyminders.firebaseio.com")
     let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -19,7 +19,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var submitBtn: UIButton!
     @IBOutlet weak var errorTxt: UILabel!
     @IBOutlet weak var fnameFld: UITextField!
-    @IBOutlet weak var lnameFld: UITextField!
+    @IBOutlet weak var lnameFld: UITextField! = nil
     
     @IBOutlet weak var blueView: UIView!
     @IBOutlet weak var activity: UIActivityIndicatorView!
@@ -27,7 +27,7 @@ class RegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         activity.hidden = true
         // set the background color
@@ -37,6 +37,10 @@ class RegisterViewController: UIViewController {
         
         errorTxt!.hidden = true
         
+        emailFld.delegate = self
+        passFld.delegate = self
+        fnameFld.delegate = self
+        lnameFld.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,6 +51,29 @@ class RegisterViewController: UIViewController {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        switch textField
+        {
+        case emailFld:
+            passFld.becomeFirstResponder()
+            break
+        case passFld:
+            fnameFld.becomeFirstResponder()
+            break
+        case fnameFld:
+            lnameFld.becomeFirstResponder()
+            break
+        case lnameFld:
+            self.view.endEditing(true)
+            break
+        default:
+            textField.resignFirstResponder()
+        }
+        return true
+        
     }
     
     func validate() -> Bool {
@@ -127,18 +154,18 @@ class RegisterViewController: UIViewController {
                                     
                                     let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
                                     
-                                    // update alias
                                     registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
                                         
                                         // apply the token, to identify this device
                                         clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
                                         
-                                        clientInfo.variantID = "eb234d8c-1829-483b-ad2a-a855eeacc2b2"
-                                        clientInfo.variantSecret = "2f2f8f44-a6ba-40f4-b8a1-fc06ac367315"
+                                        clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
+                                        clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
                                         
                                         // --optional config--
                                         // set some 'useful' hardware information params
                                         clientInfo.alias = self.ref.authData.providerData["email"] as? String
+                                        self.userDefaults.setValue(self.ref.authData.providerData["email"] as? String, forKey: "storedUserEmail")
                                         
                                         }, success: {
                                             print("device alias updated");
