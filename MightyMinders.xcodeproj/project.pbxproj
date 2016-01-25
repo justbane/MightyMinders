@@ -44,6 +44,7 @@
 		39962C221B8D865900E264E2 /* FindFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */; };
 		39AEAC8D1BAE2D5300E33F3E /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AEAC8C1BAE2D5300E33F3E /* libc++.1.dylib */; };
 		39AEAC8F1BAE2D7700E33F3E /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AEAC8E1BAE2D7700E33F3E /* libicucore.A.dylib */; };
+		39BA7D771C557B2E00790840 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BA7D761C557B2E00790840 /* Users.swift */; };
 		39CC99221BE07DE700F7F428 /* HTTPRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CC99211BE07DE700F7F428 /* HTTPRequests.swift */; };
 		39DEE9D21BEB1FE8007B5C67 /* GreenBack and FairOaks.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 39DEE9D11BEB1FE8007B5C67 /* GreenBack and FairOaks.gpx */; };
 		39E6E5C31AF32CAC0066B707 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E6E5C21AF32CAC0066B707 /* TextFields.swift */; };
@@ -186,6 +187,7 @@
 		3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddRemoveButton.swift; path = ../CustomViews/AddRemoveButton.swift; sourceTree = "<group>"; };
 		39AEAC8C1BAE2D5300E33F3E /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
 		39AEAC8E1BAE2D7700E33F3E /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = ../../../../../../usr/lib/libicucore.A.dylib; sourceTree = "<group>"; };
+		39BA7D761C557B2E00790840 /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		39C0A3AC1B76935C000A6CAD /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomView.swift; path = ../CustomViews/CustomView.swift; sourceTree = "<group>"; };
 		39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomButton.swift; path = ../CustomViews/CustomButton.swift; sourceTree = "<group>"; };
 		39CC99211BE07DE700F7F428 /* HTTPRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequests.swift; sourceTree = "<group>"; };
@@ -273,13 +275,14 @@
 				39305AA01AE9EF9300773849 /* LaunchScreen.xib */,
 				39305A951AE9EF9300773849 /* Supporting Files */,
 				39305AC71AE9FE3100773849 /* MightyMinders-Bridging-Header.h */,
-				398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */,
+				3934F4911B38B50E00F395D2 /* Annotation.swift */,
 				39331AD61BA2945700625AF5 /* Minders.swift */,
-				39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */,
-				390F26BE1BF2FA77001D6D06 /* ListViewTableViewCell.swift */,
+				39BA7D761C557B2E00790840 /* Users.swift */,
+				398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */,
 				397C5FB41AF1E7C40063E9DE /* Colors.swift */,
 				39E6E5C21AF32CAC0066B707 /* TextFields.swift */,
-				3934F4911B38B50E00F395D2 /* Annotation.swift */,
+				39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */,
+				390F26BE1BF2FA77001D6D06 /* ListViewTableViewCell.swift */,
 				397E8D291B64247F0095B30D /* Logo.swift */,
 				39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */,
 				39C0A3AC1B76935C000A6CAD /* CustomView.swift */,
@@ -546,6 +549,7 @@
 				3955CF821B9FE48B0037FA91 /* AddFriendViewController.swift in Sources */,
 				398D95A21B8901AF00D85F40 /* MMCustomViewController.swift in Sources */,
 				394E718A1B77F9380053B47B /* ProfileViewController.swift in Sources */,
+				39BA7D771C557B2E00790840 /* Users.swift in Sources */,
 				39E6E5C31AF32CAC0066B707 /* TextFields.swift in Sources */,
 				394E81E31B52218A00C81664 /* ViewReminderViewController.swift in Sources */,
 				3913E32F1B7C5391003D1C69 /* FindFriendsViewController.swift in Sources */,
