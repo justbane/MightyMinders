@@ -11,19 +11,15 @@ import MapKit
 
 class Minders {
     
-    let reminderSnapShot: FDataSnapshot
-    let type: String
+    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     
     var processedReminders: [Annotation] = []
     
-    init(reminderSubData: FDataSnapshot, type: String) {
-        self.reminderSnapShot = reminderSubData
-        self.type = type
-    }
+    init() {}
     
-    func processMinders() -> [Annotation] {
+    func processMinders(reminderSubData: FDataSnapshot, type: String) -> [Annotation] {
         
-        let enumerator = reminderSnapShot.children
+        let enumerator = reminderSubData.children
         while let data = enumerator.nextObject() as? FDataSnapshot {
             
             // add reminders to map
@@ -56,7 +52,7 @@ class Minders {
                 title: pinLocation.valueForKey("name") as! String,
                 subtitle: address,
                 content: data.value.valueForKey("content") as! String,
-                type: self.type,
+                type: type,
                 event: timing,
                 coordinate: CLLocationCoordinate2D(
                     latitude: pinLocation.valueForKey("latitude") as! CLLocationDegrees,
@@ -69,6 +65,60 @@ class Minders {
         }
         
         return self.processedReminders
+        
+    }
+    
+    func addUpdateReminder(minder: [String: Anyobject], completion: (error: Bool) -> Void) {
+        
+        let userMinder = [
+            "content": minder["content"],
+            "location": minder["location"],
+            "timing": minder["timing"],
+            "set-by": minder["set-by"],
+            "set-for": minder["set-for"]
+        ]
+        
+        // set the ref path
+        var usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private")
+        
+        // are we editing?
+        if identifier != nil {
+            usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
+        }
+        
+        // is there a friend selected?
+        if friends.count > 0 {
+            usersMindersRef = ref.childByAppendingPath("shared-minders")
+            
+            // is there a friend and we are editing?
+            if identifier != nil {
+                usersMindersRef = ref.childByAppendingPath("shared-minders/\(identifier)")
+            }
+            
+        }
+        
+        if identifier != nil {
+            usersMindersRef.updateChildValues(userMinder as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
+                if error {
+                    completion(error: true)
+                }
+            })
+            
+            // remove minder from private if adding a friend
+            if (friends.count > 0 && friends["id"] as! String != ref.authData.uid as String) {
+                let usersMinderRemove = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
+                usersMinderRemove.removeValue()
+                // self.sendReminderNotification(userMinder)
+            }
+            
+        } else {
+            let usersMindersRefAuto = usersMindersRef.childByAutoId()
+            usersMindersRefAuto.setValue(userMinder, withCompletionBlock: { (error:NSError?, ref:Firebase!) in
+                if error != nil {
+                    completion(error: true)
+                }
+            })
+        }
         
     }
     

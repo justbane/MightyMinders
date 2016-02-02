@@ -12,6 +12,7 @@ class AddReminderViewController: MMCustomViewController {
 
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     let userDefaults = NSUserDefaults.standardUserDefaults()
+    let minders: Minders?
     
     var selectedLocation = [String: AnyObject]()
     var selectedFriend = [String: AnyObject]()
@@ -48,56 +49,61 @@ class AddReminderViewController: MMCustomViewController {
         swipe.direction = UISwipeGestureRecognizerDirection.Down
         self.view.addGestureRecognizer(swipe)
         
-        // if selected friend exits
-        if !selectedFriend.isEmpty {
-            let first_name: String = selectedFriend["first_name"]! as! String
-            let last_name: String = selectedFriend["last_name"]! as! String
-            addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
-        }
+        self.minders = Minders()
         
-        // Setup interface values if editing a reminder
-        if reminderIdentifier != nil {
-            screenTitleLbl.text = "Edit Reminder"
-            
-            reminderTxt.text = reminderTextFromView
-            whenSelector.selectedSegmentIndex = reminderTimingFromView
-            selectedLocation = selectedLocationFromView
-            
-            if let selectedName = selectedLocationFromView["name"] as? String {
-                addLocationBtn.setTitle(selectedName, forState: .Normal)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        // check for valid user
+        if ref.authData == nil {
+            super.showLogin()
+        } else {
+            // if selected friend exits
+            if !selectedFriend.isEmpty {
+                let first_name: String = selectedFriend["first_name"]! as! String
+                let last_name: String = selectedFriend["last_name"]! as! String
+                addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
             }
             
-            if let selectedAddress = selectedLocationFromView["address"] as? String {
-                let curText = addLocationBtn.titleForState(.Normal)!
-                addLocationBtn.setTitle("\(curText) at \(selectedAddress)", forState: .Normal)
-            }
-            
-            if !(selectedFriendFromView.isEmpty) && selectedFriendFromView != ref.authData.uid {
-                let friendRef = ref.childByAppendingPath("users/\(selectedFriendFromView)")
-                friendRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                    // set data from location controller
-                    
-                    let first_name: String = snapshot.value.objectForKey("first_name") as! String
-                    let last_name: String = snapshot.value.objectForKey("last_name") as! String
-                    self.addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
-                    
-                    // set local selectedLocation
-                    self.selectedFriend = [
-                        "id": snapshot.key,
-                        "first_name": first_name,
-                        "last_name": last_name
-                    ]
-                })
+            // Setup interface values if editing a reminder
+            if reminderIdentifier != nil {
+                screenTitleLbl.text = "Edit Reminder"
+                
+                reminderTxt.text = reminderTextFromView
+                whenSelector.selectedSegmentIndex = reminderTimingFromView
+                selectedLocation = selectedLocationFromView
+                
+                if let selectedName = selectedLocationFromView["name"] as? String {
+                    addLocationBtn.setTitle(selectedName, forState: .Normal)
+                }
+                
+                if let selectedAddress = selectedLocationFromView["address"] as? String {
+                    let curText = addLocationBtn.titleForState(.Normal)!
+                    addLocationBtn.setTitle("\(curText) at \(selectedAddress)", forState: .Normal)
+                }
+                
+                if !(selectedFriendFromView.isEmpty) && selectedFriendFromView != ref.authData.uid {
+                    ref.childByAppendingPath("users/\(selectedFriendFromView)").observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+                        // set data from location controller
+                        
+                        let first_name: String = snapshot.value.objectForKey("first_name") as! String
+                        let last_name: String = snapshot.value.objectForKey("last_name") as! String
+                        self.addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
+                        
+                        // set local selectedLocation
+                        self.selectedFriend = [
+                            "id": snapshot.key,
+                            "first_name": first_name,
+                            "last_name": last_name
+                        ]
+                    })
+                }
             }
         }
     }
     
     override func viewDidAppear(animated: Bool) {
         // view is shown again
-        // check for valid user
-        if ref.authData == nil {
-            super.showLogin()
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -145,24 +151,9 @@ class AddReminderViewController: MMCustomViewController {
             "set-for": (selectedFriend.count > 0 ? selectedFriend["id"] : ref.authData.uid) as! String
         ]
         
-        // set the ref path
-        var usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private")
         
-        // are we editing?
-        if let identifier = reminderIdentifier {
-            usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
-        }
+        // FIXME: Need code for the Minders function... not sure why it's not working!!!
         
-        // is there a friend selected?
-        if selectedFriend.count > 0 {
-            usersMindersRef = ref.childByAppendingPath("shared-minders")
-            
-            // is there a friend and we are editing?
-            if let identifier = reminderIdentifier {
-                usersMindersRef = ref.childByAppendingPath("shared-minders/\(identifier)")
-            }
-        
-        }
         
         // validate
         if selectedLocation.count < 1 || reminderTxt.text == "" {
@@ -172,6 +163,8 @@ class AddReminderViewController: MMCustomViewController {
             locationError.show()
         
         } else {
+            
+            
             
             // save to firebase if editing else if adding new
             if let identifier = reminderIdentifier {
