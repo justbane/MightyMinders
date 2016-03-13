@@ -291,7 +291,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         if type == "private" {
             
             // process private minders
-            let privateAnnotations = Minders().processMinders(reminderSubData: privateData!, type: "private")
+            let privateAnnotations = Minders().processMinders(privateData!, type: "private")
             for annotation in privateAnnotations {
                 
                 // remove then add annotation to map
@@ -327,10 +327,10 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         if type == "shared" || type == "shared-set-by" {
             
             // process shared minders
-            var sharedAnnotations = Minders().processMinders(reminderSubData: sharedData!, type: "shared")
+            var sharedAnnotations = Minders().processMinders(sharedData!, type: "shared")
             
             if type == "shared-set-by" {
-                sharedAnnotations = Minders().processMinders(reminderSubData: sharedByData!, type: "shared")
+                sharedAnnotations = Minders().processMinders(sharedByData!, type: "shared")
             }
             
             for annotation in sharedAnnotations {

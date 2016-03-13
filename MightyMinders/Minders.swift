@@ -68,58 +68,33 @@ class Minders {
         
     }
     
-    func addUpdateReminder(minder: [String: Anyobject], completion: (error: Bool) -> Void) {
+    func addReminder(content: String, location: [String: AnyObject], timing: Int, setBy: String, setFor: String , completion: (returnedMinder: NSDictionary, error: Bool) -> Void) {
         
-        let userMinder = [
-            "content": minder["content"],
-            "location": minder["location"],
-            "timing": minder["timing"],
-            "set-by": minder["set-by"],
-            "set-for": minder["set-for"]
+        let reminder = [
+            "content": content,
+            "location": location,
+            "timing": timing,
+            "set-by": setBy,
+            "set-for": setFor
         ]
         
         // set the ref path
         var usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private")
         
-        // are we editing?
-        if identifier != nil {
-            usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
-        }
-        
         // is there a friend selected?
-        if friends.count > 0 {
+        if setBy != setFor {
             usersMindersRef = ref.childByAppendingPath("shared-minders")
             
-            // is there a friend and we are editing?
-            if identifier != nil {
-                usersMindersRef = ref.childByAppendingPath("shared-minders/\(identifier)")
-            }
-            
         }
         
-        if identifier != nil {
-            usersMindersRef.updateChildValues(userMinder as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
-                if error {
-                    completion(error: true)
-                }
-            })
-            
-            // remove minder from private if adding a friend
-            if (friends.count > 0 && friends["id"] as! String != ref.authData.uid as String) {
-                let usersMinderRemove = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
-                usersMinderRemove.removeValue()
-                // self.sendReminderNotification(userMinder)
-            }
-            
-        } else {
-            let usersMindersRefAuto = usersMindersRef.childByAutoId()
-            usersMindersRefAuto.setValue(userMinder, withCompletionBlock: { (error:NSError?, ref:Firebase!) in
+        let usersMindersRefAuto = usersMindersRef.childByAutoId()
+            usersMindersRefAuto.setValue(reminder, withCompletionBlock: { (error:NSError?, ref:Firebase!) in
                 if error != nil {
-                    completion(error: true)
+                    completion(returnedMinder: reminder, error: true)
+                } else {
+                    completion(returnedMinder: reminder, error: false)
                 }
             })
-        }
-        
     }
     
     

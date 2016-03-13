@@ -193,7 +193,7 @@
 		39CC99211BE07DE700F7F428 /* HTTPRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequests.swift; sourceTree = "<group>"; };
 		39DEE9D11BEB1FE8007B5C67 /* GreenBack and FairOaks.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "GreenBack and FairOaks.gpx"; sourceTree = "<group>"; };
 		39E6E5C21AF32CAC0066B707 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
-		39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReminderViewController.swift; sourceTree = "<group>"; };
+		39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReminderViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		39F8E2A41BA4D51C00C1EA99 /* default.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = default.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

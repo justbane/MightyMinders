@@ -12,7 +12,6 @@ class AddReminderViewController: MMCustomViewController {
 
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     let userDefaults = NSUserDefaults.standardUserDefaults()
-    let minders: Minders?
     
     var selectedLocation = [String: AnyObject]()
     var selectedFriend = [String: AnyObject]()
@@ -48,8 +47,6 @@ class AddReminderViewController: MMCustomViewController {
         let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "dismissKeyboard")
         swipe.direction = UISwipeGestureRecognizerDirection.Down
         self.view.addGestureRecognizer(swipe)
-        
-        self.minders = Minders()
         
     }
     
@@ -143,17 +140,7 @@ class AddReminderViewController: MMCustomViewController {
         activity.hidden = false
         activity.startAnimating()
         
-        let userMinder = [
-            "content": reminderTxt.text,
-            "location": selectedLocation,
-            "timing": whenSelector.selectedSegmentIndex,
-            "set-by": ref.authData.uid as String,
-            "set-for": (selectedFriend.count > 0 ? selectedFriend["id"] : ref.authData.uid) as! String
-        ]
-        
-        
-        // FIXME: Need code for the Minders function... not sure why it's not working!!!
-        
+        let setFor = (selectedFriend.count > 0 ? selectedFriend["id"] : ref.authData.uid) as! String
         
         // validate
         if selectedLocation.count < 1 || reminderTxt.text == "" {
@@ -164,43 +151,37 @@ class AddReminderViewController: MMCustomViewController {
         
         } else {
             
-            
+            // FIXME: need to complete add request then update
             
             // save to firebase if editing else if adding new
-            if let identifier = reminderIdentifier {
-                usersMindersRef.updateChildValues(userMinder as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
-                    if error != nil {
-                        let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
-                        saveError.show()
-                    } else {
-                        self.activity.hidden = true
-                        self.activity.stopAnimating()
-                        self.closeViewController()
-                    }
+//            if let identifier = reminderIdentifier {
+//                usersMindersRef.updateChildValues(userMinder as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
+//                    if error != nil {
+//                        let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
+//                        saveError.show()
+//                    } else {
+//                        self.activity.hidden = true
+//                        self.activity.stopAnimating()
+//                        self.closeViewController()
+//                    }
+//                })
+//
+//                // remove minder from private if adding a friend
+//                if (selectedFriend.count > 0 && selectedFriend["id"] as! String != ref.authData.uid as String) {
+//                    let usersMinderRemove = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
+//                    usersMinderRemove.removeValue()
+//                    sendReminderNotification(userMinder)
+//                }
+                
+//            } else {
+            
+                // FIXME: This works but does not complete.
+                
+                Minders().addReminder(reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: ref.authData.uid, setFor: setFor, completion: { (returnedMinder, error) -> Void in
+                    self.sendReminderNotification(returnedMinder)
                 })
                 
-                // remove minder from private if adding a friend
-                if (self.selectedFriend.count > 0 && selectedFriend["id"] as! String != ref.authData.uid as String) {
-                    let usersMinderRemove = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
-                    usersMinderRemove.removeValue()
-                    self.sendReminderNotification(userMinder)
-                }
-                
-            } else {
-                let usersMindersRefAuto = usersMindersRef.childByAutoId()
-                usersMindersRefAuto.setValue(userMinder, withCompletionBlock: { (error:NSError?, ref:Firebase!) in
-                    if error != nil {
-                        let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
-                        saveError.show()
-                    } else {
-                        self.sendReminderNotification(userMinder)
-                        self.activity.hidden = true
-                        self.activity.stopAnimating()
-                        self.closeViewController()
-                    }
-                })
-                
-            }
+//            }
             
         }
     }
