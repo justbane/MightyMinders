@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // clear all the notifications
         // UIApplication.sharedApplication().cancelAllLocalNotifications()
         
+        // TODO: Add live/prod conditional and set user/pass as well (check HTTPRequests.swift
+        
         // store push server keys - prod
         userDefaults.setValue("d90767e5-86b1-4169-a15c-2422cdcd3c1c", forKey: "variantID")
         userDefaults.setValue("946dfa15-3eb6-4e9f-9578-752be6094358", forKey: "variantSecret")
