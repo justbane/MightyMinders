@@ -154,7 +154,7 @@ class AddReminderViewController: MMCustomViewController {
             // FIXME: need to complete add request then update
             
             // save to firebase if editing else if adding new
-//            if let identifier = reminderIdentifier {
+           if let identifier = reminderIdentifier {
 //                usersMindersRef.updateChildValues(userMinder as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
 //                    if error != nil {
 //                        let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
@@ -173,15 +173,21 @@ class AddReminderViewController: MMCustomViewController {
 //                    sendReminderNotification(userMinder)
 //                }
                 
-//            } else {
+            } else {
             
-                // FIXME: This works but does not complete.
-                
                 Minders().addReminder(reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: ref.authData.uid, setFor: setFor, completion: { (returnedMinder, error) -> Void in
+                    
                     self.sendReminderNotification(returnedMinder)
+                    if !error {
+                        self.closeViewController()
+                    } else {
+                        let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
+                        saveError.show()
+                    }
+                    
                 })
                 
-//            }
+            }
             
         }
     }

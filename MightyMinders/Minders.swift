@@ -97,5 +97,40 @@ class Minders {
             })
     }
     
+    func editReminder(content: String, location: [String: AnyObject], timing: Int, setBy: String, setFor: String , completion: (returnedMinder: NSDictionary, error: Bool) -> Void) {
+        
+        let reminder = [
+            "content": content,
+            "location": location,
+            "timing": timing,
+            "set-by": setBy,
+            "set-for": setFor
+        ]
+        
+        // set the ref path
+        var usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private")
+        
+        // is there a friend selected?
+        if setBy != setFor {
+            usersMindersRef = ref.childByAppendingPath("shared-minders")
+            
+        }
+        
+        usersMindersRef.updateChildValues(reminder as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
+            if error != nil {
+                completion(returnedMinder: reminder, error: true)
+            } else {
+                completion(returnedMinder: reminder, error: false)
+            }
+        })
+        
+        if (selectedFriend.count > 0 && selectedFriend["id"] as! String != ref.authData.uid as String) {
+            let usersMinderRemove = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
+                usersMinderRemove.removeValue()
+            }
+        }
+
+    }
+    
     
 }
