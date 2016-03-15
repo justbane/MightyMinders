@@ -97,7 +97,7 @@ class Minders {
             })
     }
     
-    func editReminder(content: String, location: [String: AnyObject], timing: Int, setBy: String, setFor: String , completion: (returnedMinder: NSDictionary, error: Bool) -> Void) {
+    func editReminder(identifier: String, content: String, location: [String: AnyObject], timing: Int, setBy: String, setFor: String , completion: (returnedMinder: NSDictionary, error: Bool) -> Void) {
         
         let reminder = [
             "content": content,
@@ -108,12 +108,12 @@ class Minders {
         ]
         
         // set the ref path
-        var usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private")
+        var usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
         
         // is there a friend selected?
         if setBy != setFor {
-            usersMindersRef = ref.childByAppendingPath("shared-minders")
-            
+            // is there a friend and we are editing?
+            usersMindersRef = ref.childByAppendingPath("shared-minders/\(identifier)")
         }
         
         usersMindersRef.updateChildValues(reminder as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
@@ -124,13 +124,11 @@ class Minders {
             }
         })
         
-        if (selectedFriend.count > 0 && selectedFriend["id"] as! String != ref.authData.uid as String) {
+        if setBy != setFor {
             let usersMinderRemove = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
-                usersMinderRemove.removeValue()
-            }
+            usersMinderRemove.removeValue()
         }
 
     }
-    
     
 }

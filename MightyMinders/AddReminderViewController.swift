@@ -142,36 +142,31 @@ class AddReminderViewController: MMCustomViewController {
         
         let setFor = (selectedFriend.count > 0 ? selectedFriend["id"] : ref.authData.uid) as! String
         
+        let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
+        
+        let locationError = UIAlertView(title: "Error", message: "Please select a location and enter some reminder text", delegate: nil, cancelButtonTitle: "OK")
+        
         // validate
         if selectedLocation.count < 1 || reminderTxt.text == "" {
             
-            //check for the location
-            let locationError = UIAlertView(title: "Error", message: "Please select a location and enter some reminder text", delegate: nil, cancelButtonTitle: "OK")
             locationError.show()
         
         } else {
             
-            // FIXME: need to complete add request then update
-            
             // save to firebase if editing else if adding new
-           if let identifier = reminderIdentifier {
-//                usersMindersRef.updateChildValues(userMinder as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
-//                    if error != nil {
-//                        let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
-//                        saveError.show()
-//                    } else {
-//                        self.activity.hidden = true
-//                        self.activity.stopAnimating()
-//                        self.closeViewController()
-//                    }
-//                })
-//
-//                // remove minder from private if adding a friend
-//                if (selectedFriend.count > 0 && selectedFriend["id"] as! String != ref.authData.uid as String) {
-//                    let usersMinderRemove = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
-//                    usersMinderRemove.removeValue()
-//                    sendReminderNotification(userMinder)
-//                }
+            if let identifier = reminderIdentifier {
+                
+                Minders().editReminder(identifier, content: reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: ref.authData.uid, setFor: setFor, completion: { (returnedMinder, error) -> Void in
+                    
+                    self.sendReminderNotification(returnedMinder)
+                    if !error {
+                        self.activity.hidden = true
+                        self.activity.stopAnimating()
+                        self.closeViewController()
+                    } else {
+                        saveError.show()
+                    }
+                })
                 
             } else {
             
@@ -179,9 +174,10 @@ class AddReminderViewController: MMCustomViewController {
                     
                     self.sendReminderNotification(returnedMinder)
                     if !error {
+                        self.activity.hidden = true
+                        self.activity.stopAnimating()
                         self.closeViewController()
                     } else {
-                        let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
                         saveError.show()
                     }
                     
