@@ -16,7 +16,7 @@ class AddReminderViewController: MMCustomViewController {
     var selectedLocation = [String: AnyObject]()
     var selectedFriend = [String: AnyObject]()
     
-    // values from view if editing
+    // Values from view if editing
     var reminderIdentifier: String!
     var reminderTextFromView: String!
     var reminderTimingFromView: Int!
@@ -43,19 +43,19 @@ class AddReminderViewController: MMCustomViewController {
             closeBtn.hidden = false
         }
         
-        // setup swipe down to hide keyboard
-        let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "dismissKeyboard")
+        // Setup swipe down to hide keyboard
+        let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         swipe.direction = UISwipeGestureRecognizerDirection.Down
         self.view.addGestureRecognizer(swipe)
         
     }
     
     override func viewWillAppear(animated: Bool) {
-        // check for valid user
+        // Check for valid user
         if ref.authData == nil {
             super.showLogin()
         } else {
-            // if selected friend exits
+            // If selected friend exits
             if !selectedFriend.isEmpty {
                 let first_name: String = selectedFriend["first_name"]! as! String
                 let last_name: String = selectedFriend["last_name"]! as! String
@@ -81,13 +81,13 @@ class AddReminderViewController: MMCustomViewController {
                 
                 if !(selectedFriendFromView.isEmpty) && selectedFriendFromView != ref.authData.uid {
                     ref.childByAppendingPath("users/\(selectedFriendFromView)").observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                        // set data from location controller
+                        // Set data from location controller
                         
                         let first_name: String = snapshot.value.objectForKey("first_name") as! String
                         let last_name: String = snapshot.value.objectForKey("last_name") as! String
                         self.addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
                         
-                        // set local selectedLocation
+                        // Set local selectedLocation
                         self.selectedFriend = [
                             "id": snapshot.key,
                             "first_name": first_name,
@@ -100,7 +100,7 @@ class AddReminderViewController: MMCustomViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        // view is shown again
+        // View is shown again
     }
     
     override func didReceiveMemoryWarning() {
@@ -146,20 +146,20 @@ class AddReminderViewController: MMCustomViewController {
         
         let locationError = UIAlertView(title: "Error", message: "Please select a location and enter some reminder text", delegate: nil, cancelButtonTitle: "OK")
         
-        // validate
+        // Validate
         if selectedLocation.count < 1 || reminderTxt.text == "" {
             
             locationError.show()
         
         } else {
             
-            // save to firebase if editing else if adding new
+            // Save to firebase if editing else if adding new
             if let identifier = reminderIdentifier {
                 
                 Minders().editReminder(identifier, content: reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: ref.authData.uid, setFor: setFor, completion: { (returnedMinder, error) -> Void in
                     
-                    self.sendReminderNotification(returnedMinder)
                     if !error {
+                        Minders().sendReminderNotification(returnedMinder)
                         self.activity.hidden = true
                         self.activity.stopAnimating()
                         self.closeViewController()
@@ -172,8 +172,8 @@ class AddReminderViewController: MMCustomViewController {
             
                 Minders().addReminder(reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: ref.authData.uid, setFor: setFor, completion: { (returnedMinder, error) -> Void in
                     
-                    self.sendReminderNotification(returnedMinder)
                     if !error {
+                        Minders().sendReminderNotification(returnedMinder)
                         self.activity.hidden = true
                         self.activity.stopAnimating()
                         self.closeViewController()
@@ -188,69 +188,13 @@ class AddReminderViewController: MMCustomViewController {
         }
     }
     
-    func sendReminderNotification(userMinder: NSDictionary) {
-        
-        if ref.authData.uid as String != userMinder["set-for"] as! String {
-            
-            let restReq = HTTPRequests()
-            let setBy = userMinder["set-by"] as! String
-            let setFor = userMinder["set-for"] as! String
-            let content = userMinder["content"] as! String
-            
-            var senderName: String = "Someone"
-            
-            // get sender profile data
-            let setByRef = self.ref.childByAppendingPath("users/\(setBy)")
-            setByRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                let first_name: String = snapshot.value.objectForKey("first_name") as! String
-                let last_name: String = snapshot.value.objectForKey("last_name") as! String
-                senderName = "\(first_name) \(last_name)"
-                
-                // go reciever profile
-                let setForRef = self.ref.childByAppendingPath("users/\(setFor)")
-                setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                    let email: String = snapshot.value.objectForKey("email_address") as! String
-                    
-                    let data: [String: [String: AnyObject]] = [
-                        "message": [
-                            "alert": "\(senderName) set a reminder for you - Swipe to Accept: \(content)",
-                            "sound": "default",
-                            "apns": [
-                                "action-category": "MAIN_CATEGORY",
-                                "url-args" :["\(self.selectedLocation["latitude"]!)","\(self.selectedLocation["longitude"]!)"]
-                            ]
-                        ],
-                        "criteria": [
-                            "alias": ["\(email)"],
-                            "variants": ["\(self.userDefaults.valueForKey("variantID") as! String)"]
-                        ]
-                    ]
-                    
-                    // send to push server
-                    restReq.sendPostRequest(data, url: "https://push-baneville.rhcloud.com/ag-push/rest/sender") { (success, msg) -> () in
-                        // completion code here
-                        // println(success)
-                        
-                        let status = msg["status"] as! String
-                        if status.containsString("FAILURE") {
-                            print(status)
-                        }
-                    }
-                    
-                })
-                
-            })
-            
-        }
-    }
-    
     @IBAction func unwindFromLocationSelection(segue: UIStoryboardSegue) {
         
         let locationController = segue.sourceViewController as! AddLocationViewController
         
         if segue.identifier == "LocationUnwindSegue" {
             
-            // set data from location controller
+            // Set data from location controller
             let nameForLocation = locationController.selectedLocation["name"] as! String == "My current location" ? "Dropped pin" : locationController.selectedLocation["name"] as! String
             locationController.selectedLocation["name"] = nameForLocation
             
@@ -260,7 +204,7 @@ class AddReminderViewController: MMCustomViewController {
             }
             addLocationBtn.setTitle("\(name)", forState: .Normal)
             
-            // set local selectedLocation
+            // Set local selectedLocation
             selectedLocation = locationController.selectedLocation
         }
         
@@ -272,13 +216,13 @@ class AddReminderViewController: MMCustomViewController {
         
         if segue.identifier == "AddFriendUnwindSegue" {
             
-            // set data from location controller
+            // Set data from location controller
             var friendForLocation = friendController.selectedFriend
             let first_name: String = friendForLocation["first_name"]!
             let last_name: String = friendForLocation["last_name"]!
             addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
             
-            // set local selectedLocation
+            // Set local selectedLocation
             selectedFriend = friendController.selectedFriend
         }
         

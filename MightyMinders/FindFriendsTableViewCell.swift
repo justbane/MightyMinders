@@ -23,5 +23,6 @@ class FindFriendsTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    // End class
 }

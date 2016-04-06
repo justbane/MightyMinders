@@ -11,17 +11,13 @@ import Alamofire
 
 struct HTTPRequests {
     
-    init() {}
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     
+    // MARK: Send POST request
     func sendPostRequest(params: [String: [String: AnyObject]], url : String, postCompleted : (success: Bool, msg: Dictionary<String, NSObject>) -> ()) {
         
-        // REST credentials - prod
-        let username = "1ce88109-d9f0-447e-b990-5b65240d8a73"
-        let password = "8f9b189d-f55e-4cd0-b417-19f0136d440a"
-        
-        // REST credentials - dev
-        // let username = "f8de81a1-ce56-496e-8e6d-f179244b7450"
-        // let password = "e37fb59b-0895-4d85-9d34-6d8a2b3cce86"
+        let username = userDefaults.valueForKey("restUsername")!
+        let password = userDefaults.valueForKey("restPassword")!
         
         let credentialData = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
         let base64Credentials = credentialData.base64EncodedStringWithOptions([])
@@ -32,14 +28,21 @@ struct HTTPRequests {
             "Accept": "application/json"
         ]
         
-        // send the request
+        // Send the request
         Alamofire.request(.POST, url, parameters: params, encoding: .JSON, headers: headers)
 //        debugPrint(request)
             .validate(statusCode: 200..<300)
             .responseJSON { (response) -> Void in
-                postCompleted(success: true, msg: ["status": "\(response)"])
+                switch response.result {
+                case .Success:
+                    postCompleted(success: true, msg: ["status": "\(response)"])
+                
+                case .Failure:
+                    print(response)
+                }
         }
         
     }
     
+    // End class
 }

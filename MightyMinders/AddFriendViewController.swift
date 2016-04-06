@@ -24,34 +24,34 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
 
         // Do any additional setup after loading the view.
         
-        // table view setup
+        // Table view setup
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorInset = UIEdgeInsetsZero
         
-        // get keys data
+        // Get keys data
         let canRemindKeys = ref.childByAppendingPath("friends/\(ref.authData.uid)/can-remind")
         canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            // set object
+            // Set object
             let enumerator = snapshot.children
             
-            // reset arrays - reset the table
+            // Reset arrays - reset the table
             self.friendKeys.removeAll(keepCapacity: false)
             self.friendData.removeAll(keepCapacity: false)
             self.tableView.reloadData()
             
-            // iterate over data
+            // Iterate over data
             while let data = enumerator.nextObject() as? FDataSnapshot {
                 self.friendKeys.append(data.key)
             }
-            // get friends
+            // Get friends
             self.getFriends()
         })
         
     }
     
     override func viewDidAppear(animated: Bool) {
-        // check for valid user
+        // Check for valid user
         if ref.authData == nil {
             super.showLogin()
         }
@@ -64,15 +64,15 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
     
     func getFriends() {
         
-        // add to friends list
+        // Add to friends list
         if friendKeys.count > 0 {
-            // loop over firend IDs
+            // Loop over firend IDs
             for uid in friendKeys {
                 let canRemindFriends = ref.childByAppendingPath("users/\(uid)")
                 canRemindFriends.observeEventType(.Value, withBlock: { snapshot in
                     self.friendData.append(snapshot)
                     if self.friendData.count > 0 {
-                        // reload the table
+                        // Reload the table
                         self.tableView.reloadData()
                     }
                     
@@ -83,9 +83,10 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         
     }
     
+    // MARK: Segues
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         
-        // check to see if segue should happen (have they selected a location?
+        // Check to see if segue should happen (have they selected a location?
         if identifier == "AddFriendUnwindSegue" {
             if let sendingBtn = sender as? AddRemoveButtonView {
                 selectedFriend = sendingBtn.actionData
@@ -95,6 +96,7 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         return true
     }
     
+    // MARK: Button Actions
     @IBAction func addFriendBtnAction(sender: AddRemoveButtonView) {
         
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -107,7 +109,7 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         
     }
     
-    // tableView requirements
+    // MARK: Table View Methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friendData.count
     }
@@ -125,13 +127,13 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         cell.preservesSuperviewLayoutMargins = false
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
-        // cell button setup
+        // Cell button setup
         cell.addBtn.actionData = [
             "id": friendData[indexPath.row].key,
             "first_name": friendData[indexPath.row].value.valueForKey("first_name") as! String,
             "last_name": friendData[indexPath.row].value.valueForKey("last_name") as! String
         ]
-        cell.addBtn.addTarget(self, action: "addFriendBtnAction:", forControlEvents: .TouchUpInside)
+        cell.addBtn.addTarget(self, action: #selector(addFriendBtnAction), forControlEvents: .TouchUpInside)
         
         var name : String = ""
         
@@ -149,36 +151,36 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
             (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
         }
         
-        // TODO - add profile images
-        /* if var imageURL = contacts[indexPath.row].valueForKey("profile_img") as? NSString {
+        // TODO: Add profile images
+//        if var imageURL = contacts[indexPath.row].valueForKey("profile_img") as? NSString {
+//        
+//            if imageURL == "" {
+//                imageURL = "/images/NoAvatar.gif"
+//            }
+//        
+//            let urlString: NSString = "http:/internal.hdmz.com\(imageURL)"
+//            let imgURL: NSURL? = NSURL(string: urlString as String)
+//        
+//            let request: NSURLRequest = NSURLRequest(URL: imgURL!)
+//            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+//        
+//                if error == nil {
+//        
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        if let cellToUpdate = self.tblView.cellForRowAtIndexPath(indexPath) {
+//                            var imageToUpdate = Images().roundCorners(cellToUpdate.contentView.viewWithTag(100) as! UIImageView, radiusSize: 22.5)
+//                            imageToUpdate.image = UIImage(data: data)
+//                            self.imageCache[imageURL as String] = UIImage(data: data)
+//                        }
+//                    })
+//        
+//                }
+//        
+//            })
+//        
+//        }
         
-            if imageURL == "" {
-                imageURL = "/images/NoAvatar.gif"
-            }
-        
-            let urlString: NSString = "http:/internal.hdmz.com\(imageURL)"
-            let imgURL: NSURL? = NSURL(string: urlString as String)
-        
-            let request: NSURLRequest = NSURLRequest(URL: imgURL!)
-            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-        
-                if error == nil {
-        
-                    dispatch_async(dispatch_get_main_queue(), {
-                        if let cellToUpdate = self.tblView.cellForRowAtIndexPath(indexPath) {
-                            var imageToUpdate = Images().roundCorners(cellToUpdate.contentView.viewWithTag(100) as! UIImageView, radiusSize: 22.5)
-                            imageToUpdate.image = UIImage(data: data)
-                            self.imageCache[imageURL as String] = UIImage(data: data)
-                        }
-                    })
-        
-                }
-        
-            })
-        
-        }*/
-        
-        // return the cell with data
+        // Return the cell with data
         return cell
     }
 

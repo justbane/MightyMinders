@@ -12,7 +12,7 @@ import AeroGearPush
 class ProfileViewController: MMCustomViewController {
     
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
-    var user: Users?
+    var user: Users!
     var usersRef: UInt!
     
     @IBOutlet weak var closeBtn: UIButton!
@@ -33,23 +33,23 @@ class ProfileViewController: MMCustomViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        // check for valid user
+        // Check for valid user
         
-        // show activity
+        // Show activity
         profileActivity.startAnimating()
         profileActivity.hidden = false
         
         if ref.authData == nil {
             super.showLogin()
         } else {
-            // get user data to fields
+            // Get user data to fields
             usersRef = ref.childByAppendingPath("users/\(ref.authData.uid)").observeEventType(.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
                 self.firstNameFld.text = snapshot.value.objectForKey("first_name") as? String
                 self.lastNameFld.text = snapshot.value.objectForKey("last_name") as? String
                 self.emailFld.text = snapshot.value.objectForKey("email_address") as? String
                 
-                self.user = Users(currentEmail: self.emailFld.text!, currentFirstName: self.firstNameFld.text!, currentLastName: self.lastNameFld.text!)
+                self.user = Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.firstNameFld.text! as String, currentLastName: self.lastNameFld.text! as String)
                 
                 // hide the activity
                 self.profileActivity.stopAnimating()
@@ -64,7 +64,7 @@ class ProfileViewController: MMCustomViewController {
     
     override func viewDidDisappear(animated: Bool) {
         
-        // remove observer
+        // Remove observer
         ref.removeObserverWithHandle(usersRef)
         
     }
@@ -79,18 +79,19 @@ class ProfileViewController: MMCustomViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Actions
     @IBAction func saveProfileData(sender: AnyObject) {
         
         if newPasswdFld.text == "" {
             
-            if emailFld.text != user!.currentEmail {
-                //check for passwd
+            if emailFld.text != user.currentEmail {
+                // Check for passwd
                 if currPasswdFld.text == "" {
                     let passwdError = UIAlertView(title: "Error", message: "Please enter your current password to change your email", delegate: nil, cancelButtonTitle: "OK")
                     passwdError.show()
                 } else {
-                    
-                    user!.changeEmailForUser(currPasswdFld.text!, newEmail: emailFld.text!) {(error: Bool) in
+                    // Change email for user
+                    user.changeEmailForUser(currPasswdFld.text!, newEmail: emailFld.text!) {(error: Bool) in
                         if error {
                             let emailError = UIAlertView(title: "Error", message: "There was an error changing your email, please try again", delegate: nil, cancelButtonTitle: "OK")
                             emailError.show()
@@ -104,7 +105,11 @@ class ProfileViewController: MMCustomViewController {
                 }
                 
             } else {
-                user!.updateProfileData(email: emailFld.text!, firstName: firstNameFld.text!, lastName: lastNameFld.text!, completion: { (error) -> Void in
+                // Update Profile information for user
+                user.currentEmail = emailFld.text!
+                user.currentFirstName = firstNameFld.text!
+                user.currentLastName = lastNameFld.text!
+                user.updateProfileData({ (error) -> Void in
                     if !error {
                         let profileMsg = UIAlertView(title: "Success!", message: "Your profile information has been updated.", delegate: nil, cancelButtonTitle: "OK")
                         profileMsg.show()
@@ -114,11 +119,11 @@ class ProfileViewController: MMCustomViewController {
 
         }
         
-        // passwd reset
+        // Passwd reset
         if currPasswdFld.text != "" && newPasswdFld.text != "" {
             
-            // update passwd
-            user!.changeUserPassword(email: emailFld.text!, oldPassword: currPasswdFld.text!, newPassword: newPasswdFld.text!, completion: { (error) -> Void in
+            // Update passwd
+            user.changeUserPassword(currPasswdFld.text!, newPassword: newPasswdFld.text!, completion: { (error) -> Void in
                 if error {
                     // There was an error processing the request
                     let passwdError = UIAlertView(title: "Error", message: "There was an error changing your password", delegate: nil, cancelButtonTitle: "OK")
@@ -136,10 +141,9 @@ class ProfileViewController: MMCustomViewController {
         
     }
     
-    
     @IBAction func logoutAction(sender: UIButton) {
         
-        // kill firebase session
+        // Kill firebase session
         ref.unauth()
         self.dismissViewControllerAnimated(true, completion: nil)
         

@@ -38,7 +38,7 @@ class ViewReminderViewController: MMCustomViewController {
             setByLbl.hidden = false
             let friendRef = ref.childByAppendingPath("users/\(selectedFriendFromView)")
             friendRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                // set data from location controller
+                // Set data from location controller
                 let first_name: String = snapshot.value.objectForKey("first_name") as! String
                 let last_name: String = snapshot.value.objectForKey("last_name") as! String
                 
@@ -59,7 +59,7 @@ class ViewReminderViewController: MMCustomViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        // check for valid user
+        // Check for valid user
         if ref.authData == nil {
             super.showLogin()
         }
@@ -79,15 +79,14 @@ class ViewReminderViewController: MMCustomViewController {
     }
     
     
-    // Segues
-    
+    // MARK: Segues
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         self.dismissViewControllerAnimated(true, completion: nil)
         return true
     }
 
     /*
-    // MARK: - Navigation
+    // MARK: Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

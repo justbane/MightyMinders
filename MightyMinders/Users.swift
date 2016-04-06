@@ -9,8 +9,9 @@
 import Foundation
 import AeroGearPush
 
+protocol User {}
 
-class Users {
+class Users: User {
     
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
     let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -27,9 +28,10 @@ class Users {
         
     }
     
+    // MARK: Change email for user
     func changeEmailForUser(password: String, newEmail: String, completion: (error: Bool) -> Void) {
         
-        // change user email
+        // Change user email
         ref.changeEmailForUser(self.currentEmail, password: password, toNewEmail: newEmail, withCompletionBlock: { error in
             
                 if error != nil {
@@ -37,7 +39,8 @@ class Users {
                     completion(error: true)
                 } else {
                     // Email changed successfully
-                    self.updateProfileData(email: newEmail, firstName: self.currentFirstName, lastName: self.currentLastName, completion: { (error) -> Void in
+                    self.currentEmail = newEmail
+                    self.updateProfileData({ (error) -> Void in
                         if error {
                             // FIXME: alert an error
                         }
@@ -49,12 +52,13 @@ class Users {
         
     }
     
-    func updateProfileData(email emailAddress: String, firstName: String, lastName: String, completion: (error: Bool) -> Void) {
+    // MARK: Uodate user profile
+    func updateProfileData(completion: (error: Bool) -> Void) {
         
             let dataToUpdate = [
-                "email_address": emailAddress,
-                "first_name": firstName,
-                "last_name": lastName
+                "email_address": currentEmail,
+                "first_name": currentFirstName,
+                "last_name": currentLastName
             ]
         
             let profileRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
@@ -64,14 +68,14 @@ class Users {
             
             registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
                 
-                // apply the token, to identify this device
+                // Apply the token, to identify this device
                 clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
                 
                 clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
                 clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
                 
-                // --optional config--
-                // set some 'useful' hardware information params
+                // Optional config --
+                // Set some 'useful' hardware information params
                 clientInfo.alias = dataToUpdate["email_address"]
                 self.userDefaults.setValue(dataToUpdate["email_address"], forKey: "storedUserEmail")
                 
@@ -86,9 +90,10 @@ class Users {
         
     }
     
-    func changeUserPassword(email currentEmail: String, oldPassword: String, newPassword: String, completion: (error: Bool) -> Void) {
+    // MARK: Update user password
+    func changeUserPassword(oldPassword: String, newPassword: String, completion: (error: Bool) -> Void) {
         
-        ref.changePasswordForUser(currentEmail, fromOld: oldPassword,
+        ref.changePasswordForUser(self.currentEmail, fromOld: oldPassword,
             toNew: newPassword, withCompletionBlock: { error in
                 if error != nil {
                     completion(error: true)
@@ -99,4 +104,5 @@ class Users {
         
     }
     
+    // End Class
 }

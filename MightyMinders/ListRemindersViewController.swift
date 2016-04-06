@@ -18,6 +18,11 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
     var selectedReminder: [String: Double]!
     let sectionsInTable = ["Set For You", "Set for Friends"]
     
+    // Table row heights
+    var selectedCellIndexPath: NSIndexPath?
+    let selectedCellHeight: CGFloat = 180.0
+    let unselectedCellHeight: CGFloat = 90.0
+    
     @IBOutlet weak var tableView: UITableView!
     
     
@@ -26,7 +31,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         
         // Do any additional setup after loading the view.
         
-        // table view setup
+        // Table view setup
         tableView.delegate = self
         tableView.dataSource = self
         //tableView.separatorInset = UIEdgeInsetsZero
@@ -36,7 +41,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
     }
     
     override func viewDidAppear(animated: Bool) {
-        // check for valid user
+        // Check for valid user
         if ref.authData == nil {
             super.showLogin()
         }
@@ -47,32 +52,12 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Get the reminders
     func getReminders() {
         
-        // private minders
-        let userMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private")
-        
-        // listen for add of new minders
-        userMindersRef.observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            let enumerator = snapshot.children
-            while let data = enumerator.nextObject() as? FDataSnapshot {
-                //print(data.key)
-                if !self.reminderKeys.contains(data.key) {
-                    self.reminderKeys.insert(data.key)
-                    self.reminderData.append(data)
-                }
-                
-            }
-            self.tableView.reloadData()
-        })
-        
-        // shared minders
-        let sharedMindersRef = ref.childByAppendingPath("shared-minders")
-        
-        // listen for add of new minders
-        // set for you
-        sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue(ref.authData.uid).observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            let enumerator = snapshot.children
+        // Private reminders
+        Minders().getPrivateMinders { (privateReminders) -> Void in
+            let enumerator = privateReminders.children
             while let data = enumerator.nextObject() as? FDataSnapshot {
                 //print(data.key)
                 if !self.reminderKeys.contains(data.key) {
@@ -81,13 +66,24 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
                 }
             }
             self.tableView.reloadData()
-            
-        })
+        }
         
-        // set by you
-        sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue(ref.authData.uid).observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            // set reminders object
-            let enumerator = snapshot.children
+        // Shared minders
+        Minders().getSharedReminders { (sharedReminders) -> Void in
+            let enumerator = sharedReminders.children
+            while let data = enumerator.nextObject() as? FDataSnapshot {
+                //print(data.key)
+                if !self.reminderKeys.contains(data.key) {
+                    self.reminderKeys.insert(data.key)
+                    self.reminderData.append(data)
+                }
+            }
+            self.tableView.reloadData()
+        }
+        
+        // Set by you        
+        Minders().getRemindersSetByYou { (remindersSetByYou) -> Void in
+            let enumerator = remindersSetByYou.children
             while let data = enumerator.nextObject() as? FDataSnapshot {
                 //print(data.key)
                 if !self.reminderKeys.contains(data.key) {
@@ -96,13 +92,13 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
                 }
             }
             self.tableView.reloadData()
-        })
+        }
         
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         
-        // check to see if segue should happen (have they selected a reminder?
+        // Check to see if segue should happen (have they selected a reminder?
         if identifier == "ListViewUnwindSegue" {
             if let sendingBtn = sender as? CustomButton {
                 selectedReminder = sendingBtn.locationData
@@ -140,7 +136,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         
     }
     
-    // tableView requirements
+    // MARK: TableView requirements
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return sectionsInTable.count
     }
@@ -149,8 +145,27 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         return getSectionItems(section)
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        //if selectedCellIndexPath == indexPath {
+        //    return selectedCellHeight
+        //}
+        return unselectedCellHeight
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if selectedCellIndexPath != nil && selectedCellIndexPath == indexPath {
+            selectedCellIndexPath = nil
+        } else {
+            selectedCellIndexPath = indexPath
+        }
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        
+        if selectedCellIndexPath != nil {
+            // This ensures, that the cell is fully visible once expanded
+            tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .None, animated: true)
+        }
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -180,6 +195,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
                 if let address = location.valueForKey("address") as? NSString {
                     (cell.contentView.viewWithTag(102) as! UILabel).text = address as String
                 }
+                
             }
         }
         
@@ -198,13 +214,14 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
                 if let address = location.valueForKey("address") as? NSString {
                     (cell.contentView.viewWithTag(102) as! UILabel).text = address as String
                 }
+
             }
         }
         
-        // cell button setup
-        cell.viewBtn.addTarget(self, action: "selectReminderAction:", forControlEvents: .TouchUpInside)
+        // Cell button setup
+        cell.viewBtn.addTarget(self, action: #selector(selectReminderAction), forControlEvents: .TouchUpInside)
         
-        // return the cell with data
+        // Return the cell with data
         return cell
     }
 

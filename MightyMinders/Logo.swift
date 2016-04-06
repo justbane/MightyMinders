@@ -35,5 +35,5 @@ class Logo {
         return self.imageView!
     }
     
-    
+    // End class
 }

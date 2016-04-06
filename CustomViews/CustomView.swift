@@ -84,4 +84,5 @@ import UIKit
         return layer as! CAGradientLayer
     }
     
+    // End class
 }

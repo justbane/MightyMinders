@@ -72,4 +72,5 @@ struct Colors {
         
     }
     
+    // End class
 }

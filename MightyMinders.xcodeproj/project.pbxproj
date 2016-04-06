@@ -34,6 +34,7 @@
 		3960ACB11B901CD50064B2BE /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */; };
 		3960ACB21B901CD50064B2BE /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C0A3AC1B76935C000A6CAD /* CustomView.swift */; };
 		3960ACB31B901CD50064B2BE /* AddRemoveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */; };
+		39713FE01C9F93BB00ADC5E7 /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39713FDF1C9F93BB00ADC5E7 /* Friends.swift */; };
 		397C5FB51AF1E7C40063E9DE /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C5FB41AF1E7C40063E9DE /* Colors.swift */; };
 		397E8D2A1B64247F0095B30D /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397E8D291B64247F0095B30D /* Logo.swift */; };
 		398D959E1B88FBAE00D85F40 /* FriendsRemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */; };
@@ -123,6 +124,13 @@
 			remoteGlobalIDString = 6F71353019646266009B26D8;
 			remoteInfo = AeroGearPush;
 		};
+		39713FD71C9F76EC00ADC5E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6F71353C19646266009B26D8;
+			remoteInfo = AeroGearPushTests;
+		};
 		39958F851C30769B00F7CFA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39423FE01BE32DB700435724 /* Alamofire.xcodeproj */;
@@ -178,6 +186,7 @@
 		394E91E41B00FB3A00C701D3 /* AddLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		3955CF811B9FE48B0037FA91 /* AddFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendViewController.swift; sourceTree = "<group>"; };
 		39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AeroGearPush.xcodeproj; path = "aerogear-ios-push/AeroGearPush.xcodeproj"; sourceTree = "<group>"; };
+		39713FDF1C9F93BB00ADC5E7 /* Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
 		397C5FB41AF1E7C40063E9DE /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		397E8D291B64247F0095B30D /* Logo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsRemindViewController.swift; sourceTree = "<group>"; };
@@ -278,6 +287,7 @@
 				3934F4911B38B50E00F395D2 /* Annotation.swift */,
 				39331AD61BA2945700625AF5 /* Minders.swift */,
 				39BA7D761C557B2E00790840 /* Users.swift */,
+				39713FDF1C9F93BB00ADC5E7 /* Friends.swift */,
 				398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */,
 				397C5FB41AF1E7C40063E9DE /* Colors.swift */,
 				39E6E5C21AF32CAC0066B707 /* TextFields.swift */,
@@ -335,6 +345,7 @@
 			isa = PBXGroup;
 			children = (
 				39589CAC1BCCBBF500D9D804 /* AeroGearPush.framework */,
+				39713FD81C9F76EC00ADC5E7 /* AeroGearPushTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -498,6 +509,13 @@
 			remoteRef = 39589CAB1BCCBBF500D9D804 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		39713FD81C9F76EC00ADC5E7 /* AeroGearPushTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AeroGearPushTests.xctest;
+			remoteRef = 39713FD71C9F76EC00ADC5E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -549,6 +567,7 @@
 				3955CF821B9FE48B0037FA91 /* AddFriendViewController.swift in Sources */,
 				398D95A21B8901AF00D85F40 /* MMCustomViewController.swift in Sources */,
 				394E718A1B77F9380053B47B /* ProfileViewController.swift in Sources */,
+				39713FE01C9F93BB00ADC5E7 /* Friends.swift in Sources */,
 				39BA7D771C557B2E00790840 /* Users.swift in Sources */,
 				39E6E5C31AF32CAC0066B707 /* TextFields.swift in Sources */,
 				394E81E31B52218A00C81664 /* ViewReminderViewController.swift in Sources */,
@@ -693,8 +712,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -707,7 +726,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e2a7a6ab-9dcb-4e48-af98-c85029ec462e";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -718,8 +737,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -732,7 +751,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e2a7a6ab-9dcb-4e48-af98-c85029ec462e";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 			};
 			name = Release;

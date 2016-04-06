@@ -30,7 +30,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         
         // Do any additional setup after loading the view.
         activity.hidden = true
-        // set the background color
+        
+        // Set the background color
         // let background = Colors(colorString: "blue").getGradient()
         // background.frame = self.view.bounds
         // blueView.layer.insertSublayer(background, atIndex: 0)
@@ -76,6 +77,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    // MARK: Validate
     func validate() -> Bool {
         
         var error = false
@@ -111,6 +113,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    // MARK: Actions
     @IBAction func doRegistration(sender: AnyObject) {
         activity.hidden = false
         if (validate() && ref.authData == nil) {
@@ -119,7 +122,6 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     
                     if error != nil {
                         self.errorTxt.hidden = false
-                        
                         if let errorCode = FAuthenticationError(rawValue: error.code) {
                             
                             switch(errorCode) {
@@ -149,21 +151,44 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                                 
                                 if error != nil {
                                     // There was an error logging in to this account
-                                } else {
-                                    // We are now logged in
+                                    self.errorTxt.hidden = false
+                                    if let errorCode = FAuthenticationError(rawValue: error.code) {
+                                        
+                                        switch(errorCode) {
+                                            
+                                        case .UserDoesNotExist:
+                                            self.errorTxt.text = "Error: Invalid user"
+                                            
+                                        case .InvalidCredentials:
+                                            self.errorTxt.text = "Error: Invalid email or password"
+                                            
+                                        case .InvalidEmail:
+                                            self.errorTxt.text = "Error: Invalid email or password"
+                                            
+                                        case .InvalidPassword:
+                                            self.errorTxt.text = "Error: Invalid email or password"
+                                            
+                                        default:
+                                            self.errorTxt.text = "Error: unknown error"
+                                            
+                                        }
+                                    }
                                     
+                                } else {
+                                    
+                                    // We are now logged in
                                     let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
                                     
                                     registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
                                         
-                                        // apply the token, to identify this device
+                                        // Apply the token, to identify this device
                                         clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
                                         
                                         clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
                                         clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
                                         
                                         // --optional config--
-                                        // set some 'useful' hardware information params
+                                        // Set some 'useful' hardware information params
                                         clientInfo.alias = self.ref.authData.providerData["email"] as? String
                                         self.userDefaults.setValue(self.ref.authData.providerData["email"] as? String, forKey: "storedUserEmail")
                                         
@@ -174,7 +199,22 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                                             print("device alias update error: \(error.localizedDescription)")
                                     })
                                     
-                                    self.saveProfileData()
+                                    Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.fnameFld.text! as String, currentLastName: self.lnameFld.text! as String).updateProfileData({ (error) -> Void in
+                                        if error {
+                                            
+                                            self.errorTxt?.text = "Error: Please fill in all fields!"
+                                            self.errorTxt.hidden = false
+                                    
+                                        } else {
+                                            
+                                            self.errorTxt?.text = "Success"
+                                            self.errorTxt.textColor = UIColor.greenColor()
+                                            self.errorTxt.hidden = false
+                                            
+                                            self.dismissViewControllerAnimated(true, completion: nil)
+                                        }
+                                        self.activity.hidden = true
+                                    })
                                 }
                                 
                             })
@@ -184,22 +224,11 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     }
                     
             })
+            
         } else {
-            saveProfileData()
-        }
-    }
-    
-    func saveProfileData() {
-        
-        if(ref.authData != nil) {
             
-            let userProfileData = ["first_name": self.fnameFld.text!, "last_name": self.lnameFld.text!, "email_address": self.emailFld.text!]
-            
-            let usersRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
-            
-            usersRef.setValue(userProfileData, withCompletionBlock: { (error, ref) in
-                
-                if error != nil {
+            Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.fnameFld.text! as String, currentLastName: self.lnameFld.text! as String).updateProfileData({ (error) -> Void in
+                if error {
                     
                     self.errorTxt?.text = "Error: Please fill in all fields!"
                     self.errorTxt.hidden = false
@@ -211,14 +240,13 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     self.errorTxt.hidden = false
                     
                     self.dismissViewControllerAnimated(true, completion: nil)
-                    
                 }
-                
                 self.activity.hidden = true
-                
             })
+            
         }
-        
     }
-
+    
+    
+    // End Class
 }

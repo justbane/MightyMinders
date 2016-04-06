@@ -24,7 +24,7 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
 
         // Do any additional setup after loading the view.
         
-        // table view setup
+        // Table view setup
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorInset = UIEdgeInsetsZero
@@ -33,32 +33,31 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
     
     override func viewDidAppear(animated: Bool) {
         
-        // friends activity
+        // Friends activity
         friendsActivity.startAnimating()
         friendsActivity.hidden = false
         
         if ref.authData == nil {
             super.showLogin()
         } else {
-            // get keys data
-            let canRemindKeys = ref.childByAppendingPath("friends/\(ref.authData.uid)/can-remind")
-            canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
-                // set object
-                let enumerator = snapshot.children
+            // Get friends keys
+            Friends().getFriendKeysICanRemind({ (friendsToRemind) -> Void in
+                // Set object
+                let enumerator = friendsToRemind.children
                 
-                // reset arrays - reset the table
+                // Reset arrays - reset the table
                 self.friendKeys.removeAll(keepCapacity: false)
                 self.friendData.removeAll(keepCapacity: false)
                 self.tableView.reloadData()
                 
-                // iterate over data
+                // Iterate over data
                 while let data = enumerator.nextObject() as? FDataSnapshot {
                     self.friendKeys.append(data.key)
                 }
-                // get friends
+                // Get friends
                 self.getFriends()
                 
-                // hide activity
+                // Hide activity
                 self.friendsActivity.stopAnimating()
                 self.friendsActivity.hidden = true
             })
@@ -71,17 +70,17 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Get friends
     func getFriends() {
         
-        // add to friends list
+        // Add to friends list
         if friendKeys.count > 0 {
-            // loop over firend IDs
+            // Loop over firend IDs
             for uid in friendKeys {
-                let canRemindFriends = ref.childByAppendingPath("users/\(uid)")
-                canRemindFriends.observeEventType(.Value, withBlock: { snapshot in
-                    self.friendData.append(snapshot)
+                Friends().getFriends(uid, completion: { (friendsData) -> Void in
+                    self.friendData.append(friendsData)
                     if self.friendData.count > 0 {
-                        // reload the table
+                        // Reload the table
                         self.tableView.reloadData()
                     }
                 })
@@ -91,6 +90,7 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
         
     }
     
+    // MARK: Segues
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SelectedFriendSegue" {
             let addReminderViewController = segue.destinationViewController as! AddReminderViewController
@@ -101,7 +101,7 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
     }
     
     
-    // tableView requirements
+    // MARK: TableView requirements
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friendData.count
     }
@@ -119,7 +119,7 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
         cell.preservesSuperviewLayoutMargins = false
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
-        // cell button setup
+        // Cell button setup
         cell.addBtn.actionData = [
             "id": friendData[indexPath.row].key,
             "first_name": friendData[indexPath.row].value.valueForKey("first_name") as! String,
@@ -142,36 +142,36 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
             (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
         }
         
-        // TODO - add profile images
-        /*if var imageURL = contacts[indexPath.row].valueForKey("profile_img") as? NSString {
-            
-            if imageURL == "" {
-                imageURL = "/images/NoAvatar.gif"
-            }
-            
-            let urlString: NSString = "http:/internal.hdmz.com\(imageURL)"
-            let imgURL: NSURL? = NSURL(string: urlString as String)
-            
-            let request: NSURLRequest = NSURLRequest(URL: imgURL!)
-            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-                
-                if error == nil {
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        if let cellToUpdate = self.tblView.cellForRowAtIndexPath(indexPath) {
-                            var imageToUpdate = Images().roundCorners(cellToUpdate.contentView.viewWithTag(100) as! UIImageView, radiusSize: 22.5)
-                            imageToUpdate.image = UIImage(data: data)
-                            self.imageCache[imageURL as String] = UIImage(data: data)
-                        }
-                    })
-                    
-                }
-                
-            })
-            
-        }*/
+        // TODO: Add profile images
+//        if var imageURL = contacts[indexPath.row].valueForKey("profile_img") as? NSString {
+//            
+//            if imageURL == "" {
+//                imageURL = "/images/NoAvatar.gif"
+//            }
+//            
+//            let urlString: NSString = "http:/internal.hdmz.com\(imageURL)"
+//            let imgURL: NSURL? = NSURL(string: urlString as String)
+//            
+//            let request: NSURLRequest = NSURLRequest(URL: imgURL!)
+//            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+//                
+//                if error == nil {
+//                    
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        if let cellToUpdate = self.tblView.cellForRowAtIndexPath(indexPath) {
+//                            var imageToUpdate = Images().roundCorners(cellToUpdate.contentView.viewWithTag(100) as! UIImageView, radiusSize: 22.5)
+//                            imageToUpdate.image = UIImage(data: data)
+//                            self.imageCache[imageURL as String] = UIImage(data: data)
+//                        }
+//                    })
+//                    
+//                }
+//                
+//            })
+//            
+//        }
         
-        // return the cell with data
+        // Return the cell with data
         return cell
     }
     

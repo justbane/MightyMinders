@@ -9,20 +9,78 @@
 import Foundation
 import MapKit
 
-class Minders {
+protocol Minder {}
+
+class Minders: Minder {
     
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     
     var processedReminders: [Annotation] = []
     
-    init() {}
+    // MARK: The minder getters
+    func getPrivateMinders(completion:(privateReminders: FDataSnapshot) -> Void) {
+        
+        // Private minders
+        let userMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private")
+        
+        // Listen for add of new minders
+        userMindersRef.observeEventType(.Value, withBlock: { (snapshot) -> Void in
+            completion(privateReminders: snapshot)
+        })
+
+        
+    }
     
+    func getSharedReminders(completion:(sharedReminders: FDataSnapshot) -> Void) {
+        
+        let sharedMindersRef = ref.childByAppendingPath("shared-minders")
+        
+        // Listen for add of new minders
+        // Set for you
+        sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue(ref.authData.uid).observeEventType(.Value, withBlock: { (snapshot) -> Void in
+            completion(sharedReminders: snapshot)
+        })
+
+        
+    }
+    
+    // MARK: Listeners for removals
+    func getRemindersSetByYou(completion:(remindersSetByYou: FDataSnapshot) -> Void) {
+        
+        let sharedMindersRef = ref.childByAppendingPath("shared-minders")
+        
+        sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue(ref.authData.uid).observeEventType(.Value, withBlock: { (snapshot) -> Void in
+            completion(remindersSetByYou: snapshot)
+        })
+        
+    }
+    
+    func listenForRemindersRemovedForMe(completion:(remindersRemovedForMe: FDataSnapshot) -> Void) {
+        
+        let sharedMindersRef = ref.childByAppendingPath("shared-minders")
+        
+        sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue(ref.authData.uid).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
+            completion(remindersRemovedForMe: snapshot)
+        })
+    }
+    
+    func listenForRemindersRemovedByMe(completion:(remindersRemovedByMe: FDataSnapshot) -> Void) {
+        
+        let sharedMindersRef = ref.childByAppendingPath("shared-minders")
+        
+        sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue(ref.authData.uid).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
+            completion(remindersRemovedByMe: snapshot)
+        })
+    }
+    
+    // MARK: Process Minders
     func processMinders(reminderSubData: FDataSnapshot, type: String) -> [Annotation] {
         
         let enumerator = reminderSubData.children
         while let data = enumerator.nextObject() as? FDataSnapshot {
             
-            // add reminders to map
+            // Add reminders to map
             let pinLocation = data.value.valueForKey("location") as! NSDictionary
             
             var timing = 0
@@ -68,6 +126,7 @@ class Minders {
         
     }
     
+    // MARK: Add Reminder
     func addReminder(content: String, location: [String: AnyObject], timing: Int, setBy: String, setFor: String , completion: (returnedMinder: NSDictionary, error: Bool) -> Void) {
         
         let reminder = [
@@ -78,10 +137,10 @@ class Minders {
             "set-for": setFor
         ]
         
-        // set the ref path
+        // Set the ref path
         var usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private")
         
-        // is there a friend selected?
+        // Is there a friend selected?
         if setBy != setFor {
             usersMindersRef = ref.childByAppendingPath("shared-minders")
             
@@ -97,6 +156,7 @@ class Minders {
             })
     }
     
+    // MARK: Edit Reminder
     func editReminder(identifier: String, content: String, location: [String: AnyObject], timing: Int, setBy: String, setFor: String , completion: (returnedMinder: NSDictionary, error: Bool) -> Void) {
         
         let reminder = [
@@ -107,12 +167,12 @@ class Minders {
             "set-for": setFor
         ]
         
-        // set the ref path
+        // Set the ref path
         var usersMindersRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(identifier)")
         
-        // is there a friend selected?
+        // Is there a friend selected?
         if setBy != setFor {
-            // is there a friend and we are editing?
+            // Is there a friend and we are editing?
             usersMindersRef = ref.childByAppendingPath("shared-minders/\(identifier)")
         }
         
@@ -131,4 +191,64 @@ class Minders {
 
     }
     
+    // MARK: Send Reminder Notification
+    func sendReminderNotification(userMinder: NSDictionary) {
+        
+        if ref.authData.uid as String != userMinder["set-for"] as! String {
+            
+            let restReq = HTTPRequests()
+            let setBy = userMinder["set-by"] as! String
+            let setFor = userMinder["set-for"] as! String
+            let content = userMinder["content"] as! String
+            let location = userMinder["location"]!
+            
+            var senderName: String = "Someone"
+            
+            // Get sender profile data
+            let setByRef = self.ref.childByAppendingPath("users/\(setBy)")
+            setByRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+                let first_name: String = snapshot.value.objectForKey("first_name") as! String
+                let last_name: String = snapshot.value.objectForKey("last_name") as! String
+                senderName = "\(first_name) \(last_name)"
+                
+                // Go reciever profile
+                let setForRef = self.ref.childByAppendingPath("users/\(setFor)")
+                setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+                    let email: String = snapshot.value.objectForKey("email_address") as! String
+                    
+                    let data: [String: [String: AnyObject]] = [
+                        "message": [
+                            "alert": "\(senderName) set a reminder for you - Swipe to Accept: \(content)",
+                            "sound": "default",
+                            "apns": [
+                                "action-category": "MAIN_CATEGORY",
+                                "url-args": ["\(location["latitude"]!)","\(location["longitude"]!)"]
+                            ]
+                        ],
+                        "criteria": [
+                            "alias": ["\(email)"],
+                            "variants": ["\(self.userDefaults.valueForKey("variantID") as! String)"]
+                        ]
+                    ]
+                    
+                    // Send to push server
+                    restReq.sendPostRequest(data, url: "https://push-baneville.rhcloud.com/ag-push/rest/sender") { (success, msg) -> () in
+                        // Completion code here
+                        // println(success)
+                        
+                        let status = msg["status"] as! String
+                        if status.containsString("FAILURE") {
+                            print(status)
+                        }
+                    }
+                    
+                })
+                
+            })
+            
+        }
+    }
+    
+    
+    // End Class
 }
