@@ -28,25 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Clear all the notifications
         // UIApplication.sharedApplication().cancelAllLocalNotifications()
         
-        if environment == "prod" {
-            // Store push server keys - prod
-            userDefaults.setValue("d90767e5-86b1-4169-a15c-2422cdcd3c1c", forKey: "variantID")
-            userDefaults.setValue("946dfa15-3eb6-4e9f-9578-752be6094358", forKey: "variantSecret")
-            
-            // REST credentials - prod
-            userDefaults.setValue("1ce88109-d9f0-447e-b990-5b65240d8a73", forKey: "restUsername")
-            userDefaults.setValue("8f9b189d-f55e-4cd0-b417-19f0136d440a", forKey: "restPassword")
-            
-        } else {
-            // Store push server keys - dev
-            userDefaults.setValue("eb234d8c-1829-483b-ad2a-a855eeacc2b2", forKey: "variantID")
-            userDefaults.setValue("2f2f8f44-a6ba-40f4-b8a1-fc06ac367315", forKey: "variantSecret")
-            
-            // REST credentials - dev
-            userDefaults.setValue("f8de81a1-ce56-496e-8e6d-f179244b7450", forKey: "restUsername")
-            userDefaults.setValue("e37fb59b-0895-4d85-9d34-6d8a2b3cce86", forKey: "restPassword")
-        }
-        
         // Actions
         let addMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
         addMinderAction.identifier = "ADD_MINDER"
@@ -117,6 +98,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Register for push
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         
+        if environment == "prod" {
+            // Store push server keys - prod
+            userDefaults.setValue("d90767e5-86b1-4169-a15c-2422cdcd3c1c", forKey: "variantID")
+            userDefaults.setValue("946dfa15-3eb6-4e9f-9578-752be6094358", forKey: "variantSecret")
+            
+            // REST credentials - prod
+            userDefaults.setValue("1ce88109-d9f0-447e-b990-5b65240d8a73", forKey: "restUsername")
+            userDefaults.setValue("8f9b189d-f55e-4cd0-b417-19f0136d440a", forKey: "restPassword")
+            
+        } else {
+            // Store push server keys - dev
+            userDefaults.setValue("eb234d8c-1829-483b-ad2a-a855eeacc2b2", forKey: "variantID")
+            userDefaults.setValue("2f2f8f44-a6ba-40f4-b8a1-fc06ac367315", forKey: "variantSecret")
+            
+            // REST credentials - dev
+            userDefaults.setValue("f8de81a1-ce56-496e-8e6d-f179244b7450", forKey: "restUsername")
+            userDefaults.setValue("e37fb59b-0895-4d85-9d34-6d8a2b3cce86", forKey: "restPassword")
+        }
+
+        
         let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
         
         registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
@@ -124,10 +125,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // apply the token, to identify this device
             clientInfo.deviceToken = deviceToken
             // store token for later
-            self.userDefaults.setObject(deviceToken, forKey:  "deviceToken")
+            self.userDefaults.setObject(deviceToken, forKey: "deviceToken")
             
-            clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
-            clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
+            clientInfo.variantID = self.userDefaults.valueForKey("variantID")! as? String
+            clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret")! as? String
             
             // --optional config--
             // set some 'useful' hardware information params
