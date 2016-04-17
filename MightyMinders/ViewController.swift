@@ -122,7 +122,6 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         var longitude = 0.0
         var centerMap = false
         
-        
         if let urlArgs = data["aps"]!["url-args"] as? NSArray {
             if let lat = urlArgs[0] as? String {
                 latitude = Double(lat)!

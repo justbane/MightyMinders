@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setStatusBarStyle(UIStatusBarStyle.Default, animated: false)
         
         // Clear all the notifications on first run (get minders will re-add from FB
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        // UIApplication.sharedApplication().cancelAllLocalNotifications()
         
         // Actions
         let addMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()

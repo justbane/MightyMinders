@@ -267,37 +267,12 @@
 			isa = PBXGroup;
 			children = (
 				39305A971AE9EF9300773849 /* AppDelegate.swift */,
-				3914414D1AEDE1FF00866679 /* RegisterViewController.swift */,
-				39305AB71AE9F6DE00773849 /* LoginViewController.swift */,
-				39305A991AE9EF9300773849 /* ViewController.swift */,
-				39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */,
-				394E91E41B00FB3A00C701D3 /* AddLocationViewController.swift */,
-				3955CF811B9FE48B0037FA91 /* AddFriendViewController.swift */,
-				394E81E21B52218A00C81664 /* ViewReminderViewController.swift */,
-				390F26B61BF2F1CF001D6D06 /* ListRemindersViewController.swift */,
-				394E71871B77F03C0053B47B /* RemindFriendsViewController.swift */,
-				398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */,
-				3913E32E1B7C5391003D1C69 /* FindFriendsViewController.swift */,
-				394E71891B77F9380053B47B /* ProfileViewController.swift */,
-				39305A9B1AE9EF9300773849 /* Main.storyboard */,
+				397558FE1CC33FD800F79038 /* Controllers */,
+				397559071CC3405C00F79038 /* Models */,
+				397559061CC3401700F79038 /* Views */,
 				39305A9E1AE9EF9300773849 /* Images.xcassets */,
-				39305AA01AE9EF9300773849 /* LaunchScreen.xib */,
 				39305A951AE9EF9300773849 /* Supporting Files */,
 				39305AC71AE9FE3100773849 /* MightyMinders-Bridging-Header.h */,
-				3934F4911B38B50E00F395D2 /* Annotation.swift */,
-				39331AD61BA2945700625AF5 /* Minders.swift */,
-				39BA7D761C557B2E00790840 /* Users.swift */,
-				39713FDF1C9F93BB00ADC5E7 /* Friends.swift */,
-				398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */,
-				397C5FB41AF1E7C40063E9DE /* Colors.swift */,
-				39E6E5C21AF32CAC0066B707 /* TextFields.swift */,
-				39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */,
-				390F26BE1BF2FA77001D6D06 /* ListViewTableViewCell.swift */,
-				397E8D291B64247F0095B30D /* Logo.swift */,
-				39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */,
-				39C0A3AC1B76935C000A6CAD /* CustomView.swift */,
-				3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */,
-				39CC99211BE07DE700F7F428 /* HTTPRequests.swift */,
 			);
 			path = MightyMinders;
 			sourceTree = "<group>";
@@ -348,6 +323,55 @@
 				39713FD81C9F76EC00ADC5E7 /* AeroGearPushTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		397558FE1CC33FD800F79038 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				39305A991AE9EF9300773849 /* ViewController.swift */,
+				3914414D1AEDE1FF00866679 /* RegisterViewController.swift */,
+				39305AB71AE9F6DE00773849 /* LoginViewController.swift */,
+				39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */,
+				394E91E41B00FB3A00C701D3 /* AddLocationViewController.swift */,
+				3955CF811B9FE48B0037FA91 /* AddFriendViewController.swift */,
+				394E81E21B52218A00C81664 /* ViewReminderViewController.swift */,
+				390F26B61BF2F1CF001D6D06 /* ListRemindersViewController.swift */,
+				394E71871B77F03C0053B47B /* RemindFriendsViewController.swift */,
+				398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */,
+				3913E32E1B7C5391003D1C69 /* FindFriendsViewController.swift */,
+				394E71891B77F9380053B47B /* ProfileViewController.swift */,
+				398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		397559061CC3401700F79038 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				39305AA01AE9EF9300773849 /* LaunchScreen.xib */,
+				39305A9B1AE9EF9300773849 /* Main.storyboard */,
+				39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */,
+				390F26BE1BF2FA77001D6D06 /* ListViewTableViewCell.swift */,
+				397E8D291B64247F0095B30D /* Logo.swift */,
+				39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */,
+				39C0A3AC1B76935C000A6CAD /* CustomView.swift */,
+				3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		397559071CC3405C00F79038 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3934F4911B38B50E00F395D2 /* Annotation.swift */,
+				39331AD61BA2945700625AF5 /* Minders.swift */,
+				39BA7D761C557B2E00790840 /* Users.swift */,
+				39713FDF1C9F93BB00ADC5E7 /* Friends.swift */,
+				397C5FB41AF1E7C40063E9DE /* Colors.swift */,
+				39E6E5C21AF32CAC0066B707 /* TextFields.swift */,
+				39CC99211BE07DE700F7F428 /* HTTPRequests.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
