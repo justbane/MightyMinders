@@ -26,12 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setStatusBarStyle(UIStatusBarStyle.Default, animated: false)
         
         // Clear all the notifications on first run (get minders will re-add from FB
-        // UIApplication.sharedApplication().cancelAllLocalNotifications()
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
         
         // Actions
         let addMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
         addMinderAction.identifier = "ADD_MINDER"
-        addMinderAction.title = "Update"
+        addMinderAction.title = "Accept"
         addMinderAction.activationMode = UIUserNotificationActivationMode.Foreground
         addMinderAction.authenticationRequired = false
         addMinderAction.destructive = false

@@ -198,9 +198,6 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     // MARK: Get reminders
     func getReminders() {
         
-        // Cancel the notifications then add from firebase
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
-        
         // Reset the map
         removeAllAnnotationAndOverlays()
         
@@ -263,6 +260,9 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     
     // MARK: Update reminders
     func updateReminders(type: String) {
+        
+        // Cancel the notifications then add from firebase
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
         
         if type == "private" {
             
