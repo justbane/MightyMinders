@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Actions
         let addMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
         addMinderAction.identifier = "ADD_MINDER"
-        addMinderAction.title = "Accept"
+        addMinderAction.title = "Update"
         addMinderAction.activationMode = UIUserNotificationActivationMode.Foreground
         addMinderAction.authenticationRequired = false
         addMinderAction.destructive = false

@@ -218,7 +218,7 @@ class Minders: Minder {
                     
                     let data: [String: [String: AnyObject]] = [
                         "message": [
-                            "alert": "\(senderName) set a reminder for you - Swipe to Accept: \(content)",
+                            "alert": "\(senderName) set a reminder for you: \(content) - Swipe to update your reminders",
                             "sound": "default",
                             "apns": [
                                 "action-category": "MAIN_CATEGORY",
