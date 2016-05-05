@@ -378,12 +378,13 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                             // Update total
                             self.totalMindersLbl.text = String(self.reminderKeys.count)
                             
-                            // Send the notification if shared
-                            if minderAnnotation.type == "shared" {
-                                self.sendCompleteNotification(minderAnnotation)
-                            }
                         }
                     })
+                    
+                    // Send the notification if shared
+                    if minderAnnotation.type == "shared" {
+                        self.sendCompleteNotification(minderAnnotation)
+                    }
                     
                     // Insert keys to defaults
                     userDefaults.setObject(Array(reminderKeys), forKey: "reminderKeys")
