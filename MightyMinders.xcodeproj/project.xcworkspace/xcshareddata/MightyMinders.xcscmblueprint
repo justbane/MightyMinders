@@ -1,15 +1,18 @@
 {
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "74E46BDF96ED8DD435D41AFEE8E455AD60EF12EB",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8C8496B28BFDEA9C8392B07098B1022DA1FCE318" : 0,
     "67620B5EFA902936DF04070AF595B76AB0333747" : 1,
-    "8C8496B28BFDEA9C8392B07098B1022DA1FCE318" : 0
+    "74E46BDF96ED8DD435D41AFEE8E455AD60EF12EB" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "30517107-870E-4CAB-A86F-46168D00EE3C",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8C8496B28BFDEA9C8392B07098B1022DA1FCE318" : "MightyMinders\/aerogear-ios-push\/",
     "67620B5EFA902936DF04070AF595B76AB0333747" : "MightyMinders\/Alamofire\/",
-    "8C8496B28BFDEA9C8392B07098B1022DA1FCE318" : "MightyMinders\/aerogear-ios-push\/"
+    "74E46BDF96ED8DD435D41AFEE8E455AD60EF12EB" : "MightyMinders\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "MightyMinders",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -19,6 +22,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Alamofire\/Alamofire.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "67620B5EFA902936DF04070AF595B76AB0333747"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/justbane\/mightyminders.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "74E46BDF96ED8DD435D41AFEE8E455AD60EF12EB"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/aerogear\/aerogear-ios-push.git",

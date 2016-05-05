@@ -27,32 +27,31 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
 
         // Do any additional setup after loading the view.
         
-        // table view setup
+        // Table view setup
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorInset = UIEdgeInsetsZero
         
-        // setup searchbar
+        // Setup searchbar
         searchBar.delegate = self
         searchBar.keyboardAppearance = UIKeyboardAppearance.Dark
         searchBar.autocapitalizationType = UITextAutocapitalizationType.None
         
-        // get current friends
-        let currentFriendsRef = ref.childByAppendingPath("friends/\(ref.authData.uid)/remind-me")
-        currentFriendsRef.observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            let enumerator = snapshot.children
+        // Get current friends
+        Friends().getFriendKeysThatRemindMe { (friendsRemindMe) -> Void in
+            let enumerator = friendsRemindMe.children
             while let data = enumerator.nextObject() as? FDataSnapshot {
                 //println(data.key)
                 self.currentFriends.insert(data.key)
             }
-        })
+        }
         
     }
     
     override func viewDidAppear(animated: Bool) {
-        // check for valid user
+        // Check for valid user
         
-        // hide the activity
+        // Hide the activity
         self.searchActivity.hidden = true
         
         if ref.authData == nil {
@@ -65,6 +64,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Actions
     @IBAction func closeBtnAction(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -75,20 +75,18 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         
         if (sender.actionData != nil) {
             
-            // add to my allowed list
-            let remindMeRef = ref.childByAppendingPath("friends/\(ref.authData.uid)/remind-me")
-            remindMeRef.updateChildValues([sender.actionData: "true"] as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
-                if error != nil {
+            // Add to my allowed list
+            Friends().addAllowedFriends(sender.actionData, completion: { (error) -> Void in
+                if error {
                     let saveError = UIAlertView(title: "Error", message: "An error occured saving the data", delegate: nil, cancelButtonTitle: "OK")
                     saveError.show()
                     errors = true
                 }
             })
             
-            // add to their can remind list
-            let canRemindRef = ref.childByAppendingPath("friends/\(sender.actionData)/can-remind")
-            canRemindRef.updateChildValues([ref.authData.uid: "true"] as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:Firebase!) in
-                if error != nil {
+            // Add to their can remind list
+            Friends().addToCanRemindFriends(sender.actionData, completion: { (error) -> Void in
+                if error {
                     let saveError = UIAlertView(title: "Error", message: "An error occured saving the data", delegate: nil, cancelButtonTitle: "OK")
                     saveError.show()
                     errors = true
@@ -102,7 +100,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         
     }
     
-    // searchbar requirements
+    // MARK: Searchbar requirements
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         searchActive = true;
     }
@@ -123,24 +121,20 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         
         if searchText != "" && searchText.characters.count >= 2 && searchText.containsString("@") {
             
-            // show activity
+            // Show activity
             searchActivity.startAnimating()
             searchActivity.hidden = false
             
-            // user authenticated with Firebase
-            let usersRef = ref.childByAppendingPath("users")
-            
-            // listen for add of new minders
-            usersRef.queryOrderedByChild("email_address").queryStartingAtValue("\(searchText)").queryEndingAtValue("\(searchText)~").observeEventType(.Value, withBlock: { snapshot in
-                
-                if snapshot.value.count != nil {
-
-                    // remove data from array and reset count
+            // Search users by email
+            Friends().searchFriendsByEmail(searchText, completion: { (usersFound) -> Void in
+                if usersFound.value.count != nil {
+                    
+                    // Remove data from array and reset count
                     self.friendData.removeAll(keepCapacity: false)
                     self.searchDataCount = 0
                     
-                    // iterate the results and add to array
-                    let enumerator = snapshot.children
+                    // Iterate the results and add to array
+                    let enumerator = usersFound.children
                     while let data = enumerator.nextObject() as? FDataSnapshot {
                         if data.key != self.ref.authData.uid && !self.currentFriends.contains(data.key) {
                             self.friendData.append(data)
@@ -148,36 +142,32 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
                         //println(data);
                     }
                     
-                    // update table
+                    // Update table
                     if self.friendData.count > 0 {
-                        // set row count and reload
+                        // Set row count and reload
                         self.searchDataCount = self.friendData.count
                         self.tableView.reloadData()
                     }
                     
                 }
                 
-                // hide the activity
+                // Hide the activity
                 self.searchActivity.stopAnimating()
                 self.searchActivity.hidden = true
-                
             })
             
         }
         
     }
 
-    
-    // tableView requirements
+    // MARK: TableView requirements
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchDataCount
     }
     
-    
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -187,9 +177,9 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         cell.preservesSuperviewLayoutMargins = false
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
-        // cell button setup
+        // Cell button setup
         cell.allowBtn.actionData = friendData[indexPath.row].key
-        cell.allowBtn.addTarget(self, action: "allowBtnAction:", forControlEvents: .TouchUpInside)
+        cell.allowBtn.addTarget(self, action: #selector(allowBtnAction), forControlEvents: .TouchUpInside)
         
         var name : String = ""
         
@@ -208,35 +198,35 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         }
         
         // TODO - add profile images
-        /*if var imageURL = contacts[indexPath.row].valueForKey("profile_img") as? NSString {
-            
-            if imageURL == "" {
-                imageURL = "/images/NoAvatar.gif"
-            }
-            
-            let urlString: NSString = "http:/internal.hdmz.com\(imageURL)"
-            let imgURL: NSURL? = NSURL(string: urlString as String)
-            
-            let request: NSURLRequest = NSURLRequest(URL: imgURL!)
-            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-                
-                if error == nil {
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        if let cellToUpdate = self.tblView.cellForRowAtIndexPath(indexPath) {
-                            var imageToUpdate = Images().roundCorners(cellToUpdate.contentView.viewWithTag(100) as! UIImageView, radiusSize: 22.5)
-                            imageToUpdate.image = UIImage(data: data)
-                            self.imageCache[imageURL as String] = UIImage(data: data)
-                        }
-                    })
-                    
-                }
-                
-            })
-            
-        }*/
+//        if var imageURL = contacts[indexPath.row].valueForKey("profile_img") as? NSString {
+//            
+//            if imageURL == "" {
+//                imageURL = "/images/NoAvatar.gif"
+//            }
+//            
+//            let urlString: NSString = "http:/internal.hdmz.com\(imageURL)"
+//            let imgURL: NSURL? = NSURL(string: urlString as String)
+//            
+//            let request: NSURLRequest = NSURLRequest(URL: imgURL!)
+//            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+//                
+//                if error == nil {
+//                    
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        if let cellToUpdate = self.tblView.cellForRowAtIndexPath(indexPath) {
+//                            var imageToUpdate = Images().roundCorners(cellToUpdate.contentView.viewWithTag(100) as! UIImageView, radiusSize: 22.5)
+//                            imageToUpdate.image = UIImage(data: data)
+//                            self.imageCache[imageURL as String] = UIImage(data: data)
+//                        }
+//                    })
+//                    
+//                }
+//                
+//            })
+//            
+//        }
         
-        // return the cell with data
+        // Return the cell with data
         return cell
     }
 

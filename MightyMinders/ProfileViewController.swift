@@ -12,8 +12,8 @@ import AeroGearPush
 class ProfileViewController: MMCustomViewController {
     
     let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
-    let userDefaults = NSUserDefaults.standardUserDefaults()
-    var profileData: FDataSnapshot!
+    var user: Users!
+    var usersRef: UInt!
     
     @IBOutlet weak var closeBtn: UIButton!
     @IBOutlet weak var firstNameFld: MMTextField!
@@ -25,7 +25,6 @@ class ProfileViewController: MMCustomViewController {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var profileActivity: UIActivityIndicatorView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,30 +32,41 @@ class ProfileViewController: MMCustomViewController {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
-        // check for valid user
+    override func viewWillAppear(animated: Bool) {
+        // Check for valid user
         
-        // show activity
+        // Show activity
         profileActivity.startAnimating()
         profileActivity.hidden = false
         
         if ref.authData == nil {
             super.showLogin()
         } else {
-            // get user data to fields
-            let usersRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
-            usersRef.observeEventType(.Value, withBlock: { (snapshot) -> Void in
+            // Get user data to fields
+            usersRef = ref.childByAppendingPath("users/\(ref.authData.uid)").observeEventType(.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
-                self.profileData = snapshot
-                self.firstNameFld.text = self.profileData.value.objectForKey("first_name") as? String
-                self.lastNameFld.text = self.profileData.value.objectForKey("last_name") as? String
-                self.emailFld.text = self.profileData.value.objectForKey("email_address") as? String
+                self.firstNameFld.text = snapshot.value.objectForKey("first_name") as? String
+                self.lastNameFld.text = snapshot.value.objectForKey("last_name") as? String
+                self.emailFld.text = snapshot.value.objectForKey("email_address") as? String
+                
+                self.user = Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.firstNameFld.text! as String, currentLastName: self.lastNameFld.text! as String)
                 
                 // hide the activity
                 self.profileActivity.stopAnimating()
                 self.profileActivity.hidden = true;
             })
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        
+        // Remove observer
+        ref.removeObserverWithHandle(usersRef)
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -69,113 +79,71 @@ class ProfileViewController: MMCustomViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Actions
     @IBAction func saveProfileData(sender: AnyObject) {
         
-        var dataToSend = [String: String]()
-        let currentEmail = profileData.value.objectForKey("email_address") as? String
-        
         if newPasswdFld.text == "" {
-            if let first_name = firstNameFld.text {
-                dataToSend["first_name"] = first_name
-            }
             
-            if let last_name = lastNameFld.text {
-                dataToSend["last_name"] = last_name
-            }
-            
-            if emailFld.text != currentEmail {
-                //check for passwd
+            if emailFld.text != user.currentEmail {
+                // Check for passwd
                 if currPasswdFld.text == "" {
                     let passwdError = UIAlertView(title: "Error", message: "Please enter your current password to change your email", delegate: nil, cancelButtonTitle: "OK")
                     passwdError.show()
                 } else {
-                    
-                    // change user email
-                    ref.changeEmailForUser(currentEmail, password: currPasswdFld.text,
-                        toNewEmail: emailFld.text, withCompletionBlock: { error in
-                            if error != nil {
-                                // There was an error processing the request
-                                let emailError = UIAlertView(title: "Error", message: "There was an error changing your email, please try again", delegate: nil, cancelButtonTitle: "OK")
-                                emailError.show()
-                            } else {
-                                // Email changed successfully
-                                if let email_address = self.emailFld.text {
-                                    dataToSend["email_address"] = email_address
-                                    self.updateProfileData(dataToSend)
-                                }
-                            }
-                    })
-                    
+                    // Change email for user
+                    user.changeEmailForUser(currPasswdFld.text!, newEmail: emailFld.text!) {(error: Bool) in
+                        if error {
+                            let emailError = UIAlertView(title: "Error", message: "There was an error changing your email, please try again", delegate: nil, cancelButtonTitle: "OK")
+                            emailError.show()
+                        } else {
+                            let emailSuccess = UIAlertView(title: "Success", message: "Your email has been updated", delegate: nil, cancelButtonTitle: "OK")
+                            emailSuccess.show()
+                            self.currPasswdFld.text = ""
+                        }
+                    }
                     
                 }
                 
             } else {
-                dataToSend["email_address"] = currentEmail
-                updateProfileData(dataToSend)
+                // Update Profile information for user
+                user.currentEmail = emailFld.text!
+                user.currentFirstName = firstNameFld.text!
+                user.currentLastName = lastNameFld.text!
+                user.updateProfileData({ (error) -> Void in
+                    if !error {
+                        let profileMsg = UIAlertView(title: "Success!", message: "Your profile information has been updated.", delegate: nil, cancelButtonTitle: "OK")
+                        profileMsg.show()
+                    }
+                })
             }
 
         }
         
-        // passwd reset
+        // Passwd reset
         if currPasswdFld.text != "" && newPasswdFld.text != "" {
             
-            // update passwd
-            ref.changePasswordForUser(currentEmail, fromOld: currPasswdFld.text,
-                toNew: newPasswdFld.text, withCompletionBlock: { error in
-                    if error != nil {
-                        // There was an error processing the request
-                        let passwdError = UIAlertView(title: "Error", message: "There was an error changing your password", delegate: nil, cancelButtonTitle: "OK")
-                        passwdError.show()
-                    } else {
-                        // Password changed successfully
-                        let passwdMsg = UIAlertView(title: "Success!", message: "Your password has been changed.", delegate: nil, cancelButtonTitle: "OK")
-                        passwdMsg.show()
-                        self.currPasswdFld.text = ""
-                        self.newPasswdFld.text = ""
-                    }
+            // Update passwd
+            user.changeUserPassword(currPasswdFld.text!, newPassword: newPasswdFld.text!, completion: { (error) -> Void in
+                if error {
+                    // There was an error processing the request
+                    let passwdError = UIAlertView(title: "Error", message: "There was an error changing your password", delegate: nil, cancelButtonTitle: "OK")
+                    passwdError.show()
+                } else {
+                    // Password changed successfully
+                    let passwdMsg = UIAlertView(title: "Success!", message: "Your password has been changed.", delegate: nil, cancelButtonTitle: "OK")
+                    passwdMsg.show()
+                    self.currPasswdFld.text = ""
+                    self.newPasswdFld.text = ""
+                }
             })
             
-        }
-        
-    }
-    
-    func updateProfileData(dataToUpdate: [String: String]) {
-        
-        if dataToUpdate.count > 0 {
-            let profileRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
-            profileRef.setValue(dataToUpdate)
-            
-            let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
-            
-            registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
-                
-                // apply the token, to identify this device
-                clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
-                
-                clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
-                clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
-                
-                // --optional config--
-                // set some 'useful' hardware information params
-                clientInfo.alias = dataToUpdate["email_address"]
-                self.userDefaults.setValue(dataToUpdate["email_address"], forKey: "storedUserEmail")
-                
-                }, success: {
-                    print("device alias updated");
-                    
-                }, failure: { (error:NSError!) -> () in
-                    print("device alias update error: \(error.localizedDescription)")
-            })
-            
-            let profileMsg = UIAlertView(title: "Success!", message: "Your profile information has been updated.", delegate: nil, cancelButtonTitle: "OK")
-            profileMsg.show()
         }
         
     }
     
     @IBAction func logoutAction(sender: UIButton) {
         
-        // kill firebase session
+        // Kill firebase session
         ref.unauth()
         self.dismissViewControllerAnimated(true, completion: nil)
         

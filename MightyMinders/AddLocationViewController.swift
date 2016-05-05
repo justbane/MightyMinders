@@ -39,7 +39,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
         locationManager.requestAlwaysAuthorization()
         
         // gesture setup for long press
-        let lpgr = UILongPressGestureRecognizer(target: self, action: "addPinAction:")
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(addPinAction))
         lpgr.minimumPressDuration = 2.0
         
         mapView.addGestureRecognizer(lpgr)
@@ -77,10 +77,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
         
     }
     
-    
-    
-    // Segues
-    
+    // MARK: Segues
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         
         // check to see if segue should happen (have they selected a location?
@@ -99,12 +96,10 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
     }
     
     
-    
-    // Buton Actions
-    
+    // MARK: Button Actions
     func addPinAction(sender: UIGestureRecognizer) {
         
-        // catch long touch and add pin/annotation
+        // Catch long touch and add pin/annotation
         if sender.state != UIGestureRecognizerState.Began {
             return
         }
@@ -126,7 +121,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
             //no annotation selected
             return;
         }
-        // set selected location info
+        // Set selected location info
         if let annotation = self.mapView?.selectedAnnotations[0] {
             
             let geoCoder = CLGeocoder()
@@ -168,8 +163,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
     }
     
     
-    // Search Functions
-    
+    // MARK: Search Functions
     @IBAction func searchFieldReturn(sender: AnyObject) {
         
         // Init search on map
@@ -232,8 +226,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
     
     
     
-    // Location manager fence events
-    
+    // MARK: Location Manager
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedAlways || status == .AuthorizedWhenInUse {
             locationManager.startUpdatingLocation()
@@ -261,13 +254,12 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
     
     
     
-    // MARK - required methods
-    
+    // MARK: Required Methods
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
         // Draw map view and setup the annotation buttons and handler
         if annotation is MKUserLocation {
-            //return nil so map view draws "blue dot" for standard user location
+            // Return nil so map view draws "blue dot" for standard user location
             return nil
         }
         
@@ -285,7 +277,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
             let pinButton: UIButton = UIButton(type: UIButtonType.Custom)
             pinButton.frame = CGRectMake(32, 32, 32, 32)
             pinButton.setImage(pinIcon, forState: .Normal)
-            pinButton.addTarget(self, action: "pinButtonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+            pinButton.addTarget(self, action: #selector(pinButtonAction), forControlEvents: UIControlEvents.TouchUpInside)
             
             pinView!.rightCalloutAccessoryView = pinButton as UIView
             

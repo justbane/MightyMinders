@@ -34,6 +34,7 @@
 		3960ACB11B901CD50064B2BE /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */; };
 		3960ACB21B901CD50064B2BE /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C0A3AC1B76935C000A6CAD /* CustomView.swift */; };
 		3960ACB31B901CD50064B2BE /* AddRemoveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */; };
+		39713FE01C9F93BB00ADC5E7 /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39713FDF1C9F93BB00ADC5E7 /* Friends.swift */; };
 		397C5FB51AF1E7C40063E9DE /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C5FB41AF1E7C40063E9DE /* Colors.swift */; };
 		397E8D2A1B64247F0095B30D /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397E8D291B64247F0095B30D /* Logo.swift */; };
 		398D959E1B88FBAE00D85F40 /* FriendsRemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */; };
@@ -44,6 +45,7 @@
 		39962C221B8D865900E264E2 /* FindFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */; };
 		39AEAC8D1BAE2D5300E33F3E /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AEAC8C1BAE2D5300E33F3E /* libc++.1.dylib */; };
 		39AEAC8F1BAE2D7700E33F3E /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AEAC8E1BAE2D7700E33F3E /* libicucore.A.dylib */; };
+		39BA7D771C557B2E00790840 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BA7D761C557B2E00790840 /* Users.swift */; };
 		39CC99221BE07DE700F7F428 /* HTTPRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CC99211BE07DE700F7F428 /* HTTPRequests.swift */; };
 		39DEE9D21BEB1FE8007B5C67 /* GreenBack and FairOaks.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 39DEE9D11BEB1FE8007B5C67 /* GreenBack and FairOaks.gpx */; };
 		39E6E5C31AF32CAC0066B707 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E6E5C21AF32CAC0066B707 /* TextFields.swift */; };
@@ -122,6 +124,13 @@
 			remoteGlobalIDString = 6F71353019646266009B26D8;
 			remoteInfo = AeroGearPush;
 		};
+		39713FD71C9F76EC00ADC5E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6F71353C19646266009B26D8;
+			remoteInfo = AeroGearPushTests;
+		};
 		39958F851C30769B00F7CFA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39423FE01BE32DB700435724 /* Alamofire.xcodeproj */;
@@ -177,6 +186,7 @@
 		394E91E41B00FB3A00C701D3 /* AddLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		3955CF811B9FE48B0037FA91 /* AddFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendViewController.swift; sourceTree = "<group>"; };
 		39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AeroGearPush.xcodeproj; path = "aerogear-ios-push/AeroGearPush.xcodeproj"; sourceTree = "<group>"; };
+		39713FDF1C9F93BB00ADC5E7 /* Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
 		397C5FB41AF1E7C40063E9DE /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		397E8D291B64247F0095B30D /* Logo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsRemindViewController.swift; sourceTree = "<group>"; };
@@ -186,12 +196,13 @@
 		3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddRemoveButton.swift; path = ../CustomViews/AddRemoveButton.swift; sourceTree = "<group>"; };
 		39AEAC8C1BAE2D5300E33F3E /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
 		39AEAC8E1BAE2D7700E33F3E /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = ../../../../../../usr/lib/libicucore.A.dylib; sourceTree = "<group>"; };
+		39BA7D761C557B2E00790840 /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		39C0A3AC1B76935C000A6CAD /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomView.swift; path = ../CustomViews/CustomView.swift; sourceTree = "<group>"; };
 		39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomButton.swift; path = ../CustomViews/CustomButton.swift; sourceTree = "<group>"; };
 		39CC99211BE07DE700F7F428 /* HTTPRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequests.swift; sourceTree = "<group>"; };
 		39DEE9D11BEB1FE8007B5C67 /* GreenBack and FairOaks.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "GreenBack and FairOaks.gpx"; sourceTree = "<group>"; };
 		39E6E5C21AF32CAC0066B707 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
-		39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReminderViewController.swift; sourceTree = "<group>"; };
+		39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReminderViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		39F8E2A41BA4D51C00C1EA99 /* default.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = default.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -256,35 +267,12 @@
 			isa = PBXGroup;
 			children = (
 				39305A971AE9EF9300773849 /* AppDelegate.swift */,
-				3914414D1AEDE1FF00866679 /* RegisterViewController.swift */,
-				39305AB71AE9F6DE00773849 /* LoginViewController.swift */,
-				39305A991AE9EF9300773849 /* ViewController.swift */,
-				39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */,
-				394E91E41B00FB3A00C701D3 /* AddLocationViewController.swift */,
-				3955CF811B9FE48B0037FA91 /* AddFriendViewController.swift */,
-				394E81E21B52218A00C81664 /* ViewReminderViewController.swift */,
-				390F26B61BF2F1CF001D6D06 /* ListRemindersViewController.swift */,
-				394E71871B77F03C0053B47B /* RemindFriendsViewController.swift */,
-				398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */,
-				3913E32E1B7C5391003D1C69 /* FindFriendsViewController.swift */,
-				394E71891B77F9380053B47B /* ProfileViewController.swift */,
-				39305A9B1AE9EF9300773849 /* Main.storyboard */,
+				397558FE1CC33FD800F79038 /* Controllers */,
+				397559071CC3405C00F79038 /* Models */,
+				397559061CC3401700F79038 /* Views */,
 				39305A9E1AE9EF9300773849 /* Images.xcassets */,
-				39305AA01AE9EF9300773849 /* LaunchScreen.xib */,
 				39305A951AE9EF9300773849 /* Supporting Files */,
 				39305AC71AE9FE3100773849 /* MightyMinders-Bridging-Header.h */,
-				398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */,
-				39331AD61BA2945700625AF5 /* Minders.swift */,
-				39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */,
-				390F26BE1BF2FA77001D6D06 /* ListViewTableViewCell.swift */,
-				397C5FB41AF1E7C40063E9DE /* Colors.swift */,
-				39E6E5C21AF32CAC0066B707 /* TextFields.swift */,
-				3934F4911B38B50E00F395D2 /* Annotation.swift */,
-				397E8D291B64247F0095B30D /* Logo.swift */,
-				39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */,
-				39C0A3AC1B76935C000A6CAD /* CustomView.swift */,
-				3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */,
-				39CC99211BE07DE700F7F428 /* HTTPRequests.swift */,
 			);
 			path = MightyMinders;
 			sourceTree = "<group>";
@@ -332,8 +320,58 @@
 			isa = PBXGroup;
 			children = (
 				39589CAC1BCCBBF500D9D804 /* AeroGearPush.framework */,
+				39713FD81C9F76EC00ADC5E7 /* AeroGearPushTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		397558FE1CC33FD800F79038 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				39305A991AE9EF9300773849 /* ViewController.swift */,
+				3914414D1AEDE1FF00866679 /* RegisterViewController.swift */,
+				39305AB71AE9F6DE00773849 /* LoginViewController.swift */,
+				39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */,
+				394E91E41B00FB3A00C701D3 /* AddLocationViewController.swift */,
+				3955CF811B9FE48B0037FA91 /* AddFriendViewController.swift */,
+				394E81E21B52218A00C81664 /* ViewReminderViewController.swift */,
+				390F26B61BF2F1CF001D6D06 /* ListRemindersViewController.swift */,
+				394E71871B77F03C0053B47B /* RemindFriendsViewController.swift */,
+				398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */,
+				3913E32E1B7C5391003D1C69 /* FindFriendsViewController.swift */,
+				394E71891B77F9380053B47B /* ProfileViewController.swift */,
+				398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		397559061CC3401700F79038 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				39305AA01AE9EF9300773849 /* LaunchScreen.xib */,
+				39305A9B1AE9EF9300773849 /* Main.storyboard */,
+				39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */,
+				390F26BE1BF2FA77001D6D06 /* ListViewTableViewCell.swift */,
+				397E8D291B64247F0095B30D /* Logo.swift */,
+				39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */,
+				39C0A3AC1B76935C000A6CAD /* CustomView.swift */,
+				3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		397559071CC3405C00F79038 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3934F4911B38B50E00F395D2 /* Annotation.swift */,
+				39331AD61BA2945700625AF5 /* Minders.swift */,
+				39BA7D761C557B2E00790840 /* Users.swift */,
+				39713FDF1C9F93BB00ADC5E7 /* Friends.swift */,
+				397C5FB41AF1E7C40063E9DE /* Colors.swift */,
+				39E6E5C21AF32CAC0066B707 /* TextFields.swift */,
+				39CC99211BE07DE700F7F428 /* HTTPRequests.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -495,6 +533,13 @@
 			remoteRef = 39589CAB1BCCBBF500D9D804 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		39713FD81C9F76EC00ADC5E7 /* AeroGearPushTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AeroGearPushTests.xctest;
+			remoteRef = 39713FD71C9F76EC00ADC5E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -546,6 +591,8 @@
 				3955CF821B9FE48B0037FA91 /* AddFriendViewController.swift in Sources */,
 				398D95A21B8901AF00D85F40 /* MMCustomViewController.swift in Sources */,
 				394E718A1B77F9380053B47B /* ProfileViewController.swift in Sources */,
+				39713FE01C9F93BB00ADC5E7 /* Friends.swift in Sources */,
+				39BA7D771C557B2E00790840 /* Users.swift in Sources */,
 				39E6E5C31AF32CAC0066B707 /* TextFields.swift in Sources */,
 				394E81E31B52218A00C81664 /* ViewReminderViewController.swift in Sources */,
 				3913E32F1B7C5391003D1C69 /* FindFriendsViewController.swift in Sources */,
@@ -689,8 +736,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -703,7 +750,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e2a7a6ab-9dcb-4e48-af98-c85029ec462e";
+				PROVISIONING_PROFILE = "8b2e5c2f-9519-4966-a7f7-fe207dcae1f3";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -714,8 +761,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -728,7 +775,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e2a7a6ab-9dcb-4e48-af98-c85029ec462e";
+				PROVISIONING_PROFILE = "8b2e5c2f-9519-4966-a7f7-fe207dcae1f3";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 			};
 			name = Release;

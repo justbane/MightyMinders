@@ -15,9 +15,8 @@ import UIKit
     
     @IBInspectable var plusButton: Bool = true
     
-    /*
     // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation. */
+    // An empty implementation adversely affects performance during animation.
     
     override func drawRect(rect: CGRect) {
         
@@ -33,31 +32,30 @@ import UIKit
         let plusHeight: CGFloat = 3.0
         let plusWidth: CGFloat = min(bounds.width, bounds.height) * 0.6
         
-        // create the path
+        // Create the path
         let plusPath = UIBezierPath()
         
-        // set the path's line width to the height of the stroke
+        // Set the path's line width to the height of the stroke
         plusPath.lineWidth = plusHeight
         
-        // horizontal line
-        // move inital point of path to start of stroke
+        // Horizontal line
+        // Move inital point of path to start of stroke
         // then add point to path at end of stroke
         plusPath.moveToPoint(CGPoint(x: bounds.width/2 - plusWidth/2 + 0.5, y: bounds.height/2 + 0.5))
         plusPath.addLineToPoint(CGPoint(x: bounds.width/2 + plusWidth/2 + 0.5, y: bounds.height/2 + 0.5))
         
-        // vertical Line
+        // Vertical Line
         if plusButton {
             plusPath.moveToPoint(CGPoint(x: bounds.width/2 + 0.5, y: bounds.height/2 - plusWidth/2 + 0.5))
             plusPath.addLineToPoint(CGPoint(x: bounds.width/2 + 0.5, y: bounds.height/2 + plusWidth/2 + 0.5))
         }
         
         
-        // draw :)
+        // Draw :)
         UIColor.whiteColor().setStroke()
         plusPath.stroke()
         
     }
     
-    
+    // End Class
 }
-

@@ -39,7 +39,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         if ref.authData != nil {
-            // user authenticated with Firebase
+            // User authenticated with Firebase
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
@@ -49,6 +49,7 @@ class LoginViewController: UIViewController {
         super.touchesBegan(touches, withEvent: event)
     }
     
+    // MARK: Login action
     @IBAction func doLogin(sender: AnyObject) {
         activity.hidden = false
         ref.authUser(emailFld.text, password: passFld.text,
@@ -76,23 +77,21 @@ class LoginViewController: UIViewController {
                             self.errorTxt.text = "Error: unknown error"
                             
                         }
-                        
                     }
                 } else {
                     // We are now logged in
-                    
                     let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
                     
                     registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
                         
-                        // apply the token, to identify this device
+                        // Apply the token, to identify this device
                         clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
                         
                         clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
                         clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
                         
                         // --optional config--
-                        // set some 'useful' hardware information params
+                        // Set some 'useful' hardware information params
                         clientInfo.alias = self.ref.authData.providerData["email"] as? String
                         self.userDefaults.setValue(self.ref.authData.providerData["email"] as? String, forKey: "storedUserEmail")
                         
@@ -111,6 +110,7 @@ class LoginViewController: UIViewController {
         
     }
     
+    // MARK: Forgot password action
     @IBAction func forgetPasswdAction(sender: AnyObject) {
         
         if emailFld.text != "" {

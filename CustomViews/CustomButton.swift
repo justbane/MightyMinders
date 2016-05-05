@@ -86,5 +86,6 @@ import UIKit
     var gradientLayer: CAGradientLayer {
         return layer as! CAGradientLayer
     }
-
+    
+    // End class
 }

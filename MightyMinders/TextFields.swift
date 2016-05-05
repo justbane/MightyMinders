@@ -24,4 +24,6 @@ class MMTextField : UITextField {
         newBounds.origin.x += leftMargin
         return newBounds
     }
+    
+    // End class
 }
