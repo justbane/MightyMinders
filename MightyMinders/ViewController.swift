@@ -162,9 +162,9 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                 showLogin()
                 reminderKeys.removeAll(keepCapacity: false)
                 totalMindersLbl.text = "0"
+                
                 // Cancel the notifications
                 UIApplication.sharedApplication().cancelAllLocalNotifications()
-                
             }
         }
     }
@@ -328,6 +328,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                 // Add to map
                 mapView.addAnnotation(annotation)
                 addRadiusOverlayForMinder(annotation)
+                
                 // Add to keys
                 reminderKeys.insert(annotation.key)
                 
@@ -373,8 +374,10 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                     removeRef.removeValueWithCompletionBlock({ (error, Firebase) -> Void in
                         if error == nil {
                             self.removePinAndOverlay(minderAnnotation)
+                            
                             // Remove the key
                             self.reminderKeys.remove(key)
+                            
                             // Update total
                             self.totalMindersLbl.text = String(self.reminderKeys.count)
                             
