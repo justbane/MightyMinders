@@ -608,5 +608,10 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         return circleRenderer
         
     }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
 }
 

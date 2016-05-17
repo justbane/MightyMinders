@@ -25,9 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         application.setStatusBarStyle(UIStatusBarStyle.Default, animated: false)
         
-        // Clear all the notifications on first run (if logged in getMinders will re-add from FB)
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
-        
         // Actions
         let addMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
         addMinderAction.identifier = "ADD_MINDER"
