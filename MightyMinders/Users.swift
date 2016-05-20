@@ -55,38 +55,19 @@ class Users: User {
     // MARK: Uodate user profile
     func updateProfileData(completion: (error: Bool) -> Void) {
         
-            let dataToUpdate = [
-                "email_address": currentEmail,
-                "first_name": currentFirstName,
-                "last_name": currentLastName
-            ]
+        let dataToUpdate = [
+            "email_address": currentEmail,
+            "first_name": currentFirstName,
+            "last_name": currentLastName
+        ]
         
-            let profileRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
-            profileRef.setValue(dataToUpdate)
-            
-            let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
-            
-            registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
-                
-                // Apply the token, to identify this device
-                clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
-                
-                clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
-                clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
-                
-                // Optional config --
-                // Set some 'useful' hardware information params
-                clientInfo.alias = dataToUpdate["email_address"]
-                self.userDefaults.setValue(dataToUpdate["email_address"], forKey: "storedUserEmail")
-                
-                }, success: {
-                    print("device alias updated");
-                    
-                }, failure: { (error:NSError!) -> () in
-                    print("device alias update error: \(error.localizedDescription)")
-            })
-            
-            completion(error: false)
+        let profileRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
+        profileRef.setValue(dataToUpdate)
+        
+        // Update the APNS alias
+        APNS().updateAlias(dataToUpdate["email_address"]!)
+        
+        completion(error: false)
         
     }
     

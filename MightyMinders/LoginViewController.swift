@@ -80,28 +80,9 @@ class LoginViewController: UIViewController {
                     }
                 } else {
                     // We are now logged in
-                    let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
                     
-                    registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
-                        
-                        // Apply the token, to identify this device
-                        clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
-                        
-                        clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
-                        clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
-                        
-                        // --optional config--
-                        // Set some 'useful' hardware information params
-                        clientInfo.alias = self.ref.authData.providerData["email"] as? String
-                        self.userDefaults.setValue(self.ref.authData.providerData["email"] as? String, forKey: "storedUserEmail")
-                        
-                        }, success: {
-                            print("device alias updated");
-                            
-                        }, failure: { (error:NSError!) -> () in
-                            print("device alias update error: \(error.localizedDescription)")
-                    })
-                    
+                    // Update the APNS Alias
+                    APNS().updateAlias((self.ref.authData.providerData["email"] as? String)!)
                     
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }

@@ -19,7 +19,7 @@ class MMCustomViewController: UIViewController {
         if let navControl = navigationController  {
             navigationItem.titleView = Logo(imgName: "MightyMinders", navController: navControl).getLogoImage()
         }
-        
+                
     }
 
     override func didReceiveMemoryWarning() {
