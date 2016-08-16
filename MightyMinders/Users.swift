@@ -13,7 +13,7 @@ protocol User {}
 
 class Users: User {
     
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     var currentEmail: String
@@ -32,22 +32,20 @@ class Users: User {
     func changeEmailForUser(password: String, newEmail: String, completion: (error: Bool) -> Void) {
         
         // Change user email
-        ref.changeEmailForUser(self.currentEmail, password: password, toNewEmail: newEmail, withCompletionBlock: { error in
-            
-                if error != nil {
-                    // There was an error processing the request
-                    completion(error: true)
-                } else {
-                    // Email changed successfully
-                    self.currentEmail = newEmail
-                    self.updateProfileData({ (error) -> Void in
-                        if error {
-                            // FIXME: alert an error
-                        }
-                    })
-                    completion(error: false)
-                }
-        
+        FIRAuth.auth()?.currentUser?.updateEmail(self.currentEmail, completion: { (error) in
+            if error != nil {
+                // There was an error processing the request
+                completion(error: true)
+            } else {
+                // Email changed successfully
+                self.currentEmail = newEmail
+                self.updateProfileData({ (error) -> Void in
+                    if error {
+                        // FIXME: alert an error
+                    }
+                })
+                completion(error: false)
+            }
         })
         
     }
@@ -61,7 +59,7 @@ class Users: User {
             "last_name": currentLastName
         ]
         
-        let profileRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
+        let profileRef = self.ref.child("users/\(FIRAuth.auth()?.currentUser?.uid)")
         profileRef.setValue(dataToUpdate)
         
         // Update the APNS alias
@@ -74,13 +72,12 @@ class Users: User {
     // MARK: Update user password
     func changeUserPassword(oldPassword: String, newPassword: String, completion: (error: Bool) -> Void) {
         
-        ref.changePasswordForUser(self.currentEmail, fromOld: oldPassword,
-            toNew: newPassword, withCompletionBlock: { error in
-                if error != nil {
-                    completion(error: true)
-                } else {
-                    completion(error: false)
-                }
+        FIRAuth.auth()?.currentUser?.updatePassword(self.currentEmail, completion: { (error) in
+            if error != nil {
+                completion(error: true)
+            } else {
+                completion(error: false)
+            }
         })
         
     }

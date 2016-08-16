@@ -10,10 +10,10 @@ import UIKit
 
 class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     
     var searchActive: Bool = false;
-    var friendData: [FDataSnapshot!] = []
+    var friendData: [FIRDataSnapshot!] = []
     var searchDataCount: Int = 0
     var currentFriends = Set<String>()
     
@@ -40,7 +40,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         // Get current friends
         Friends().getFriendKeysThatRemindMe { (friendsRemindMe) -> Void in
             let enumerator = friendsRemindMe.children
-            while let data = enumerator.nextObject() as? FDataSnapshot {
+            while let data = enumerator.nextObject() as? FIRDataSnapshot {
                 //println(data.key)
                 self.currentFriends.insert(data.key)
             }
@@ -54,7 +54,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         // Hide the activity
         self.searchActivity.hidden = true
         
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         }
     }
@@ -127,7 +127,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
             
             // Search users by email
             Friends().searchFriendsByEmail(searchText, completion: { (usersFound) -> Void in
-                if usersFound.value.count != nil {
+                if usersFound.value!.count != nil {
                     
                     // Remove data from array and reset count
                     self.friendData.removeAll(keepCapacity: false)
@@ -135,8 +135,8 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
                     
                     // Iterate the results and add to array
                     let enumerator = usersFound.children
-                    while let data = enumerator.nextObject() as? FDataSnapshot {
-                        if data.key != self.ref.authData.uid && !self.currentFriends.contains(data.key) {
+                    while let data = enumerator.nextObject() as? FIRDataSnapshot {
+                        if data.key != (FIRAuth.auth()?.currentUser?.uid)! && !self.currentFriends.contains(data.key) {
                             self.friendData.append(data)
                         }
                         //println(data);
@@ -183,17 +183,17 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         
         var name : String = ""
         
-        if let firstName = friendData[indexPath.row].value.valueForKey("first_name") as? NSString {
+        if let firstName = friendData[indexPath.row].value!.valueForKey("first_name") as? NSString {
             name += firstName as String
         }
         
-        if let lastName = friendData[indexPath.row].value.valueForKey("last_name") as? NSString {
+        if let lastName = friendData[indexPath.row].value!.valueForKey("last_name") as? NSString {
             name += " \(lastName)"
         }
         
         (cell.contentView.viewWithTag(101) as! UILabel).text = name
         
-        if let email = friendData[indexPath.row].value.valueForKey("email_address") as? NSString {
+        if let email = friendData[indexPath.row].value!.valueForKey("email_address") as? NSString {
             (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
         }
         

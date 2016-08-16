@@ -11,7 +11,7 @@ import AeroGearPush
 
 class ProfileViewController: MMCustomViewController {
     
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     var user: Users!
     var usersRef: UInt!
     
@@ -39,15 +39,15 @@ class ProfileViewController: MMCustomViewController {
         profileActivity.startAnimating()
         profileActivity.hidden = false
         
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         } else {
             // Get user data to fields
-            usersRef = ref.childByAppendingPath("users/\(ref.authData.uid)").observeEventType(.Value, withBlock: { (snapshot) -> Void in
+            usersRef = ref.child("users/\(FIRAuth.auth()?.currentUser?.uid)").observeEventType(.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
-                self.firstNameFld.text = snapshot.value.objectForKey("first_name") as? String
-                self.lastNameFld.text = snapshot.value.objectForKey("last_name") as? String
-                self.emailFld.text = snapshot.value.objectForKey("email_address") as? String
+                self.firstNameFld.text = snapshot.value!.objectForKey("first_name") as? String
+                self.lastNameFld.text = snapshot.value!.objectForKey("last_name") as? String
+                self.emailFld.text = snapshot.value!.objectForKey("email_address") as? String
                 
                 self.user = Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.firstNameFld.text! as String, currentLastName: self.lastNameFld.text! as String)
                 
@@ -144,7 +144,13 @@ class ProfileViewController: MMCustomViewController {
     @IBAction func logoutAction(sender: UIButton) {
         
         // Kill firebase session
-        ref.unauth()
+        do {
+            try FIRAuth.auth()!.signOut()
+        } catch FIRAuthErrorCode.ErrorCodeKeychainError {
+            print("Keychain Error")
+        } catch {
+            print("Unknown Error")
+        }
         self.dismissViewControllerAnimated(true, completion: nil)
         
     }

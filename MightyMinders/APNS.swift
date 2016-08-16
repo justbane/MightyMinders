@@ -12,7 +12,7 @@ import AeroGearPush
 
 class APNS {
     
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     let url: String
@@ -71,8 +71,9 @@ class APNS {
             clientInfo.osVersion = currentDevice.systemVersion
             clientInfo.deviceType = currentDevice.model
             
-            if let email = self.ref.authData.providerData["email"] as? String {
-                clientInfo.alias = email
+            let email = FIRAuth.auth()?.currentUser?.email
+            if  email != nil {
+                clientInfo.alias = email!
             }
             
             }, success: {

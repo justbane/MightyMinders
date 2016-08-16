@@ -12,14 +12,13 @@ import CoreLocation
 
 class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
-    
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     let locationManager: CLLocationManager = CLLocationManager()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
-    var privateData: FDataSnapshot!
-    var sharedData: FDataSnapshot!
-    var sharedByData: FDataSnapshot!
+    var privateData: FIRDataSnapshot!
+    var sharedData: FIRDataSnapshot!
+    var sharedByData: FIRDataSnapshot!
     var reminderKeys = Set<String>()
     var currentLocation: CLLocation!
     
@@ -53,7 +52,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         // println("Updates viewDidAppear fired")
         
         // Check for valid user
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         } else {
             // Get the reminders
@@ -158,7 +157,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     @IBAction func unwindFromProfileView(segue: UIStoryboardSegue) {
         if segue.identifier == "LogoutUnwindSegue" {
             // Check for valid user
-            if ref.authData == nil {
+            if FIRAuth.auth()?.currentUser == nil {
                 showLogin()
                 reminderKeys.removeAll(keepCapacity: false)
                 totalMindersLbl.text = "0"
@@ -205,12 +204,12 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         removeAllAnnotationAndOverlays()
         
         self.startActivity()
-        if ref.authData != nil {
+        if FIRAuth.auth()?.currentUser != nil {
 
             // Private minders
             Minders().getPrivateMinders({ (privateReminders) in
                 self.privateData = privateReminders
-                if self.privateData!.value.count != nil {
+                if self.privateData!.value!.count != nil {
                     self.updateReminders("private")
                 } else {
                     self.stopActivity()
@@ -220,7 +219,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // Shared minders
             Minders().getSharedReminders({ (sharedReminders) in
                 self.sharedData = sharedReminders
-                if self.sharedData!.value.count != nil {
+                if self.sharedData!.value!.count != nil {
                     self.updateReminders("shared")
                 } else {
                     self.stopActivity()
@@ -230,7 +229,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // Set for you (removal)
             Minders().listenForRemindersRemovedForMe({ (remindersRemovedForMe) in
                 // Remove the offending minders
-                if remindersRemovedForMe.value.count != nil {
+                if remindersRemovedForMe.value!.count != nil {
                     self.removeMinder(remindersRemovedForMe.key)
                 } else {
                     self.stopActivity()
@@ -241,7 +240,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // Set by you
             Minders().getRemindersSetByYou({ (remindersSetByYou) in
                 self.sharedByData = remindersSetByYou
-                if self.sharedByData!.value.count != nil {
+                if self.sharedByData!.value!.count != nil {
                     self.updateReminders("shared-set-by")
                 } else {
                     self.stopActivity()
@@ -250,7 +249,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             
             // Set by you (removal)
             Minders().listenForRemindersRemovedByMe({ (remindersRemovedByMe) in
-                if remindersRemovedByMe.value.count != nil {
+                if remindersRemovedByMe.value!.count != nil {
                     self.removeMinder(remindersRemovedByMe.key)
                 } else {
                     self.stopActivity()
@@ -335,7 +334,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                 let region = self.regionWithMinder(annotation)
                 
                 // Set localNotification
-                if annotation.setFor == ref.authData.uid {
+                if annotation.setFor == FIRAuth.auth()?.currentUser?.uid {
                     let ln:UILocalNotification = UILocalNotification()
                     ln.alertAction = annotation.title
                     ln.alertBody = annotation.content
@@ -364,11 +363,11 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             if let minderAnnotation = annotation as? Annotation {
                 if minderAnnotation.key == key {
                     
-                    var removeRef = ref.childByAppendingPath("minders/\(ref.authData.uid)/private/\(key)")
-                    // If shared minder
+                    var removeRef = ref.child("minders/\(FIRAuth.auth()?.currentUser?.uid)/private/\(key)")
                     
+                    // If shared minder
                     if minderAnnotation.type == "shared" {
-                        removeRef = ref.childByAppendingPath("shared-minders/\(key)")
+                        removeRef = ref.child("shared-minders/\(key)")
                     }
                     
                     removeRef.removeValueWithCompletionBlock({ (error, Firebase) -> Void in
@@ -422,7 +421,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     // MARK: Send complete notification
     func sendCompleteNotification(userMinder: Annotation) {
         
-        if ref.authData.uid as String != userMinder.setBy {
+        if (FIRAuth.auth()?.currentUser?.uid)! as String != userMinder.setBy {
             
             let restReq = HTTPRequests()
             let setBy = userMinder.setBy
@@ -432,16 +431,16 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             var senderName: String = "Someone"
             
             // Get sender profile data
-            let setByRef = self.ref.childByAppendingPath("users/\(setFor)")
+            let setByRef = self.ref.child("users/\(setFor)")
             setByRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                let first_name: String = snapshot.value.objectForKey("first_name") as! String
-                let last_name: String = snapshot.value.objectForKey("last_name") as! String
+                let first_name: String = snapshot.value!.objectForKey("first_name") as! String
+                let last_name: String = snapshot.value!.objectForKey("last_name") as! String
                 senderName = "\(first_name) \(last_name)"
                 
                 // Go reciever profile
-                let setForRef = self.ref.childByAppendingPath("users/\(setBy)")
+                let setForRef = self.ref.child("users/\(setBy)")
                 setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                    let email: String = snapshot.value.objectForKey("email_address") as! String
+                    let email: String = snapshot.value!.objectForKey("email_address") as! String
                     
                     let data: [String: [String: AnyObject]] = [
                         "message": [
@@ -578,7 +577,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // This is for pin view - requires different object type
             // pinView!.pinColor = annotation.pinColor()
             
-            if annotation.setFor != ref.authData.uid || annotation.type == "private" {
+            if annotation.setFor != (FIRAuth.auth()?.currentUser?.uid)! || annotation.type == "private" {
                 let completeIcon = UIImage(named: "edit-notepad.png")
                 let completeButton: UIButton = UIButton(type: UIButtonType.Custom)
                 completeButton.frame = CGRectMake(32, 32, 32, 32)

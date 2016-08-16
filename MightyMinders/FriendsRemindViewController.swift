@@ -10,9 +10,9 @@ import UIKit
 
 class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, UITableViewDataSource {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
-    var friendData: [FDataSnapshot!] = []
+    var friendData: [FIRDataSnapshot!] = []
     var friendKeys: [String] = []
     
     @IBOutlet weak var tableView: UITableView!
@@ -36,7 +36,7 @@ class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, 
         friendsActivity.startAnimating()
         friendsActivity.hidden = false
         
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         } else {
             // Get the friend keys
@@ -50,7 +50,7 @@ class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, 
                 self.tableView.reloadData()
                 
                 // Iterate over data
-                while let data = enumerator.nextObject() as? FDataSnapshot {
+                while let data = enumerator.nextObject() as? FIRDataSnapshot {
                     self.friendKeys.append(data.key)
                 }
                 // Get friends
@@ -125,17 +125,17 @@ class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, 
         
         var name : String = ""
         
-        if let firstName = friendData[indexPath.row].value.valueForKey("first_name") as? NSString {
+        if let firstName = friendData[indexPath.row].value!.valueForKey("first_name") as? NSString {
             name += firstName as String
         }
         
-        if let lastName = friendData[indexPath.row].value.valueForKey("last_name") as? NSString {
+        if let lastName = friendData[indexPath.row].value!.valueForKey("last_name") as? NSString {
             name += " \(lastName)"
         }
         
         (cell.contentView.viewWithTag(101) as! UILabel).text = name
         
-        if let email = friendData[indexPath.row].value.valueForKey("email_address") as? NSString {
+        if let email = friendData[indexPath.row].value!.valueForKey("email_address") as? NSString {
             (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
         }
         

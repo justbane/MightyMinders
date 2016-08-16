@@ -9,11 +9,12 @@
 import UIKit
 import CoreLocation
 import AeroGearPush
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     let environment = "prod"
     
@@ -21,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var reminderKeys = [String]()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        // New Firebase
+        FIRApp.configure()
         
         // Override point for customization after application launch.
         application.setStatusBarStyle(UIStatusBarStyle.Default, animated: false)

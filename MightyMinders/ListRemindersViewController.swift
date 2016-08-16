@@ -10,10 +10,10 @@ import UIKit
 
 class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, UITableViewDataSource {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
-    var reminderData: [FDataSnapshot!] = []
-    var theirReminderData: [FDataSnapshot!] = []
+    var reminderData: [FIRDataSnapshot!] = []
+    var theirReminderData: [FIRDataSnapshot!] = []
     var reminderKeys = Set<String>()
     var selectedReminder: [String: Double]!
     let sectionsInTable = ["Set For You", "Set for Friends"]
@@ -42,7 +42,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
     
     override func viewDidAppear(animated: Bool) {
         // Check for valid user
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         }
     }
@@ -58,7 +58,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         // Private reminders
         Minders().getPrivateMinders { (privateReminders) -> Void in
             let enumerator = privateReminders.children
-            while let data = enumerator.nextObject() as? FDataSnapshot {
+            while let data = enumerator.nextObject() as? FIRDataSnapshot {
                 //print(data.key)
                 if !self.reminderKeys.contains(data.key) {
                     self.reminderKeys.insert(data.key)
@@ -71,7 +71,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         // Shared minders
         Minders().getSharedReminders { (sharedReminders) -> Void in
             let enumerator = sharedReminders.children
-            while let data = enumerator.nextObject() as? FDataSnapshot {
+            while let data = enumerator.nextObject() as? FIRDataSnapshot {
                 //print(data.key)
                 if !self.reminderKeys.contains(data.key) {
                     self.reminderKeys.insert(data.key)
@@ -84,7 +84,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         // Set by you        
         Minders().getRemindersSetByYou { (remindersSetByYou) -> Void in
             let enumerator = remindersSetByYou.children
-            while let data = enumerator.nextObject() as? FDataSnapshot {
+            while let data = enumerator.nextObject() as? FIRDataSnapshot {
                 //print(data.key)
                 if !self.reminderKeys.contains(data.key) {
                     self.reminderKeys.insert(data.key)
@@ -181,7 +181,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
         if reminderData.count > 0 && indexPath.section == 0 {
-            let reminders = reminderData[indexPath.row].value.valueForKey("location")
+            let reminders = reminderData[indexPath.row].value!.valueForKey("location")
             if let location = reminders {
                 cell.viewBtn.locationData = [
                     "latitude": (location.valueForKey("latitude") as? Double)!,
@@ -200,7 +200,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         }
         
         if theirReminderData.count > 0 && indexPath.section == 1 {
-            let reminders = theirReminderData[indexPath.row].value.valueForKey("location")
+            let reminders = theirReminderData[indexPath.row].value!.valueForKey("location")
             if let location = reminders {
                 cell.viewBtn.locationData = [
                     "latitude": (location.valueForKey("latitude") as? Double)!,

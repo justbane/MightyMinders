@@ -10,9 +10,9 @@ import UIKit
 
 class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, UITableViewDataSource {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
-    var friendData: [FDataSnapshot!] = []
+    var friendData: [FIRDataSnapshot!] = []
     var friendKeys: [String] = []
     var selectedFriend: [String: String]!
     
@@ -37,7 +37,7 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
         friendsActivity.startAnimating()
         friendsActivity.hidden = false
         
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         } else {
             // Get friends keys
@@ -51,7 +51,7 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
                 self.tableView.reloadData()
                 
                 // Iterate over data
-                while let data = enumerator.nextObject() as? FDataSnapshot {
+                while let data = enumerator.nextObject() as? FIRDataSnapshot {
                     self.friendKeys.append(data.key)
                 }
                 // Get friends
@@ -122,23 +122,23 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
         // Cell button setup
         cell.addBtn.actionData = [
             "id": friendData[indexPath.row].key,
-            "first_name": friendData[indexPath.row].value.valueForKey("first_name") as! String,
-            "last_name": friendData[indexPath.row].value.valueForKey("last_name") as! String
+            "first_name": friendData[indexPath.row].value!.valueForKey("first_name") as! String,
+            "last_name": friendData[indexPath.row].value!.valueForKey("last_name") as! String
         ]
         
         var name : String = ""
         
-        if let firstName = friendData[indexPath.row].value.valueForKey("first_name") as? NSString {
+        if let firstName = friendData[indexPath.row].value!.valueForKey("first_name") as? NSString {
             name += firstName as String
         }
         
-        if let lastName = friendData[indexPath.row].value.valueForKey("last_name") as? NSString {
+        if let lastName = friendData[indexPath.row].value!.valueForKey("last_name") as? NSString {
             name += " \(lastName)"
         }
         
         (cell.contentView.viewWithTag(101) as! UILabel).text = name
         
-        if let email = friendData[indexPath.row].value.valueForKey("email_address") as? NSString {
+        if let email = friendData[indexPath.row].value!.valueForKey("email_address") as? NSString {
             (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
         }
         

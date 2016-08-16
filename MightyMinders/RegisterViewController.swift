@@ -11,7 +11,7 @@ import AeroGearPush
 
 class RegisterViewController: UIViewController, UITextFieldDelegate {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com")
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     @IBOutlet weak var emailFld: UITextField!
@@ -116,22 +116,22 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     // MARK: Actions
     @IBAction func doRegistration(sender: AnyObject) {
         activity.hidden = false
-        if (validate() && ref.authData == nil) {
-            ref.createUser(emailFld.text, password: passFld.text,
-                withValueCompletionBlock: { error, result in
+        if (validate() && FIRAuth.auth()?.currentUser == nil) {
+            FIRAuth.auth()?.createUserWithEmail(emailFld.text!, password: passFld.text!,
+                completion: { (user, error) in
                     
                     if error != nil {
                         self.errorTxt.hidden = false
-                        if let errorCode = FAuthenticationError(rawValue: error.code) {
+                        if let errorCode = FIRAuthErrorCode(rawValue: error!.code) {
                             
                             switch(errorCode) {
                                 
-                            case .EmailTaken:
+                            case .ErrorCodeEmailAlreadyInUse:
                                 self.errorTxt.text = "Error: This email is already in use!"
                                 self.emailFld.layer.borderWidth = 1.0 as CGFloat
                                 self.emailFld.layer.borderColor = UIColor.redColor().CGColor
                                 
-                            case .InvalidEmail:
+                            case .ErrorCodeInvalidEmail:
                                 self.errorTxt.text = "Error: This email is invalid. Please follow the user@domain.com format."
                                 self.emailFld.layer.borderWidth = 1.0 as CGFloat
                                 self.emailFld.layer.borderColor = UIColor.redColor().CGColor
@@ -145,78 +145,46 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                         
                     } else {
                         
-                        if let _ = result["uid"] as? String {
+                        if user?.uid != nil {
                             
-                            self.ref.authUser(self.emailFld.text, password: self.passFld.text, withCompletionBlock: { error, authData in
+                            // We are now logged in
+                            let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
+                            
+                            registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
                                 
-                                if error != nil {
-                                    // There was an error logging in to this account
+                                // Apply the token, to identify this device
+                                clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
+                                
+                                clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
+                                clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
+                                
+                                // --optional config--
+                                // Set some 'useful' hardware information params
+                                clientInfo.alias = (user?.email)!
+                                self.userDefaults.setValue((user?.email)!, forKey: "storedUserEmail")
+                                
+                                }, success: {
+                                    print("device alias updated");
+                                    
+                                }, failure: { (error:NSError!) -> () in
+                                    print("device alias update error: \(error.localizedDescription)")
+                            })
+                            
+                            Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.fnameFld.text! as String, currentLastName: self.lnameFld.text! as String).updateProfileData({ (error) -> Void in
+                                if error {
+                                    
+                                    self.errorTxt?.text = "Error: Please fill in all fields!"
                                     self.errorTxt.hidden = false
-                                    if let errorCode = FAuthenticationError(rawValue: error.code) {
-                                        
-                                        switch(errorCode) {
-                                            
-                                        case .UserDoesNotExist:
-                                            self.errorTxt.text = "Error: Invalid user"
-                                            
-                                        case .InvalidCredentials:
-                                            self.errorTxt.text = "Error: Invalid email or password"
-                                            
-                                        case .InvalidEmail:
-                                            self.errorTxt.text = "Error: Invalid email or password"
-                                            
-                                        case .InvalidPassword:
-                                            self.errorTxt.text = "Error: Invalid email or password"
-                                            
-                                        default:
-                                            self.errorTxt.text = "Error: unknown error"
-                                            
-                                        }
-                                    }
                                     
                                 } else {
                                     
-                                    // We are now logged in
-                                    let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
+                                    self.errorTxt?.text = "Success"
+                                    self.errorTxt.textColor = UIColor.greenColor()
+                                    self.errorTxt.hidden = false
                                     
-                                    registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
-                                        
-                                        // Apply the token, to identify this device
-                                        clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
-                                        
-                                        clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
-                                        clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
-                                        
-                                        // --optional config--
-                                        // Set some 'useful' hardware information params
-                                        clientInfo.alias = self.ref.authData.providerData["email"] as? String
-                                        self.userDefaults.setValue(self.ref.authData.providerData["email"] as? String, forKey: "storedUserEmail")
-                                        
-                                        }, success: {
-                                            print("device alias updated");
-                                            
-                                        }, failure: { (error:NSError!) -> () in
-                                            print("device alias update error: \(error.localizedDescription)")
-                                    })
-                                    
-                                    Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.fnameFld.text! as String, currentLastName: self.lnameFld.text! as String).updateProfileData({ (error) -> Void in
-                                        if error {
-                                            
-                                            self.errorTxt?.text = "Error: Please fill in all fields!"
-                                            self.errorTxt.hidden = false
-                                    
-                                        } else {
-                                            
-                                            self.errorTxt?.text = "Success"
-                                            self.errorTxt.textColor = UIColor.greenColor()
-                                            self.errorTxt.hidden = false
-                                            
-                                            self.dismissViewControllerAnimated(true, completion: nil)
-                                        }
-                                        self.activity.hidden = true
-                                    })
+                                    self.dismissViewControllerAnimated(true, completion: nil)
                                 }
-                                
+                                self.activity.hidden = true
                             })
                             
                         }

@@ -10,7 +10,7 @@ import UIKit
 
 class ViewReminderViewController: MMCustomViewController {
     
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     
     var reminderText: String!
     var reminderIdentifier: String!
@@ -36,19 +36,19 @@ class ViewReminderViewController: MMCustomViewController {
         
         if !(selectedFriendFromView.isEmpty) {
             setByLbl.hidden = false
-            let friendRef = ref.childByAppendingPath("users/\(selectedFriendFromView)")
+            let friendRef = ref.child("users/\(selectedFriendFromView)")
             friendRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
                 // Set data from location controller
-                let first_name: String = snapshot.value.objectForKey("first_name") as! String
-                let last_name: String = snapshot.value.objectForKey("last_name") as! String
+                let first_name: String = snapshot.value!.objectForKey("first_name") as! String
+                let last_name: String = snapshot.value!.objectForKey("last_name") as! String
                 
-                if self.ref.authData.uid != self.selectedFriendFromView {
+                if (FIRAuth.auth()?.currentUser?.uid)! != self.selectedFriendFromView {
                     self.setByLbl.text = "Set for: \(first_name) \(last_name)"
                 } else {
-                    let setForRef = self.ref.childByAppendingPath("users/\(self.setByFromView)")
+                    let setForRef = self.ref.child("users/\(self.setByFromView)")
                     setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                        let first_name: String = snapshot.value.objectForKey("first_name") as! String
-                        let last_name: String = snapshot.value.objectForKey("last_name") as! String
+                        let first_name: String = snapshot.value!.objectForKey("first_name") as! String
+                        let last_name: String = snapshot.value!.objectForKey("last_name") as! String
                         self.setByLbl.text = "Set for you by: \(first_name) \(last_name)"
                     })
                 }
@@ -60,7 +60,7 @@ class ViewReminderViewController: MMCustomViewController {
     
     override func viewDidAppear(animated: Bool) {
         // Check for valid user
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         }
     }

@@ -12,7 +12,7 @@ import CoreLocation
 
 class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     var currentLocation: CLLocation!
     var selectedLocation = [String: AnyObject]()
     var matchingItems: [MKMapItem] = [MKMapItem]()
@@ -48,7 +48,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
     
     override func viewDidAppear(animated: Bool) {
         // check for valid user
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         }
     }

@@ -10,9 +10,9 @@ import UIKit
 
 class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
-    var friendData: [FDataSnapshot!] = []
+    var friendData: [FIRDataSnapshot!] = []
     var friendKeys: [String] = []
     var selectedFriend: [String: String]!
     
@@ -30,7 +30,7 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         tableView.separatorInset = UIEdgeInsetsZero
         
         // Get keys data
-        let canRemindKeys = ref.childByAppendingPath("friends/\(ref.authData.uid)/can-remind")
+        let canRemindKeys = ref.child("friends/\(FIRAuth.auth()?.currentUser?.uid)/can-remind")
         canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
             // Set object
             let enumerator = snapshot.children
@@ -41,7 +41,7 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
             self.tableView.reloadData()
             
             // Iterate over data
-            while let data = enumerator.nextObject() as? FDataSnapshot {
+            while let data = enumerator.nextObject() as? FIRDataSnapshot {
                 self.friendKeys.append(data.key)
             }
             // Get friends
@@ -52,7 +52,7 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
     
     override func viewDidAppear(animated: Bool) {
         // Check for valid user
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         }
     }
@@ -68,7 +68,7 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         if friendKeys.count > 0 {
             // Loop over firend IDs
             for uid in friendKeys {
-                let canRemindFriends = ref.childByAppendingPath("users/\(uid)")
+                let canRemindFriends = ref.child("users/\(uid)")
                 canRemindFriends.observeEventType(.Value, withBlock: { snapshot in
                     self.friendData.append(snapshot)
                     if self.friendData.count > 0 {
@@ -130,24 +130,24 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         // Cell button setup
         cell.addBtn.actionData = [
             "id": friendData[indexPath.row].key,
-            "first_name": friendData[indexPath.row].value.valueForKey("first_name") as! String,
-            "last_name": friendData[indexPath.row].value.valueForKey("last_name") as! String
+            "first_name": friendData[indexPath.row].value!.valueForKey("first_name") as! String,
+            "last_name": friendData[indexPath.row].value!.valueForKey("last_name") as! String
         ]
         cell.addBtn.addTarget(self, action: #selector(addFriendBtnAction), forControlEvents: .TouchUpInside)
         
         var name : String = ""
         
-        if let firstName = friendData[indexPath.row].value.valueForKey("first_name") as? NSString {
+        if let firstName = friendData[indexPath.row].value!.valueForKey("first_name") as? NSString {
             name += firstName as String
         }
         
-        if let lastName = friendData[indexPath.row].value.valueForKey("last_name") as? NSString {
+        if let lastName = friendData[indexPath.row].value!.valueForKey("last_name") as? NSString {
             name += " \(lastName)"
         }
         
         (cell.contentView.viewWithTag(101) as! UILabel).text = name
         
-        if let email = friendData[indexPath.row].value.valueForKey("email_address") as? NSString {
+        if let email = friendData[indexPath.row].value!.valueForKey("email_address") as? NSString {
             (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
         }
         

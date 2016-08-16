@@ -12,30 +12,30 @@ protocol Friend {}
 
 class Friends: Friend {
     
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     // MARK: Friends getters
-    func getFriends(uid: String, completion:(friendsData: FDataSnapshot) -> Void) {
+    func getFriends(uid: String, completion:(friendsData: FIRDataSnapshot) -> Void) {
         // Get friends
-        let canRemindFriends = ref.childByAppendingPath("users/\(uid)")
+        let canRemindFriends = ref.child("users/\(uid)")
         canRemindFriends.observeEventType(.Value, withBlock: { snapshot in
             completion(friendsData: snapshot)
         })
     }
     
-    func getFriendKeysICanRemind(completion: (friendsToRemind: FDataSnapshot) -> Void) {
+    func getFriendKeysICanRemind(completion: (friendsToRemind: FIRDataSnapshot) -> Void) {
         // Get friend keys
-        let canRemindKeys = ref.childByAppendingPath("friends/\(ref.authData.uid)/can-remind")
+        let canRemindKeys = ref.child("friends/\(FIRAuth.auth()?.currentUser?.uid)/can-remind")
         canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
             completion(friendsToRemind: snapshot)
         })
         
     }
     
-    func getFriendKeysThatRemindMe(completion:(friendsRemindMe: FDataSnapshot) -> Void) {
+    func getFriendKeysThatRemindMe(completion:(friendsRemindMe: FIRDataSnapshot) -> Void) {
         // Get friend keys
-        let canRemindKeys = ref.childByAppendingPath("friends/\(ref.authData.uid)/remind-me")
+        let canRemindKeys = ref.child("friends/\(FIRAuth.auth()?.currentUser?.uid)/remind-me")
         canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
             completion(friendsRemindMe: snapshot)
         })
@@ -43,19 +43,19 @@ class Friends: Friend {
     
     // MARK: Remove friends
     func removeFriendAccess(uid: String) {
-        let remindMeRef = ref.childByAppendingPath("friends/\(ref.authData.uid)/remind-me/\(uid)")
+        let remindMeRef = ref.child("friends/\(FIRAuth.auth()?.currentUser?.uid)/remind-me/\(uid)")
         remindMeRef.removeValue()
     }
     
     func removeMeFromCanRemindList(uid: String) {
-        let canRemindRef = ref.childByAppendingPath("friends/\(uid)/can-remind/\(ref.authData.uid)")
+        let canRemindRef = ref.child("friends/\(uid)/can-remind/\(FIRAuth.auth()?.currentUser?.uid)")
         canRemindRef.removeValue()
     }
     
     // MARK: Allow friends
     func addAllowedFriends(uid: String, completion:(error: Bool) -> Void) {
-        let remindMeRef = ref.childByAppendingPath("friends/\(ref.authData.uid)/remind-me")
-        remindMeRef.updateChildValues([uid: "true"] as [NSObject : AnyObject], withCompletionBlock: { (error: NSError?, ref: Firebase!) in
+        let remindMeRef = ref.child("friends/\(FIRAuth.auth()?.currentUser?.uid)/remind-me")
+        remindMeRef.updateChildValues([uid: "true"] as [NSObject : AnyObject], withCompletionBlock: { (error: NSError?, ref: FIRDatabaseReference!) in
             if error != nil {
                 completion(error: true)
             }
@@ -63,8 +63,8 @@ class Friends: Friend {
     }
     
     func addToCanRemindFriends(uid: String, completion:(error: Bool) -> Void) {
-        let canRemindRef = ref.childByAppendingPath("friends/\(uid)/can-remind")
-        canRemindRef.updateChildValues([ref.authData.uid: "true"] as [NSObject : AnyObject], withCompletionBlock: { (error: NSError?, ref: Firebase!) in
+        let canRemindRef = ref.child("friends/\(uid)/can-remind")
+        canRemindRef.updateChildValues([(FIRAuth.auth()?.currentUser?.uid)!: "true"] as [NSObject : AnyObject], withCompletionBlock: { (error: NSError?, ref: FIRDatabaseReference!) in
             if error != nil {
                 completion(error: true)
             }
@@ -72,8 +72,8 @@ class Friends: Friend {
     }
     
     // MARK: Search friends
-    func searchFriendsByEmail(emailString: String, completion:(usersFound: FDataSnapshot) -> Void) {
-        let usersRef = ref.childByAppendingPath("users")
+    func searchFriendsByEmail(emailString: String, completion:(usersFound: FIRDataSnapshot) -> Void) {
+        let usersRef = ref.child("users")
         usersRef.queryOrderedByChild("email_address").queryStartingAtValue("\(emailString)").queryEndingAtValue("\(emailString)~").observeEventType(.Value, withBlock: { snapshot in
             completion(usersFound: snapshot)
         })

@@ -10,7 +10,7 @@ import UIKit
 
 class AddReminderViewController: MMCustomViewController {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     var selectedLocation = [String: AnyObject]()
@@ -52,7 +52,7 @@ class AddReminderViewController: MMCustomViewController {
     
     override func viewWillAppear(animated: Bool) {
         // Check for valid user
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         } else {
             // If selected friend exits
@@ -79,12 +79,12 @@ class AddReminderViewController: MMCustomViewController {
                     addLocationBtn.setTitle("\(curText) at \(selectedAddress)", forState: .Normal)
                 }
                 
-                if !(selectedFriendFromView.isEmpty) && selectedFriendFromView != ref.authData.uid {
-                    ref.childByAppendingPath("users/\(selectedFriendFromView)").observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+                if !(selectedFriendFromView.isEmpty) && selectedFriendFromView != (FIRAuth.auth()?.currentUser?.uid)! {
+                    ref.child("users/\(selectedFriendFromView)").observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
                         // Set data from location controller
                         
-                        let first_name: String = snapshot.value.objectForKey("first_name") as! String
-                        let last_name: String = snapshot.value.objectForKey("last_name") as! String
+                        let first_name: String = snapshot.value!.objectForKey("first_name") as! String
+                        let last_name: String = snapshot.value!.objectForKey("last_name") as! String
                         self.addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
                         
                         // Set local selectedLocation
@@ -140,7 +140,7 @@ class AddReminderViewController: MMCustomViewController {
         activity.hidden = false
         activity.startAnimating()
         
-        let setFor = (selectedFriend.count > 0 ? selectedFriend["id"] : ref.authData.uid) as! String
+        let setFor = (selectedFriend.count > 0 ? selectedFriend["id"] : FIRAuth.auth()?.currentUser?.uid) as! String
         
         let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
         
@@ -156,7 +156,7 @@ class AddReminderViewController: MMCustomViewController {
             // Save to firebase if editing else if adding new
             if let identifier = reminderIdentifier {
                 
-                Minders().editReminder(identifier, content: reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: ref.authData.uid, setFor: setFor, completion: { (returnedMinder, error) -> Void in
+                Minders().editReminder(identifier, content: reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: (FIRAuth.auth()?.currentUser?.uid)!, setFor: setFor, completion: { (returnedMinder, error) -> Void in
                     
                     if !error {
                         Minders().sendReminderNotification(returnedMinder)
@@ -170,7 +170,7 @@ class AddReminderViewController: MMCustomViewController {
                 
             } else {
             
-                Minders().addReminder(reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: ref.authData.uid, setFor: setFor, completion: { (returnedMinder, error) -> Void in
+                Minders().addReminder(reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: (FIRAuth.auth()?.currentUser?.uid)!, setFor: setFor, completion: { (returnedMinder, error) -> Void in
                     
                     if !error {
                         Minders().sendReminderNotification(returnedMinder)

@@ -11,7 +11,7 @@ import AeroGearPush
 
 class LoginViewController: UIViewController {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com")
+    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     @IBOutlet weak var emailFld: UITextField!
@@ -38,7 +38,7 @@ class LoginViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        if ref.authData != nil {
+        if FIRAuth.auth()?.currentUser != nil {
             // User authenticated with Firebase
             self.dismissViewControllerAnimated(true, completion: nil)
         }
@@ -52,41 +52,40 @@ class LoginViewController: UIViewController {
     // MARK: Login action
     @IBAction func doLogin(sender: AnyObject) {
         activity.hidden = false
-        ref.authUser(emailFld.text, password: passFld.text,
-            withCompletionBlock: { error, authData in
-                if error != nil {
-                    // There was an error logging in to this account
-                    self.errorTxt.hidden = false
-                    if let errorCode = FAuthenticationError(rawValue: error.code) {
+        FIRAuth.auth()?.signInWithEmail(emailFld.text!, password: passFld.text!, completion: { (user, error) in
+            if error != nil {
+                // There was an error logging in to this account
+                self.errorTxt.hidden = false
+                if let errorCode = FIRAuthErrorCode(rawValue: error!.code) {
+                    
+                    switch(errorCode) {
                         
-                        switch(errorCode) {
-                            
-                        case .UserDoesNotExist:
-                            self.errorTxt.text = "Error: Invalid user"
+                    case .ErrorCodeUserNotFound:
+                        self.errorTxt.text = "Error: Invalid user"
                         
-                        case .InvalidCredentials:
-                            self.errorTxt.text = "Error: Invalid email or password"
-                            
-                        case .InvalidEmail:
-                            self.errorTxt.text = "Error: Invalid email or password"
-                            
-                        case .InvalidPassword:
-                            self.errorTxt.text = "Error: Invalid email or password"
-                            
-                        default:
-                            self.errorTxt.text = "Error: unknown error"
-                            
-                        }
+                    case .ErrorCodeInvalidCredential:
+                        self.errorTxt.text = "Error: Invalid email or password"
+                        
+                    case .ErrorCodeInvalidEmail:
+                        self.errorTxt.text = "Error: Invalid email or password"
+                        
+                    case .ErrorCodeWrongPassword:
+                        self.errorTxt.text = "Error: Invalid email or password"
+                        
+                    default:
+                        self.errorTxt.text = "Error: unknown error"
+                        
                     }
-                } else {
-                    // We are now logged in
-                    
-                    // Update the APNS Alias
-                    APNS().updateAlias((self.ref.authData.providerData["email"] as? String)!)
-                    
-                    self.dismissViewControllerAnimated(true, completion: nil)
                 }
-                self.activity.hidden = true
+            } else {
+                // We are now logged in
+                
+                // Update the APNS Alias
+                APNS().updateAlias((user?.email)!)
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            self.activity.hidden = true
         })
         
     }
@@ -95,7 +94,7 @@ class LoginViewController: UIViewController {
     @IBAction func forgetPasswdAction(sender: AnyObject) {
         
         if emailFld.text != "" {
-            ref.resetPasswordForUser(emailFld.text, withCompletionBlock: { error in
+            FIRAuth.auth()?.sendPasswordResetWithEmail(emailFld.text!, completion: { (error) in
                 if error != nil {
                     // There was an error processing the request
                     let passwdError = UIAlertView(title: "Error", message: "There was an error resetting your password, please try again.", delegate: nil, cancelButtonTitle: "OK")
