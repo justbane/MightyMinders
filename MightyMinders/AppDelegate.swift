@@ -14,7 +14,6 @@ import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     let environment = "prod"
     
