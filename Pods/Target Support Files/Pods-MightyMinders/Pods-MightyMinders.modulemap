@@ -1,0 +1,6 @@
+framework module Pods_MightyMinders {
+  umbrella header "Pods-MightyMinders-umbrella.h"
+
+  export *
+  module * { export * }
+}
