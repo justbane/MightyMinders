@@ -115,7 +115,9 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: Actions
     @IBAction func doRegistration(sender: AnyObject) {
+        
         activity.hidden = false
+        
         if (validate() && FIRAuth.auth()?.currentUser == nil) {
             FIRAuth.auth()?.createUserWithEmail(emailFld.text!, password: passFld.text!,
                 completion: { (user, error) in
@@ -195,22 +197,9 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             
         } else {
             
-            Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.fnameFld.text! as String, currentLastName: self.lnameFld.text! as String).updateProfileData({ (error) -> Void in
-                if error {
-                    
-                    self.errorTxt?.text = "Error: Please fill in all fields!"
-                    self.errorTxt.hidden = false
-                    
-                } else {
-                    
-                    self.errorTxt?.text = "Success"
-                    self.errorTxt.textColor = UIColor.greenColor()
-                    self.errorTxt.hidden = false
-                    
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }
-                self.activity.hidden = true
-            })
+            self.errorTxt?.text = "Error: Please fill in all fields!"
+            self.errorTxt.hidden = false
+            activity.hidden = true
             
         }
     }
