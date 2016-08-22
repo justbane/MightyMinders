@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AeroGearPush
 
 class RegisterViewController: UIViewController, UITextFieldDelegate {
 
@@ -150,27 +149,27 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                         if user?.uid != nil {
                             
                             // We are now logged in
-                            let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
+//                            let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
                             
-                            registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
-                                
-                                // Apply the token, to identify this device
-                                clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
-                                
-                                clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
-                                clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
-                                
-                                // --optional config--
-                                // Set some 'useful' hardware information params
-                                clientInfo.alias = (user?.email)!
-                                self.userDefaults.setValue((user?.email)!, forKey: "storedUserEmail")
-                                
-                                }, success: {
-                                    print("device alias updated");
-                                    
-                                }, failure: { (error:NSError!) -> () in
-                                    print("device alias update error: \(error.localizedDescription)")
-                            })
+//                            registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
+//                                
+//                                // Apply the token, to identify this device
+//                                clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
+//                                
+//                                clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
+//                                clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
+//                                
+//                                // --optional config--
+//                                // Set some 'useful' hardware information params
+//                                clientInfo.alias = (user?.email)!
+//                                self.userDefaults.setValue((user?.email)!, forKey: "storedUserEmail")
+//                                
+//                                }, success: {
+//                                    print("device alias updated");
+//                                    
+//                                }, failure: { (error:NSError!) -> () in
+//                                    print("device alias update error: \(error.localizedDescription)")
+//                            })
                             
                             Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.fnameFld.text! as String, currentLastName: self.lnameFld.text! as String).updateProfileData({ (error) -> Void in
                                 if error {

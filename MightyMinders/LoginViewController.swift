@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AeroGearPush
 
 class LoginViewController: UIViewController {
 

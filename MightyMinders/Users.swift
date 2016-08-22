@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AeroGearPush
 
 protocol User {}
 
@@ -29,13 +28,13 @@ class Users: User {
     }
     
     // MARK: Change email for user
-    func changeEmailForUser(password: String, newEmail: String, completion: (error: Bool) -> Void) {
+    func changeEmailForUser(password: String, newEmail: String, completion: (error: Bool,String) -> Void) {
         
         // Change user email
         FIRAuth.auth()?.currentUser?.updateEmail(self.currentEmail, completion: { (error) in
             if error != nil {
                 // There was an error processing the request
-                completion(error: true)
+                completion(error: true, (error?.description)!)
             } else {
                 // Email changed successfully
                 self.currentEmail = newEmail
@@ -44,7 +43,7 @@ class Users: User {
                         // FIXME: alert an error
                     }
                 })
-                completion(error: false)
+                completion(error: false, "")
             }
         })
         
@@ -59,14 +58,16 @@ class Users: User {
             "last_name": currentLastName
         ]
         
-        let profileRef = self.ref.child("users/\(FIRAuth.auth()?.currentUser?.uid)")
-        profileRef.setValue(dataToUpdate)
-        
-        // Update the APNS alias
-        APNS().updateAlias(dataToUpdate["email_address"]!)
-        
-        completion(error: false)
-        
+        let profileRef = self.ref.child("users").child((FIRAuth.auth()?.currentUser?.uid)!)
+        profileRef.setValue(dataToUpdate) { (error, Firebase) in
+            if error != nil {
+                completion(error: true)
+            } else {
+                // Update the APNS alias
+                APNS().updateAlias(dataToUpdate["email_address"]!)
+                completion(error: false)
+            }
+        }
     }
     
     // MARK: Update user password

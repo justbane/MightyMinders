@@ -30,7 +30,7 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         tableView.separatorInset = UIEdgeInsetsZero
         
         // Get keys data
-        let canRemindKeys = ref.child("friends/\(FIRAuth.auth()?.currentUser?.uid)/can-remind")
+        let canRemindKeys = ref.child("friends").child((FIRAuth.auth()?.currentUser?.uid)!).child("can-remind")
         canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
             // Set object
             let enumerator = snapshot.children

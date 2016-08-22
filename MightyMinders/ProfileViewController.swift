@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AeroGearPush
 
 class ProfileViewController: MMCustomViewController {
     
@@ -43,11 +42,11 @@ class ProfileViewController: MMCustomViewController {
             super.showLogin()
         } else {
             // Get user data to fields
-            usersRef = ref.child("users/\(FIRAuth.auth()?.currentUser?.uid)").observeEventType(.Value, withBlock: { (snapshot) -> Void in
+            usersRef = ref.child("users").child((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
-                self.firstNameFld.text = snapshot.value!.objectForKey("first_name") as? String
-                self.lastNameFld.text = snapshot.value!.objectForKey("last_name") as? String
-                self.emailFld.text = snapshot.value!.objectForKey("email_address") as? String
+                self.firstNameFld.text = snapshot.value!["first_name"] as? String
+                self.lastNameFld.text = snapshot.value!["last_name"] as? String
+                self.emailFld.text = snapshot.value!["email_address"] as? String
                 
                 self.user = Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.firstNameFld.text! as String, currentLastName: self.lastNameFld.text! as String)
                 
@@ -91,9 +90,9 @@ class ProfileViewController: MMCustomViewController {
                     passwdError.show()
                 } else {
                     // Change email for user
-                    user.changeEmailForUser(currPasswdFld.text!, newEmail: emailFld.text!) {(error: Bool) in
-                        if error {
-                            let emailError = UIAlertView(title: "Error", message: "There was an error changing your email, please try again", delegate: nil, cancelButtonTitle: "OK")
+                    user.changeEmailForUser(currPasswdFld.text!, newEmail: emailFld.text!) {(error: (Bool, String)) in
+                        if error.0 {
+                            let emailError = UIAlertView(title: "Error", message: "This is a sensitive operation and requires recent authentication. Please logout and back in and try again.", delegate: nil, cancelButtonTitle: "OK")
                             emailError.show()
                         } else {
                             let emailSuccess = UIAlertView(title: "Success", message: "Your email has been updated", delegate: nil, cancelButtonTitle: "OK")

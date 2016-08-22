@@ -36,7 +36,7 @@ class ViewReminderViewController: MMCustomViewController {
         
         if !(selectedFriendFromView.isEmpty) {
             setByLbl.hidden = false
-            let friendRef = ref.child("users/\(selectedFriendFromView)")
+            let friendRef = ref.child("users").child(selectedFriendFromView)
             friendRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
                 // Set data from location controller
                 let first_name: String = snapshot.value!.objectForKey("first_name") as! String

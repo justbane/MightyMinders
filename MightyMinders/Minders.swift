@@ -22,7 +22,7 @@ class Minders: Minder {
     func getPrivateMinders(completion:(privateReminders: FIRDataSnapshot) -> Void) {
         
         // Private minders
-        let userMindersRef = ref.child("minders/\((FIRAuth.auth()?.currentUser?.uid)!)/private")
+        let userMindersRef = ref.child("minders").child((FIRAuth.auth()?.currentUser?.uid)!).child("private")
         
         // Listen for add of new minders
         userMindersRef.observeEventType(.Value, withBlock: { (snapshot) -> Void in
@@ -38,7 +38,7 @@ class Minders: Minder {
         
         // Listen for add of new minders
         // Set for you
-        sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue(FIRAuth.auth()?.currentUser?.uid).observeEventType(.Value, withBlock: { (snapshot) -> Void in
+        sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.Value, withBlock: { (snapshot) -> Void in
             completion(sharedReminders: snapshot)
         })
 
@@ -50,7 +50,7 @@ class Minders: Minder {
         
         let sharedMindersRef = ref.child("shared-minders")
         
-        sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue(FIRAuth.auth()?.currentUser?.uid).observeEventType(.Value, withBlock: { (snapshot) -> Void in
+        sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.Value, withBlock: { (snapshot) -> Void in
             completion(remindersSetByYou: snapshot)
         })
         
@@ -60,7 +60,7 @@ class Minders: Minder {
         
         let sharedMindersRef = ref.child("shared-minders")
         
-        sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue(FIRAuth.auth()?.currentUser?.uid).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
+        sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
             completion(remindersRemovedForMe: snapshot)
         })
     }
@@ -69,7 +69,7 @@ class Minders: Minder {
         
         let sharedMindersRef = ref.child("shared-minders")
         
-        sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue(FIRAuth.auth()?.currentUser?.uid).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
+        sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
             completion(remindersRemovedByMe: snapshot)
         })
     }
@@ -138,7 +138,7 @@ class Minders: Minder {
         ]
         
         // Set the ref path
-        var usersMindersRef = ref.child("minders/\(FIRAuth.auth()?.currentUser?.uid)/private")
+        var usersMindersRef = ref.child("minders").child((FIRAuth.auth()?.currentUser?.uid)!).child("private")
         
         // Is there a friend selected?
         if setBy != setFor {
@@ -168,12 +168,12 @@ class Minders: Minder {
         ]
         
         // Set the ref path
-        var usersMindersRef = ref.child("minders/\(FIRAuth.auth()?.currentUser?.uid)/private/\(identifier)")
+        var usersMindersRef = ref.child("minders").child((FIRAuth.auth()?.currentUser?.uid)!).child("private").child(identifier)
         
         // Is there a friend selected?
         if setBy != setFor {
             // Is there a friend and we are editing?
-            usersMindersRef = ref.child("shared-minders/\(identifier)")
+            usersMindersRef = ref.child("shared-minders").child(identifier)
         }
         
         usersMindersRef.updateChildValues(reminder as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:FIRDatabaseReference!) in
@@ -185,7 +185,7 @@ class Minders: Minder {
         })
         
         if setBy != setFor {
-            let usersMinderRemove = ref.child("minders/\(FIRAuth.auth()?.currentUser?.uid)/private/\(identifier)")
+            let usersMinderRemove = ref.child("minders").child((FIRAuth.auth()?.currentUser?.uid)!).child("private").child(identifier)
             usersMinderRemove.removeValue()
         }
 

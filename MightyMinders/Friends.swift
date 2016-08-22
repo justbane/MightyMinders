@@ -18,7 +18,7 @@ class Friends: Friend {
     // MARK: Friends getters
     func getFriends(uid: String, completion:(friendsData: FIRDataSnapshot) -> Void) {
         // Get friends
-        let canRemindFriends = ref.child("users/\(uid)")
+        let canRemindFriends = ref.child("users").child(uid)
         canRemindFriends.observeEventType(.Value, withBlock: { snapshot in
             completion(friendsData: snapshot)
         })
@@ -26,7 +26,7 @@ class Friends: Friend {
     
     func getFriendKeysICanRemind(completion: (friendsToRemind: FIRDataSnapshot) -> Void) {
         // Get friend keys
-        let canRemindKeys = ref.child("friends/\(FIRAuth.auth()?.currentUser?.uid)/can-remind")
+        let canRemindKeys = ref.child("friends").child((FIRAuth.auth()?.currentUser?.uid)!).child("can-remind")
         canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
             completion(friendsToRemind: snapshot)
         })
@@ -35,7 +35,7 @@ class Friends: Friend {
     
     func getFriendKeysThatRemindMe(completion:(friendsRemindMe: FIRDataSnapshot) -> Void) {
         // Get friend keys
-        let canRemindKeys = ref.child("friends/\(FIRAuth.auth()?.currentUser?.uid)/remind-me")
+        let canRemindKeys = ref.child("friends").child((FIRAuth.auth()?.currentUser?.uid)!).child("remind-me")
         canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
             completion(friendsRemindMe: snapshot)
         })
@@ -43,18 +43,18 @@ class Friends: Friend {
     
     // MARK: Remove friends
     func removeFriendAccess(uid: String) {
-        let remindMeRef = ref.child("friends/\(FIRAuth.auth()?.currentUser?.uid)/remind-me/\(uid)")
+        let remindMeRef = ref.child("friends").child((FIRAuth.auth()?.currentUser?.uid)!).child("remind-me").child(uid)
         remindMeRef.removeValue()
     }
     
     func removeMeFromCanRemindList(uid: String) {
-        let canRemindRef = ref.child("friends/\(uid)/can-remind/\(FIRAuth.auth()?.currentUser?.uid)")
+        let canRemindRef = ref.child("friends").child(uid).child("can-remind").child((FIRAuth.auth()?.currentUser?.uid)!)
         canRemindRef.removeValue()
     }
     
     // MARK: Allow friends
     func addAllowedFriends(uid: String, completion:(error: Bool) -> Void) {
-        let remindMeRef = ref.child("friends/\(FIRAuth.auth()?.currentUser?.uid)/remind-me")
+        let remindMeRef = ref.child("friends").child((FIRAuth.auth()?.currentUser?.uid)!).child("remind-me")
         remindMeRef.updateChildValues([uid: "true"] as [NSObject : AnyObject], withCompletionBlock: { (error: NSError?, ref: FIRDatabaseReference!) in
             if error != nil {
                 completion(error: true)
@@ -63,7 +63,7 @@ class Friends: Friend {
     }
     
     func addToCanRemindFriends(uid: String, completion:(error: Bool) -> Void) {
-        let canRemindRef = ref.child("friends/\(uid)/can-remind")
+        let canRemindRef = ref.child("friends").child(uid).child("can-remind")
         canRemindRef.updateChildValues([(FIRAuth.auth()?.currentUser?.uid)!: "true"] as [NSObject : AnyObject], withCompletionBlock: { (error: NSError?, ref: FIRDatabaseReference!) in
             if error != nil {
                 completion(error: true)

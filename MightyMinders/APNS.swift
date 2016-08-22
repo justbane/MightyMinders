@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import AeroGearPush
 
 class APNS {
     
@@ -52,62 +51,62 @@ class APNS {
     
     func register(token: NSData) {
         
-        let registration = AGDeviceRegistration(serverURL: NSURL(string: self.url)!)
-        
-        registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
-            
-            // apply the token, to identify this device
-            clientInfo.deviceToken = token
-            // store token for
-            self.userDefaults.setObject(token, forKey: defaultKeys.deviceToken.rawValue)
-            
-            clientInfo.variantID = self.userDefaults.valueForKey(defaultKeys.variantID.rawValue)! as? String
-            clientInfo.variantSecret = self.userDefaults.valueForKey(defaultKeys.variantSecret.rawValue)! as? String
-            
-            // --optional config--
-            // set some 'useful' hardware information params
-            let currentDevice = UIDevice()
-            clientInfo.operatingSystem = currentDevice.systemName
-            clientInfo.osVersion = currentDevice.systemVersion
-            clientInfo.deviceType = currentDevice.model
-            
-            let email = FIRAuth.auth()?.currentUser?.email
-            if  email != nil {
-                clientInfo.alias = email!
-            }
-            
-            }, success: {
-                print("UPS registration worked");
-                
-            }, failure: { (error:NSError!) -> () in
-                print("UPS registration Error: \(error.localizedDescription)")
-        })
+//        let registration = AGDeviceRegistration(serverURL: NSURL(string: self.url)!)
+//        
+//        registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
+//            
+//            // apply the token, to identify this device
+//            clientInfo.deviceToken = token
+//            // store token for
+//            self.userDefaults.setObject(token, forKey: defaultKeys.deviceToken.rawValue)
+//            
+//            clientInfo.variantID = self.userDefaults.valueForKey(defaultKeys.variantID.rawValue)! as? String
+//            clientInfo.variantSecret = self.userDefaults.valueForKey(defaultKeys.variantSecret.rawValue)! as? String
+//            
+//            // --optional config--
+//            // set some 'useful' hardware information params
+//            let currentDevice = UIDevice()
+//            clientInfo.operatingSystem = currentDevice.systemName
+//            clientInfo.osVersion = currentDevice.systemVersion
+//            clientInfo.deviceType = currentDevice.model
+//            
+//            let email = FIRAuth.auth()?.currentUser?.email
+//            if  email != nil {
+//                clientInfo.alias = email!
+//            }
+//            
+//            }, success: {
+//                print("UPS registration worked");
+//                
+//            }, failure: { (error:NSError!) -> () in
+//                print("UPS registration Error: \(error.localizedDescription)")
+//        })
         
     }
     
     func updateAlias(email: String) {
         
-        let registration = AGDeviceRegistration(serverURL: NSURL(string: self.url)!)
-        
-        registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
-            
-            // Apply the token, to identify this device
-            clientInfo.deviceToken = self.userDefaults.objectForKey(defaultKeys.deviceToken.rawValue) as? NSData
-            
-            clientInfo.variantID = self.userDefaults.valueForKey(defaultKeys.variantID.rawValue) as? String
-            clientInfo.variantSecret = self.userDefaults.valueForKey(defaultKeys.variantSecret.rawValue) as? String
-            
-            // Optional config --
-            // Set some 'useful' hardware information params
-            clientInfo.alias = email
-            self.userDefaults.setValue(email, forKey: defaultKeys.emailAddress.rawValue)
-            
-            }, success: {
-                print("device alias updated");
-                
-            }, failure: { (error:NSError!) -> () in
-                print("device alias update error: \(error.localizedDescription)")
-        })
+//        let registration = AGDeviceRegistration(serverURL: NSURL(string: self.url)!)
+//        
+//        registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
+//            
+//            // Apply the token, to identify this device
+//            clientInfo.deviceToken = self.userDefaults.objectForKey(defaultKeys.deviceToken.rawValue) as? NSData
+//            
+//            clientInfo.variantID = self.userDefaults.valueForKey(defaultKeys.variantID.rawValue) as? String
+//            clientInfo.variantSecret = self.userDefaults.valueForKey(defaultKeys.variantSecret.rawValue) as? String
+//            
+//            // Optional config --
+//            // Set some 'useful' hardware information params
+//            clientInfo.alias = email
+//            self.userDefaults.setValue(email, forKey: defaultKeys.emailAddress.rawValue)
+//            
+//            }, success: {
+//                print("device alias updated");
+//                
+//            }, failure: { (error:NSError!) -> () in
+//                print("device alias update error: \(error.localizedDescription)")
+//        })
         
     }
     

@@ -832,7 +832,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8b2e5c2f-9519-4966-a7f7-fe207dcae1f3";
+				PROVISIONING_PROFILE = "7ffa968e-ab1a-4ee8-b204-c4c23c8daf21";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -858,7 +858,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8b2e5c2f-9519-4966-a7f7-fe207dcae1f3";
+				PROVISIONING_PROFILE = "7ffa968e-ab1a-4ee8-b204-c4c23c8daf21";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 			};
 			name = Release;

@@ -363,11 +363,11 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             if let minderAnnotation = annotation as? Annotation {
                 if minderAnnotation.key == key {
                     
-                    var removeRef = ref.child("minders/\(FIRAuth.auth()?.currentUser?.uid)/private/\(key)")
+                    var removeRef = ref.child("minders").child((FIRAuth.auth()?.currentUser?.uid)!).child("private").child(key)
                     
                     // If shared minder
                     if minderAnnotation.type == "shared" {
-                        removeRef = ref.child("shared-minders/\(key)")
+                        removeRef = ref.child("shared-minders").child(key)
                     }
                     
                     removeRef.removeValueWithCompletionBlock({ (error, Firebase) -> Void in
@@ -431,14 +431,14 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             var senderName: String = "Someone"
             
             // Get sender profile data
-            let setByRef = self.ref.child("users/\(setFor)")
+            let setByRef = self.ref.child("users").child(setFor)
             setByRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
                 let first_name: String = snapshot.value!.objectForKey("first_name") as! String
                 let last_name: String = snapshot.value!.objectForKey("last_name") as! String
                 senderName = "\(first_name) \(last_name)"
                 
                 // Go reciever profile
-                let setForRef = self.ref.child("users/\(setBy)")
+                let setForRef = self.ref.child("users").child(setBy)
                 setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
                     let email: String = snapshot.value!.objectForKey("email_address") as! String
                     
