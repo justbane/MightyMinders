@@ -39,7 +39,6 @@
 		398D959E1B88FBAE00D85F40 /* FriendsRemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */; };
 		398D95A21B8901AF00D85F40 /* MMCustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */; };
 		39947ACC1B0B824E003F142A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39947ACB1B0B824E003F142A /* MapKit.framework */; };
-		399557111CEECA200029AABD /* APNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399557101CEECA200029AABD /* APNS.swift */; };
 		399557131CEECD5B0029AABD /* Values.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399557121CEECD5B0029AABD /* Values.swift */; };
 		39958F831C30769B00F7CFA4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39423FEB1BE32DB800435724 /* Alamofire.framework */; };
 		39958F841C30769B00F7CFA4 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 39423FEB1BE32DB800435724 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -172,7 +171,6 @@
 		398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsRemindViewController.swift; sourceTree = "<group>"; };
 		398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MMCustomViewController.swift; sourceTree = "<group>"; };
 		39947ACB1B0B824E003F142A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		399557101CEECA200029AABD /* APNS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APNS.swift; sourceTree = "<group>"; };
 		399557121CEECD5B0029AABD /* Values.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Values.swift; sourceTree = "<group>"; };
 		39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindFriendsTableViewCell.swift; sourceTree = "<group>"; };
 		3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddRemoveButton.swift; path = ../CustomViews/AddRemoveButton.swift; sourceTree = "<group>"; };
@@ -351,7 +349,6 @@
 				397C5FB41AF1E7C40063E9DE /* Colors.swift */,
 				39E6E5C21AF32CAC0066B707 /* TextFields.swift */,
 				39CC99211BE07DE700F7F428 /* HTTPRequests.swift */,
-				399557101CEECA200029AABD /* APNS.swift */,
 				399557121CEECD5B0029AABD /* Values.swift */,
 			);
 			name = Models;
@@ -668,7 +665,6 @@
 				39305A981AE9EF9300773849 /* AppDelegate.swift in Sources */,
 				39962C221B8D865900E264E2 /* FindFriendsTableViewCell.swift in Sources */,
 				39331AD71BA2945700625AF5 /* Minders.swift in Sources */,
-				399557111CEECA200029AABD /* APNS.swift in Sources */,
 				398D959E1B88FBAE00D85F40 /* FriendsRemindViewController.swift in Sources */,
 				3934F4921B38B50E00F395D2 /* Annotation.swift in Sources */,
 				3914414E1AEDE1FF00866679 /* RegisterViewController.swift in Sources */,
@@ -832,7 +828,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7ffa968e-ab1a-4ee8-b204-c4c23c8daf21";
+				PROVISIONING_PROFILE = "83d25f4c-5068-4a85-8f4c-30da79402a8c";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -858,7 +854,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7ffa968e-ab1a-4ee8-b204-c4c23c8daf21";
+				PROVISIONING_PROFILE = "83d25f4c-5068-4a85-8f4c-30da79402a8c";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 			};
 			name = Release;

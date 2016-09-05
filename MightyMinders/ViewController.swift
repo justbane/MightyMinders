@@ -49,7 +49,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     
     override func viewDidAppear(animated: Bool) {
         // View is shown again
-        // println("Updates viewDidAppear fired")
+        // print("Updates viewDidAppear fired")
         
         // Check for valid user
         if FIRAuth.auth()?.currentUser == nil {
@@ -116,28 +116,28 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     // MARK: Notification actions
     func addMinderFromNotification(notification: NSNotification) {
         
-        let data = notification.userInfo! as! [String: AnyObject]
-        var latitude = 0.0
-        var longitude = 0.0
-        var centerMap = false
+//        let data = notification.userInfo! as! [String: AnyObject]
+//        var latitude = 0.0
+//        var longitude = 0.0
+//        var centerMap = false
         
-        if let urlArgs = data["aps"]!["url-args"] as? NSArray {
-            if let lat = urlArgs[0] as? String {
-                latitude = Double(lat)!
-                centerMap = true
-            }
-            if let long = urlArgs[1] as? String {
-                longitude = Double(long)!
-                centerMap = true
-            }
-            
-            let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            
-            // Center map on new minder
-            if centerMap {
-                mapView.setCenterCoordinate(coordinates, animated: true)
-            }
-        }
+//        if let urlArgs = data["aps"]!["url-args"] as? NSArray {
+//            if let lat = urlArgs[0] as? String {
+//                latitude = Double(lat)!
+//                centerMap = true
+//            }
+//            if let long = urlArgs[1] as? String {
+//                longitude = Double(long)!
+//                centerMap = true
+//            }
+//            
+//            let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+//            
+//            // Center map on new minder
+//            if centerMap {
+//                mapView.setCenterCoordinate(coordinates, animated: true)
+//            }
+//        }
         
     }
     
@@ -427,7 +427,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             let setBy = userMinder.setBy
             let setFor = userMinder.setFor
             let content = userMinder.content
-            
+            var token: String = ""
             var senderName: String = "Someone"
             
             // Get sender profile data
@@ -437,35 +437,31 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                 let last_name: String = snapshot.value!.objectForKey("last_name") as! String
                 senderName = "\(first_name) \(last_name)"
                 
-                // Go reciever profile
-                let setForRef = self.ref.child("users").child(setBy)
-                setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                    let email: String = snapshot.value!.objectForKey("email_address") as! String
+                // Get reciever device token
+                self.ref.child("devices").child(setBy).observeEventType(.Value, withBlock: { (snapshot) in
+                    if snapshot.value != nil {
+                        token = snapshot.value!.objectForKey("token") as! String
+                    }
                     
-                    let data: [String: [String: AnyObject]] = [
-                        "message": [
-                            "alert": "\(senderName) completed a shared reminder: \(content) - Swipe to update your reminders",
-                            "sound": "default",
-                            "apns": [
-                                "action-category": "MAIN_CATEGORY"
+                    if token != "" {
+                        let data: [String: AnyObject] = [
+                            "to": token,
+                            "notification": [
+                                "title": "MightyMinder Completed",
+                                "body": "\(senderName) completed a reminder!: \(content) - Swipe to update your reminders",
                             ]
-                        ],
-                        "criteria": [
-                            "alias": ["\(email)"],
-                            "variants": ["\(self.userDefaults.valueForKey("variantID") as! String)"]
                         ]
-                    ]
-                    
-                    // Send to push server
-                    restReq.sendPostRequest(data, url: "https://push-baneville.rhcloud.com/ag-push/rest/sender") { (success, msg) -> () in
-                        // Completion code here
-                        // println(success)
                         
-                        let status = msg["status"] as! String
-                        if status.containsString("FAILURE") {
-                            print(status)
+                        // Send to push server
+                        restReq.sendPostRequest(data) { (success, msg) -> () in
+                            // Completion code here
+                            // print(success)
+                            
+                            let status = msg["status"] as! String
+                            if status.containsString("FAILURE") {
+                                print(status)
+                            }
                         }
-                        
                     }
                     
                 })

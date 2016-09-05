@@ -111,10 +111,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
         }
         
-        //Tricky line
+        // Tricky line
         FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.Unknown)
-        print("Device Token:", tokenString)
-        userDefaults.setValue(tokenString, forKey: "firebaseAPNSToken")
+        // print("Device Token:", tokenString)
+        userDefaults.setValue(tokenString, forKey: "deviceToken")
     }
     
     // MARK: Failed to register
@@ -133,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
         FIRMessaging.messaging().disconnect()
-        print("Disconnected from FCM.")
+        // print("Disconnected from FCM.")
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -153,8 +153,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: FireBase Notifications
     func tokenRefreshNotification(notification: NSNotification) {
         if let refreshedToken = FIRInstanceID.instanceID().token() {
-            print("InstanceID token: \(refreshedToken)")
-            userDefaults.setValue(refreshedToken, forKey: "firebaseAPNSToken")
+            // print("InstanceID token: \(refreshedToken)")
+            userDefaults.setValue(refreshedToken, forKey: "fbInstanceToken")
+            if (FIRAuth.auth()?.currentUser != nil) {
+                let ref = FIRDatabase.database().reference()
+                ref.child("devices").child((FIRAuth.auth()?.currentUser?.uid)!).setValue(["token": refreshedToken])
+            }
         }
         // Connect to FCM since connection may have failed when attempted before having a token.
         connectToFcm()
@@ -163,9 +167,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func connectToFcm() {
         FIRMessaging.messaging().connectWithCompletion { (error) in
             if (error != nil) {
-                print("Unable to connect with FCM. \(error)")
+                // print("Unable to connect with FCM. \(error)")
             } else {
-                print("Connected to FCM.")
+                // print("Connected to FCM.")
             }
         }
     }

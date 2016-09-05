@@ -10,6 +10,7 @@ target 'MightyMinders' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
+  pod 'Firebase/RemoteConfig'
 
   target 'MightyMindersTests' do
     inherit! :search_paths

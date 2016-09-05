@@ -14,32 +14,53 @@ struct HTTPRequests {
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     // MARK: Send POST request
-    func sendPostRequest(params: [String: [String: AnyObject]], url : String, postCompleted : (success: Bool, msg: Dictionary<String, NSObject>) -> ()) {
+    func sendPostRequest(params: [String: AnyObject], postCompleted : (success: Bool, msg: Dictionary<String, NSObject>) -> ()) {
         
-        let username = userDefaults.valueForKey("restUsername")!
-        let password = userDefaults.valueForKey("restPassword")!
+        let remoteConfig = FIRRemoteConfig.remoteConfig()
         
-        let credentialData = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
-        let base64Credentials = credentialData.base64EncodedStringWithOptions([])
-        
-        let headers = [
-            "Authorization": "Basic \(base64Credentials)",
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        ]
-        
-        // Send the request
-        Alamofire.request(.POST, url, parameters: params, encoding: .JSON, headers: headers)
-//        debugPrint(request)
-            .validate(statusCode: 200..<300)
-            .responseJSON { (response) -> Void in
-                switch response.result {
-                case .Success:
-                    postCompleted(success: true, msg: ["status": "\(response)"])
+        remoteConfig.fetchWithCompletionHandler { (status, error) in
+            if (status == FIRRemoteConfigFetchStatus.Success) {
                 
-                case .Failure:
-                    print(response)
+                // print("Config fetched!")
+                remoteConfig.activateFetched()
+                
+                let key = remoteConfig.configValueForKey("fcm_key").stringValue!
+                let url = "https://fcm.googleapis.com/fcm/send"
+                let headers = [
+                    "Authorization": "key=\(key)",
+                    "Content-Type": "application/json",
+                ]
+                
+                let paramData: [String: AnyObject] = [
+                    "to": params["to"]!,
+                    "notification": [
+                        "title": params["notification"]!["title"],
+                        "body": params["notification"]!["body"],
+                        "sound": "default",
+                        "click_action": "MAIN_CATEGORY"
+                    ]
+                ]
+                
+                // Send the request
+                // let request =
+                Alamofire.request(.POST, url, parameters: paramData, encoding: .JSON, headers: headers)
+                    .validate(statusCode: 200..<300)
+                    .responseJSON { (response) -> Void in
+                        switch response.result {
+                        case .Success:
+                            postCompleted(success: true, msg: ["status": "\(response)"])
+                            
+                        case .Failure:
+                            print(response)
+                        }
                 }
+                
+                // debugPrint(request)
+                
+            } else {
+                print("Config not fetched")
+                print("Error \(error!.localizedDescription)")
+            }
         }
         
     }

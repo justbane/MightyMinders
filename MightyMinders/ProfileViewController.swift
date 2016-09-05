@@ -44,9 +44,10 @@ class ProfileViewController: MMCustomViewController {
             // Get user data to fields
             usersRef = ref.child("users").child((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) -> Void in
                 // set reminders object
-                self.firstNameFld.text = snapshot.value!["first_name"] as? String
-                self.lastNameFld.text = snapshot.value!["last_name"] as? String
-                self.emailFld.text = snapshot.value!["email_address"] as? String
+                let results = snapshot.value as! [String: AnyObject]
+                self.firstNameFld.text = results["first_name"] as? String
+                self.lastNameFld.text = results["last_name"] as? String
+                self.emailFld.text = results["email_address"] as? String
                 
                 self.user = Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.firstNameFld.text! as String, currentLastName: self.lastNameFld.text! as String)
                 

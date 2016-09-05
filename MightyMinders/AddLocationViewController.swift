@@ -202,14 +202,14 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
                 self.presentViewController(alert, animated: true, completion: nil)
                 
             } else {
-                // println("Matches found")
+                // print("Matches found")
                 
                 for item in response!.mapItems {
-                    //println("Name = \(item.name)")
-                    //println("Phone = \(item.phoneNumber)")
+                    //print("Name = \(item.name)")
+                    //print("Phone = \(item.phoneNumber)")
                     
                     self.matchingItems.append(item as MKMapItem)
-                    //println("Matching items = \(self.matchingItems.count)")
+                    //print("Matching items = \(self.matchingItems.count)")
                     
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = item.placemark.coordinate

@@ -41,7 +41,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         Friends().getFriendKeysThatRemindMe { (friendsRemindMe) -> Void in
             let enumerator = friendsRemindMe.children
             while let data = enumerator.nextObject() as? FIRDataSnapshot {
-                //println(data.key)
+                //print(data.key)
                 self.currentFriends.insert(data.key)
             }
         }
@@ -139,7 +139,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
                         if data.key != (FIRAuth.auth()?.currentUser?.uid)! && !self.currentFriends.contains(data.key) {
                             self.friendData.append(data)
                         }
-                        //println(data);
+                        //print(data);
                     }
                     
                     // Update table

@@ -78,9 +78,8 @@ class LoginViewController: UIViewController {
                 }
             } else {
                 // We are now logged in
-                
-                // Update the APNS Alias
-                APNS().updateAlias((user?.email)!)
+                // Update device token
+                self.ref.child("devices").child((FIRAuth.auth()?.currentUser?.uid)!).setValue(["token": FIRInstanceID.instanceID().token()!])
                 
                 self.dismissViewControllerAnimated(true, completion: nil)
             }

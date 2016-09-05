@@ -201,47 +201,46 @@ class Minders: Minder {
             let setFor = userMinder["set-for"] as! String
             let content = userMinder["content"] as! String
             let location = userMinder["location"]!
-            
+            var token: String = ""
             var senderName: String = "Someone"
             
             // Get sender profile data
-            let setByRef = self.ref.child("users/\(setBy)")
+            let setByRef = self.ref.child("users").child(setBy)
             setByRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
                 let first_name: String = snapshot.value!.objectForKey("first_name") as! String
                 let last_name: String = snapshot.value!.objectForKey("last_name") as! String
                 senderName = "\(first_name) \(last_name)"
                 
-                // Go reciever profile
-                let setForRef = self.ref.child("users/\(setFor)")
-                setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                    let email: String = snapshot.value!.objectForKey("email_address") as! String
-                    
-                    let data: [String: [String: AnyObject]] = [
-                        "message": [
-                            "alert": "\(senderName) set a reminder for you: \(content) - Swipe to update your reminders",
-                            "sound": "default",
-                            "apns": [
-                                "action-category": "MAIN_CATEGORY",
-                                "url-args": ["\(location["latitude"]!)","\(location["longitude"]!)"]
-                            ]
-                        ],
-                        "criteria": [
-                            "alias": ["\(email)"],
-                            "variants": ["\(self.userDefaults.valueForKey("variantID") as! String)"]
-                        ]
-                    ]
-                    
-                    // Send to push server
-                    restReq.sendPostRequest(data, url: "https://push-baneville.rhcloud.com/ag-push/rest/sender") { (success, msg) -> () in
-                        // Completion code here
-                        // println(success)
-                        
-                        let status = msg["status"] as! String
-                        if status.containsString("FAILURE") {
-                            print(status)
-                        }
+                // Get reciever device token
+                self.ref.child("devices").child(setFor).observeEventType(.Value, withBlock: { (snapshot) in
+                    if snapshot.value != nil {
+                        token = snapshot.value!.objectForKey("token") as! String
                     }
                     
+                    if token != "" {
+                        let data: [String: AnyObject] = [
+                            "to": token,
+                            "notification": [
+                                "title": "New MightyMinder",
+                                "body": "\(senderName) set a reminder for you: \(content) - Swipe to update your reminders",
+                            ],
+                            "data": [
+                                "latitude": location["latitude"]!,
+                                "longitude": location["longitude"]!
+                            ]
+                        ]
+                        
+                        // Send to push server
+                        restReq.sendPostRequest(data) { (success, msg) -> () in
+                            // Completion code here
+                            // print(success)
+                            
+                            let status = msg["status"] as! String
+                            if status.containsString("FAILURE") {
+                                print(status)
+                            }
+                        }
+                    }
                 })
                 
             })
