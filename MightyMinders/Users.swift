@@ -63,8 +63,6 @@ class Users: User {
             if error != nil {
                 completion(error: true)
             } else {
-                // Update the APNS alias
-                APNS().updateAlias(dataToUpdate["email_address"]!)
                 completion(error: false)
             }
         }
