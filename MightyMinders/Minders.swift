@@ -16,7 +16,7 @@ class Minders: Minder {
     let ref = FIRDatabase.database().reference()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
-    var processedReminders: [Annotation] = []
+    var processedReminders = Set<Annotation>()
     
     // MARK: The minder getters
     func getPrivateMinders(completion:(privateReminders: FIRDataSnapshot) -> Void) {
@@ -75,7 +75,7 @@ class Minders: Minder {
     }
     
     // MARK: Process Minders
-    func processMinders(reminderSubData: FIRDataSnapshot, type: String) -> [Annotation] {
+    func processMinders(reminderSubData: FIRDataSnapshot, type: String) -> Set<Annotation> {
         
         let enumerator = reminderSubData.children
         while let data = enumerator.nextObject() as? FIRDataSnapshot {
@@ -119,11 +119,11 @@ class Minders: Minder {
                 setBy: setBy
             )
             
-            self.processedReminders.append(annotation)
+            self.processedReminders.insert(annotation)
         }
         
         return self.processedReminders
-        
+    
     }
     
     // MARK: Add Reminder

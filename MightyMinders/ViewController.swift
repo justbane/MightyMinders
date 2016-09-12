@@ -116,28 +116,27 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     // MARK: Notification actions
     func addMinderFromNotification(notification: NSNotification) {
         
-//        let data = notification.userInfo! as! [String: AnyObject]
-//        var latitude = 0.0
-//        var longitude = 0.0
-//        var centerMap = false
+        let data = notification.userInfo! as! [String: AnyObject]
+        var latitude = 0.0
+        var longitude = 0.0
+        var centerMap = false
         
-//        if let urlArgs = data["aps"]!["url-args"] as? NSArray {
-//            if let lat = urlArgs[0] as? String {
-//                latitude = Double(lat)!
-//                centerMap = true
-//            }
-//            if let long = urlArgs[1] as? String {
-//                longitude = Double(long)!
-//                centerMap = true
-//            }
-//            
-//            let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-//            
-//            // Center map on new minder
-//            if centerMap {
-//                mapView.setCenterCoordinate(coordinates, animated: true)
-//            }
-//        }
+        
+        if let lat = data["latitude"] as? String {
+            latitude = Double(lat)!
+            centerMap = true
+        }
+        if let long = data["longitude"] as? String {
+            longitude = Double(long)!
+            centerMap = true
+        }
+        
+        let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+        // Center map on new minder
+        if centerMap {
+            mapView.setCenterCoordinate(coordinates, animated: true)
+        }
         
     }
     
@@ -267,18 +266,9 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             
             // Process private minders
             let privateAnnotations = Minders().processMinders(privateData!, type: "private")
+            
             for annotation in privateAnnotations {
                 
-                // Remove then add annotation to map
-                if let annotations = self.mapView?.annotations as? [Annotation] {
-                    if annotations.count > 0 {
-                        for item in annotations {
-                            if !(item.key.isEmpty) && item.key == annotation.key {
-                                self.removePinAndOverlay(annotation)
-                            }
-                        }
-                    }
-                }
                 // Add to map
                 mapView.addAnnotation(annotation)
                 addRadiusOverlayForMinder(annotation)
@@ -303,36 +293,25 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         if type == "shared" || type == "shared-set-by" {
             
             // Process shared minders
-            let sharedAnnotations: [Annotation]
+            let sharedAnnotations: Set<Annotation>
             
             if type == "shared-set-by" {
                 sharedAnnotations = Minders().processMinders(sharedByData!, type: "shared")
             } else {
                 sharedAnnotations = Minders().processMinders(sharedData!, type: "shared")
             }
-            
+
             for annotation in sharedAnnotations {
-                
-                // Remove annotation from map
-                if let annotations = self.mapView?.annotations as? [Annotation] {
-                    if annotations.count > 0 {
-                        for item in annotations {
-                            if !(item.key.isEmpty) && item.key == annotation.key {
-                                self.removePinAndOverlay(annotation)
-                            }
-                        }
-                    }
-                }
                 
                 // Add to map
                 mapView.addAnnotation(annotation)
                 addRadiusOverlayForMinder(annotation)
-                
+            
                 // Add to keys
                 reminderKeys.insert(annotation.key)
-                
+            
                 let region = self.regionWithMinder(annotation)
-                
+            
                 // Set localNotification
                 if annotation.setFor == FIRAuth.auth()?.currentUser?.uid {
                     let ln:UILocalNotification = UILocalNotification()
@@ -492,8 +471,19 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             radius = 100.00
         }
         
-        let circle = MKCircle(centerCoordinate: annotation.coordinate, radius: radius)
-        mapView?.addOverlay(circle)
+        var hasOverlay = false
+        for overlay in mapView.overlays {
+            if overlay.coordinate.latitude == annotation.coordinate.latitude && overlay.coordinate.longitude == annotation.coordinate.longitude {
+                hasOverlay = true
+                break
+            }
+        }
+        
+        if !hasOverlay {
+            let circle = MKCircle(centerCoordinate: annotation.coordinate, radius: radius)
+            mapView?.addOverlay(circle)
+        }
+        
     }
     
     func removeAllAnnotationAndOverlays() {

@@ -31,7 +31,7 @@ struct HTTPRequests {
                     "Content-Type": "application/json",
                 ]
                 
-                let paramData: [String: AnyObject] = [
+                var paramData: [String: AnyObject] = [
                     "to": params["to"]!,
                     "notification": [
                         "title": params["notification"]!["title"],
@@ -40,6 +40,10 @@ struct HTTPRequests {
                         "click_action": "MAIN_CATEGORY"
                     ]
                 ]
+                
+                if params["data"] != nil {
+                    paramData["data"] = params["data"]
+                }
                 
                 // Send the request
                 // let request =

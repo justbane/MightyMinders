@@ -75,17 +75,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Handle remote notification action
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], withResponseInfo responseInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
         
-        print(identifier)
-        
-//        if identifier == "ADD_MINDER" {
-//            NSNotificationCenter.defaultCenter().postNotificationName("addMinderPressed", object: nil, userInfo: userInfo)
-//            
-//        }
-//        if identifier == "IGNORE_MINDER" {
-//            // what shall we do here?
-//            print("ignored")
-//            
-//        }
+        if identifier == "ADD_MINDER" {
+            NSNotificationCenter.defaultCenter().postNotificationName("addMinderPressed", object: nil, userInfo: userInfo)
+            
+        }
+        if identifier == "IGNORE_MINDER" {
+            // what shall we do here?
+            print("ignored")
+            
+        }
         
         completionHandler()
     }
@@ -95,10 +93,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Recieved a push notification
         // Print message ID.
-        print("Message: \(userInfo)")
+        // print("Message: \(userInfo)")
         
         // Print full message.
-        print("%@", userInfo)
+        // print("%@", userInfo)
         
     }
     
