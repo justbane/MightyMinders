@@ -1,721 +1,1688 @@
-// !$*UTF8*$!
-{
-	archiveVersion = 1;
-	classes = {
-	};
-	objectVersion = 46;
-	objects = {
-
-/* Begin PBXBuildFile section */
-		22EA20B171673A0A27566F8D8406D3B4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
-		3D01B90F408A6CE5CFD3A46E1E6995DF /* Pods-MightyMindersTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AEF84CBFE759E5192CECF9D35C252C37 /* Pods-MightyMindersTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		62B9C13607E04277E02EB26694B1E702 /* Pods-MightyMinders-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AD0CA04140DED3B276406C0F1B955B69 /* Pods-MightyMinders-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F6C4897B0F4AF28CA2B75ECD10DB9BFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
-		FA65F7D5997160F7CBD5636BB598268B /* Pods-MightyMindersTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D13C3B830C88029A122A97E6F8DFE601 /* Pods-MightyMindersTests-dummy.m */; };
-		FF6E82D147EC39E5825E3779B39AE424 /* Pods-MightyMinders-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F35101DABE7D2DE004E51E061F59A172 /* Pods-MightyMinders-dummy.m */; };
-/* End PBXBuildFile section */
-
-/* Begin PBXFileReference section */
-		059210D9E90F7E3394F04A1737B9FA6D /* FirebaseDatabase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseDatabase.framework; path = Frameworks/FirebaseDatabase.framework; sourceTree = "<group>"; };
-		17539BC6A7ADD2EF876C7241999A70BD /* Pods-MightyMinders-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MightyMinders-acknowledgements.plist"; sourceTree = "<group>"; };
-		1A6F6E0804F353DD1352E278807585DD /* FIRMessaging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRMessaging.h; path = Headers/Public/FIRMessaging.h; sourceTree = "<group>"; };
-		20EC212255E3D86411DBFC6CBFE78D0C /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		25E55442E4E2C743ACF9A6E0DDB3D752 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2BB30386BA77D970224ADEA8F3CDFDB7 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = Frameworks/GoogleUtilities.framework; sourceTree = "<group>"; };
-		39D14526B04080ECB7B4F190492B010A /* FirebaseMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseMessaging.framework; path = Frameworks/FirebaseMessaging.framework; sourceTree = "<group>"; };
-		4233AE03ABF88DC792F419BE4BA15F2E /* Pods-MightyMinders.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-MightyMinders.modulemap"; sourceTree = "<group>"; };
-		44E030EFB859AE9B1042ECAA006E4521 /* FIRInstanceID.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRInstanceID.h; path = Headers/Public/FIRInstanceID.h; sourceTree = "<group>"; };
-		4BED8292E61163838867BA11555C330E /* Pods-MightyMinders-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MightyMinders-acknowledgements.markdown"; sourceTree = "<group>"; };
-		60B456AB4D93CA7DC6CFBB4BCB3C9D09 /* Pods-MightyMindersTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MightyMindersTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		636142E2E67BC975203150950992E0BA /* GoogleIPhoneUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleIPhoneUtilities.framework; path = Frameworks/GoogleIPhoneUtilities.framework; sourceTree = "<group>"; };
-		692D9A29CA6F8D86E7323DF46615D1E0 /* Pods-MightyMinders.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MightyMinders.debug.xcconfig"; sourceTree = "<group>"; };
-		73DCD1B03BF266D1F8025B3A8DEA038B /* Pods_MightyMindersTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MightyMindersTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7E58247A737F42019FE4DD1A1B8F5D90 /* Pods-MightyMinders-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MightyMinders-frameworks.sh"; sourceTree = "<group>"; };
-		89D3248586974D32F89A2571BBB32D90 /* FirebaseAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAuth.framework; path = Frameworks/FirebaseAuth.framework; sourceTree = "<group>"; };
-		8F32B2ED13B37355433755117704B2E9 /* Pods-MightyMindersTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MightyMindersTests-frameworks.sh"; sourceTree = "<group>"; };
-		8F5A56F83BF1CA06905D3CFEE7C9C2EA /* Pods-MightyMindersTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MightyMindersTests.debug.xcconfig"; sourceTree = "<group>"; };
-		9146A8D09722DB4ACC4194EFB42E4258 /* Pods-MightyMindersTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MightyMindersTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9BC7842E12A873E78F8A889D370E8B56 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = Frameworks/FirebaseInstanceID.framework; sourceTree = "<group>"; };
-		AD0CA04140DED3B276406C0F1B955B69 /* Pods-MightyMinders-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MightyMinders-umbrella.h"; sourceTree = "<group>"; };
-		AEF84CBFE759E5192CECF9D35C252C37 /* Pods-MightyMindersTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MightyMindersTests-umbrella.h"; sourceTree = "<group>"; };
-		B6A921C7E44230E505D48578270D86CC /* GoogleNetworkingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleNetworkingUtilities.framework; path = Frameworks/GoogleNetworkingUtilities.framework; sourceTree = "<group>"; };
-		BC2BE2DE4E21B01B9841A8D2AE693056 /* GoogleInterchangeUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleInterchangeUtilities.framework; path = Frameworks/GoogleInterchangeUtilities.framework; sourceTree = "<group>"; };
-		BC9B05A1039E84D880936E6E10672FDD /* Pods-MightyMinders.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MightyMinders.release.xcconfig"; sourceTree = "<group>"; };
-		CB19442AA117C033F2BB2B153A14021C /* Pods-MightyMinders-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MightyMinders-resources.sh"; sourceTree = "<group>"; };
-		CD7148550EB2571FCAF3EC60F5DDA538 /* Pods-MightyMindersTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-MightyMindersTests.modulemap"; sourceTree = "<group>"; };
-		CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		D13C3B830C88029A122A97E6F8DFE601 /* Pods-MightyMindersTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MightyMindersTests-dummy.m"; sourceTree = "<group>"; };
-		D36B03B213C98D28A7767FB32E1E5630 /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Frameworks/FirebaseAnalytics.framework; sourceTree = "<group>"; };
-		D9BBB16E7573FA3E4A64A3AB9512F1F3 /* Pods_MightyMinders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MightyMinders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC589FD16701819C35C279B22593674D /* Pods-MightyMindersTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MightyMindersTests-resources.sh"; sourceTree = "<group>"; };
-		DFB870D3EDCE0EA330030083D6D92DF6 /* Firebase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Firebase.h; path = Headers/Firebase.h; sourceTree = "<group>"; };
-		E337D728FB830CED7787C425E01E5814 /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSymbolUtilities.framework; path = Frameworks/GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
-		F06D22FE6DB35A9510B7DA7952B1B90C /* FirebaseRemoteConfig.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseRemoteConfig.framework; path = Frameworks/FirebaseRemoteConfig.framework; sourceTree = "<group>"; };
-		F35101DABE7D2DE004E51E061F59A172 /* Pods-MightyMinders-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MightyMinders-dummy.m"; sourceTree = "<group>"; };
-		F413B64D85153C6FF8F66A92F70089CB /* Pods-MightyMindersTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MightyMindersTests.release.xcconfig"; sourceTree = "<group>"; };
-/* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		2DAF3F3B1F532F6DA1438C24804C2F7E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F6C4897B0F4AF28CA2B75ECD10DB9BFC /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D2C82C096F473FF04101ADB762BEB265 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				22EA20B171673A0A27566F8D8406D3B4 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
-/* Begin PBXGroup section */
-		0CDE42FD823B6E78EFB6B74624B576F6 /* FirebaseRemoteConfig */ = {
-			isa = PBXGroup;
-			children = (
-				9FF9857F6FFE92612564C0F567AC0AEC /* Frameworks */,
-			);
-			path = FirebaseRemoteConfig;
-			sourceTree = "<group>";
-		};
-		1B53B3E13877764C80A8FAD82A428E34 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				BB88A17F1BB36C79344B5A89E8CE87E9 /* Firebase */,
-				330F6805285508FA0E3D3D3C6C9C741E /* FirebaseAnalytics */,
-				6DBFC3A0E62CBB91C69F3B9B1718B1A7 /* FirebaseAuth */,
-				258ED1724DD22687DB1D64DD4FA4D733 /* FirebaseDatabase */,
-				B227C4EF3814515CED8781ED0D313BB1 /* FirebaseInstanceID */,
-				CD348BE42DCB24D64C60EE1E7509646F /* FirebaseMessaging */,
-				0CDE42FD823B6E78EFB6B74624B576F6 /* FirebaseRemoteConfig */,
-				68559FB685879AB1AB17E5A465F3B88D /* GoogleInterchangeUtilities */,
-				3E5905B1A50193435BDD066EC332CDC4 /* GoogleIPhoneUtilities */,
-				EFB7F6EA4E56419905ED77A1F89C96F1 /* GoogleNetworkingUtilities */,
-				C8A0951AF9EC7F742D26EA416401C0F0 /* GoogleSymbolUtilities */,
-				F4C346BF985242948AF9CD37185FEB62 /* GoogleUtilities */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		1ED154F644B5AD81B6404355263BECD6 /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				65436A030A2D64CAB0D4EE45AB1D30E4 /* Pods-MightyMinders */,
-				A5F2941304987FA2570C8BA5888BC79D /* Pods-MightyMindersTests */,
-			);
-			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
-		258ED1724DD22687DB1D64DD4FA4D733 /* FirebaseDatabase */ = {
-			isa = PBXGroup;
-			children = (
-				C6C133385EFCC6C3BDCDD29DA3474702 /* Frameworks */,
-			);
-			path = FirebaseDatabase;
-			sourceTree = "<group>";
-		};
-		2CAE55F03D9776093D8B2172B93D946C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				89D3248586974D32F89A2571BBB32D90 /* FirebaseAuth.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		330F6805285508FA0E3D3D3C6C9C741E /* FirebaseAnalytics */ = {
-			isa = PBXGroup;
-			children = (
-				A1D977865CA2E7EF578EF25A60B75D5F /* Frameworks */,
-			);
-			path = FirebaseAnalytics;
-			sourceTree = "<group>";
-		};
-		3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		3E5905B1A50193435BDD066EC332CDC4 /* GoogleIPhoneUtilities */ = {
-			isa = PBXGroup;
-			children = (
-				F851F0F9F1E37DF9BD71942342024971 /* Frameworks */,
-			);
-			path = GoogleIPhoneUtilities;
-			sourceTree = "<group>";
-		};
-		3FAAE4F732692D9F2B8394523AEE3C24 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9BC7842E12A873E78F8A889D370E8B56 /* FirebaseInstanceID.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		4D0953F931B2B3DCB826665796CF1EC2 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				39D14526B04080ECB7B4F190492B010A /* FirebaseMessaging.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		65436A030A2D64CAB0D4EE45AB1D30E4 /* Pods-MightyMinders */ = {
-			isa = PBXGroup;
-			children = (
-				25E55442E4E2C743ACF9A6E0DDB3D752 /* Info.plist */,
-				4233AE03ABF88DC792F419BE4BA15F2E /* Pods-MightyMinders.modulemap */,
-				4BED8292E61163838867BA11555C330E /* Pods-MightyMinders-acknowledgements.markdown */,
-				17539BC6A7ADD2EF876C7241999A70BD /* Pods-MightyMinders-acknowledgements.plist */,
-				F35101DABE7D2DE004E51E061F59A172 /* Pods-MightyMinders-dummy.m */,
-				7E58247A737F42019FE4DD1A1B8F5D90 /* Pods-MightyMinders-frameworks.sh */,
-				CB19442AA117C033F2BB2B153A14021C /* Pods-MightyMinders-resources.sh */,
-				AD0CA04140DED3B276406C0F1B955B69 /* Pods-MightyMinders-umbrella.h */,
-				692D9A29CA6F8D86E7323DF46615D1E0 /* Pods-MightyMinders.debug.xcconfig */,
-				BC9B05A1039E84D880936E6E10672FDD /* Pods-MightyMinders.release.xcconfig */,
-			);
-			name = "Pods-MightyMinders";
-			path = "Target Support Files/Pods-MightyMinders";
-			sourceTree = "<group>";
-		};
-		68559FB685879AB1AB17E5A465F3B88D /* GoogleInterchangeUtilities */ = {
-			isa = PBXGroup;
-			children = (
-				7FBE2B841B870BFCB13861F50DD718BE /* Frameworks */,
-			);
-			path = GoogleInterchangeUtilities;
-			sourceTree = "<group>";
-		};
-		6DBFC3A0E62CBB91C69F3B9B1718B1A7 /* FirebaseAuth */ = {
-			isa = PBXGroup;
-			children = (
-				2CAE55F03D9776093D8B2172B93D946C /* Frameworks */,
-			);
-			path = FirebaseAuth;
-			sourceTree = "<group>";
-		};
-		79B4F054BB2A1E3BC09601E618F3E9A7 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				2BB30386BA77D970224ADEA8F3CDFDB7 /* GoogleUtilities.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		7DB346D0F39D3F0E887471402A8071AB = {
-			isa = PBXGroup;
-			children = (
-				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
-				1B53B3E13877764C80A8FAD82A428E34 /* Pods */,
-				9F4C917652095964AB8316E7E2CC7455 /* Products */,
-				1ED154F644B5AD81B6404355263BECD6 /* Targets Support Files */,
-			);
-			sourceTree = "<group>";
-		};
-		7FBE2B841B870BFCB13861F50DD718BE /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				BC2BE2DE4E21B01B9841A8D2AE693056 /* GoogleInterchangeUtilities.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		81F713ADA1A8F8D94D126056FCBC19B1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B6A921C7E44230E505D48578270D86CC /* GoogleNetworkingUtilities.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9F4C917652095964AB8316E7E2CC7455 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D9BBB16E7573FA3E4A64A3AB9512F1F3 /* Pods_MightyMinders.framework */,
-				73DCD1B03BF266D1F8025B3A8DEA038B /* Pods_MightyMindersTests.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9FF9857F6FFE92612564C0F567AC0AEC /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F06D22FE6DB35A9510B7DA7952B1B90C /* FirebaseRemoteConfig.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		A1D977865CA2E7EF578EF25A60B75D5F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D36B03B213C98D28A7767FB32E1E5630 /* FirebaseAnalytics.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		A5F2941304987FA2570C8BA5888BC79D /* Pods-MightyMindersTests */ = {
-			isa = PBXGroup;
-			children = (
-				20EC212255E3D86411DBFC6CBFE78D0C /* Info.plist */,
-				CD7148550EB2571FCAF3EC60F5DDA538 /* Pods-MightyMindersTests.modulemap */,
-				60B456AB4D93CA7DC6CFBB4BCB3C9D09 /* Pods-MightyMindersTests-acknowledgements.markdown */,
-				9146A8D09722DB4ACC4194EFB42E4258 /* Pods-MightyMindersTests-acknowledgements.plist */,
-				D13C3B830C88029A122A97E6F8DFE601 /* Pods-MightyMindersTests-dummy.m */,
-				8F32B2ED13B37355433755117704B2E9 /* Pods-MightyMindersTests-frameworks.sh */,
-				DC589FD16701819C35C279B22593674D /* Pods-MightyMindersTests-resources.sh */,
-				AEF84CBFE759E5192CECF9D35C252C37 /* Pods-MightyMindersTests-umbrella.h */,
-				8F5A56F83BF1CA06905D3CFEE7C9C2EA /* Pods-MightyMindersTests.debug.xcconfig */,
-				F413B64D85153C6FF8F66A92F70089CB /* Pods-MightyMindersTests.release.xcconfig */,
-			);
-			name = "Pods-MightyMindersTests";
-			path = "Target Support Files/Pods-MightyMindersTests";
-			sourceTree = "<group>";
-		};
-		B227C4EF3814515CED8781ED0D313BB1 /* FirebaseInstanceID */ = {
-			isa = PBXGroup;
-			children = (
-				44E030EFB859AE9B1042ECAA006E4521 /* FIRInstanceID.h */,
-				3FAAE4F732692D9F2B8394523AEE3C24 /* Frameworks */,
-			);
-			path = FirebaseInstanceID;
-			sourceTree = "<group>";
-		};
-		BB88A17F1BB36C79344B5A89E8CE87E9 /* Firebase */ = {
-			isa = PBXGroup;
-			children = (
-				D195DAE8EC63BA8A8AE33415BCD221B9 /* Analytics */,
-			);
-			path = Firebase;
-			sourceTree = "<group>";
-		};
-		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C14AFD5EF09C01CAD73C00C0727AAA71 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				E337D728FB830CED7787C425E01E5814 /* GoogleSymbolUtilities.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C6C133385EFCC6C3BDCDD29DA3474702 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				059210D9E90F7E3394F04A1737B9FA6D /* FirebaseDatabase.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C8A0951AF9EC7F742D26EA416401C0F0 /* GoogleSymbolUtilities */ = {
-			isa = PBXGroup;
-			children = (
-				C14AFD5EF09C01CAD73C00C0727AAA71 /* Frameworks */,
-			);
-			path = GoogleSymbolUtilities;
-			sourceTree = "<group>";
-		};
-		CD348BE42DCB24D64C60EE1E7509646F /* FirebaseMessaging */ = {
-			isa = PBXGroup;
-			children = (
-				1A6F6E0804F353DD1352E278807585DD /* FIRMessaging.h */,
-				4D0953F931B2B3DCB826665796CF1EC2 /* Frameworks */,
-			);
-			path = FirebaseMessaging;
-			sourceTree = "<group>";
-		};
-		D195DAE8EC63BA8A8AE33415BCD221B9 /* Analytics */ = {
-			isa = PBXGroup;
-			children = (
-				DFB870D3EDCE0EA330030083D6D92DF6 /* Firebase.h */,
-			);
-			name = Analytics;
-			sourceTree = "<group>";
-		};
-		EFB7F6EA4E56419905ED77A1F89C96F1 /* GoogleNetworkingUtilities */ = {
-			isa = PBXGroup;
-			children = (
-				81F713ADA1A8F8D94D126056FCBC19B1 /* Frameworks */,
-			);
-			path = GoogleNetworkingUtilities;
-			sourceTree = "<group>";
-		};
-		F4C346BF985242948AF9CD37185FEB62 /* GoogleUtilities */ = {
-			isa = PBXGroup;
-			children = (
-				79B4F054BB2A1E3BC09601E618F3E9A7 /* Frameworks */,
-			);
-			path = GoogleUtilities;
-			sourceTree = "<group>";
-		};
-		F851F0F9F1E37DF9BD71942342024971 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				636142E2E67BC975203150950992E0BA /* GoogleIPhoneUtilities.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-/* End PBXGroup section */
-
-/* Begin PBXHeadersBuildPhase section */
-		053113E80D006A6A982FB9BE8799B96D /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				62B9C13607E04277E02EB26694B1E702 /* Pods-MightyMinders-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		136052DBD608F312EF0A6C4804BB855B /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3D01B90F408A6CE5CFD3A46E1E6995DF /* Pods-MightyMindersTests-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
-/* Begin PBXNativeTarget section */
-		67631107BCA9240503CC8E361AA32A44 /* Pods-MightyMindersTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AD5778C9BFDF51640495153B8CB930D8 /* Build configuration list for PBXNativeTarget "Pods-MightyMindersTests" */;
-			buildPhases = (
-				9895AC0138A1705D0BD1E7F05C78846E /* Sources */,
-				D2C82C096F473FF04101ADB762BEB265 /* Frameworks */,
-				136052DBD608F312EF0A6C4804BB855B /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-MightyMindersTests";
-			productName = "Pods-MightyMindersTests";
-			productReference = 73DCD1B03BF266D1F8025B3A8DEA038B /* Pods_MightyMindersTests.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		DEC44E01F2402D2FA49D65A88887C1A9 /* Pods-MightyMinders */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 848BD20A64E40E6CBA1BD43CCD672713 /* Build configuration list for PBXNativeTarget "Pods-MightyMinders" */;
-			buildPhases = (
-				483A4A18830F5012C0BE694CA3540172 /* Sources */,
-				2DAF3F3B1F532F6DA1438C24804C2F7E /* Frameworks */,
-				053113E80D006A6A982FB9BE8799B96D /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-MightyMinders";
-			productName = "Pods-MightyMinders";
-			productReference = D9BBB16E7573FA3E4A64A3AB9512F1F3 /* Pods_MightyMinders.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-/* End PBXNativeTarget section */
-
-/* Begin PBXProject section */
-		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0700;
-			};
-			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
-			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 9F4C917652095964AB8316E7E2CC7455 /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				DEC44E01F2402D2FA49D65A88887C1A9 /* Pods-MightyMinders */,
-				67631107BCA9240503CC8E361AA32A44 /* Pods-MightyMindersTests */,
-			);
-		};
-/* End PBXProject section */
-
-/* Begin PBXSourcesBuildPhase section */
-		483A4A18830F5012C0BE694CA3540172 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FF6E82D147EC39E5825E3779B39AE424 /* Pods-MightyMinders-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9895AC0138A1705D0BD1E7F05C78846E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FA65F7D5997160F7CBD5636BB598268B /* Pods-MightyMindersTests-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin XCBuildConfiguration section */
-		513237CB20B97341074DB0B13930CD23 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC9B05A1039E84D880936E6E10672FDD /* Pods-MightyMinders.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-MightyMinders/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-MightyMinders/Pods-MightyMinders.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_MightyMinders;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		7F6E181EAB24280412028ECCB8015D8F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		98EF565919BBBBDAF1AC9DB5C3020ED6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 692D9A29CA6F8D86E7323DF46615D1E0 /* Pods-MightyMinders.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-MightyMinders/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-MightyMinders/Pods-MightyMinders.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_MightyMinders;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		A29D7B4850CDFED870E7CEBE7DAC0E63 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_DEBUG=1",
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				ONLY_ACTIVE_ARCH = YES;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Debug;
-		};
-		AA079CD9F13868AB031C8B010128AFF8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F413B64D85153C6FF8F66A92F70089CB /* Pods-MightyMindersTests.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-MightyMindersTests/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-MightyMindersTests/Pods-MightyMindersTests.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_MightyMindersTests;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		AE22A7AAFFB4F2AA857CD97E932063EB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F5A56F83BF1CA06905D3CFEE7C9C2EA /* Pods-MightyMindersTests.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-MightyMindersTests/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-MightyMindersTests/Pods-MightyMindersTests.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_MightyMindersTests;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-/* End XCBuildConfiguration section */
-
-/* Begin XCConfigurationList section */
-		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A29D7B4850CDFED870E7CEBE7DAC0E63 /* Debug */,
-				7F6E181EAB24280412028ECCB8015D8F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		848BD20A64E40E6CBA1BD43CCD672713 /* Build configuration list for PBXNativeTarget "Pods-MightyMinders" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98EF565919BBBBDAF1AC9DB5C3020ED6 /* Debug */,
-				513237CB20B97341074DB0B13930CD23 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AD5778C9BFDF51640495153B8CB930D8 /* Build configuration list for PBXNativeTarget "Pods-MightyMindersTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AE22A7AAFFB4F2AA857CD97E932063EB /* Debug */,
-				AA079CD9F13868AB031C8B010128AFF8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-/* End XCConfigurationList section */
-	};
-	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>archiveVersion</key>
+	<string>1</string>
+	<key>classes</key>
+	<dict/>
+	<key>objectVersion</key>
+	<string>46</string>
+	<key>objects</key>
+	<dict>
+		<key>034014829C1E4434983CF3A690C12017</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>CLANG_ANALYZER_NONNULL</key>
+				<string>YES</string>
+				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
+				<string>gnu++0x</string>
+				<key>CLANG_CXX_LIBRARY</key>
+				<string>libc++</string>
+				<key>CLANG_ENABLE_MODULES</key>
+				<string>YES</string>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
+				<key>CLANG_WARN_BOOL_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
+				<string>YES</string>
+				<key>CLANG_WARN_EMPTY_BODY</key>
+				<string>YES</string>
+				<key>CLANG_WARN_ENUM_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_INT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
+				<string>YES</string>
+				<key>CLANG_WARN_UNREACHABLE_CODE</key>
+				<string>YES</string>
+				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
+				<string>YES</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>ENABLE_TESTABILITY</key>
+				<string>YES</string>
+				<key>GCC_C_LANGUAGE_STANDARD</key>
+				<string>gnu99</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>POD_CONFIGURATION_DEBUG=1</string>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
+				<string>YES</string>
+				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_FUNCTION</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_VARIABLE</key>
+				<string>YES</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>9.0</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
+				<key>STRIP_INSTALLED_PRODUCT</key>
+				<string>NO</string>
+				<key>SYMROOT</key>
+				<string>${SRCROOT}/../build</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>053113E80D006A6A982FB9BE8799B96D</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>62B9C13607E04277E02EB26694B1E702</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>059210D9E90F7E3394F04A1737B9FA6D</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>FirebaseDatabase.framework</string>
+			<key>path</key>
+			<string>Frameworks/FirebaseDatabase.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CDE42FD823B6E78EFB6B74624B576F6</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>447D10CA2BF4B009F3F9E5E06788ADEF</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>FirebaseRemoteConfig</string>
+			<key>path</key>
+			<string>FirebaseRemoteConfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0FB9D72D08D2E86B5990A91AA82D8F17</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>7972DC9473D799254CA9EABCF8D5528F</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>123885943C52CD1B2A88057D5220A505</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>FIRInstanceID.h</string>
+			<key>path</key>
+			<string>Sources/FIRInstanceID.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>136052DBD608F312EF0A6C4804BB855B</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>3D01B90F408A6CE5CFD3A46E1E6995DF</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>17539BC6A7ADD2EF876C7241999A70BD</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Pods-MightyMinders-acknowledgements.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>1B53B3E13877764C80A8FAD82A428E34</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>BB88A17F1BB36C79344B5A89E8CE87E9</string>
+				<string>330F6805285508FA0E3D3D3C6C9C741E</string>
+				<string>6DBFC3A0E62CBB91C69F3B9B1718B1A7</string>
+				<string>258ED1724DD22687DB1D64DD4FA4D733</string>
+				<string>956551DAD63552E05AB4B6FE3E054622</string>
+				<string>E623A20A520A19DAEBE55B7B4C4F4F39</string>
+				<string>0CDE42FD823B6E78EFB6B74624B576F6</string>
+				<string>68559FB685879AB1AB17E5A465F3B88D</string>
+				<string>3E5905B1A50193435BDD066EC332CDC4</string>
+				<string>EFB7F6EA4E56419905ED77A1F89C96F1</string>
+				<string>C8A0951AF9EC7F742D26EA416401C0F0</string>
+				<string>F4C346BF985242948AF9CD37185FEB62</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>1ED154F644B5AD81B6404355263BECD6</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>65436A030A2D64CAB0D4EE45AB1D30E4</string>
+				<string>A5F2941304987FA2570C8BA5888BC79D</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Targets Support Files</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>20EC212255E3D86411DBFC6CBFE78D0C</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Info.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>22EA20B171673A0A27566F8D8406D3B4</key>
+		<dict>
+			<key>fileRef</key>
+			<string>CEC22C73C1608DFA5D5D78BDCB218219</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>258ED1724DD22687DB1D64DD4FA4D733</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>C6C133385EFCC6C3BDCDD29DA3474702</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>FirebaseDatabase</string>
+			<key>path</key>
+			<string>FirebaseDatabase</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>25E55442E4E2C743ACF9A6E0DDB3D752</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Info.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>2BB30386BA77D970224ADEA8F3CDFDB7</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>GoogleUtilities.framework</string>
+			<key>path</key>
+			<string>Frameworks/GoogleUtilities.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>2D8E8EC45A3A1A1D94AE762CB5028504</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>034014829C1E4434983CF3A690C12017</string>
+				<string>C7E474A03CAE21F1CB6046E7344C59BD</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>2DAF3F3B1F532F6DA1438C24804C2F7E</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>F6C4897B0F4AF28CA2B75ECD10DB9BFC</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>330F6805285508FA0E3D3D3C6C9C741E</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>78179B78B162213DA6CDAA8A925FEE01</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>FirebaseAnalytics</string>
+			<key>path</key>
+			<string>FirebaseAnalytics</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>33DBB7D8314F51FBC9E36215D5D943A5</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>FirebaseRemoteConfig.framework</string>
+			<key>path</key>
+			<string>Frameworks/frameworks/FirebaseRemoteConfig.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>3D01B90F408A6CE5CFD3A46E1E6995DF</key>
+		<dict>
+			<key>fileRef</key>
+			<string>AEF84CBFE759E5192CECF9D35C252C37</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>ATTRIBUTES</key>
+				<array>
+					<string>Public</string>
+				</array>
+			</dict>
+		</dict>
+		<key>3DCAB2B7CDE207B3958B6CB957FCC758</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>CEC22C73C1608DFA5D5D78BDCB218219</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>iOS</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>3E5905B1A50193435BDD066EC332CDC4</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>F851F0F9F1E37DF9BD71942342024971</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>GoogleIPhoneUtilities</string>
+			<key>path</key>
+			<string>GoogleIPhoneUtilities</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4168B5457A25E919F8E04BDBAF680720</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>692D9A29CA6F8D86E7323DF46615D1E0</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEBUG_INFORMATION_FORMAT</key>
+				<string>dwarf</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_NO_COMMON_BLOCKS</key>
+				<string>YES</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/Pods-MightyMinders/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>9.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MACH_O_TYPE</key>
+				<string>staticlib</string>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/Pods-MightyMinders/Pods-MightyMinders.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>YES</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PODS_ROOT</key>
+				<string>$(SRCROOT)</string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>org.cocoapods.${PRODUCT_NAME:rfc1034identifier}</string>
+				<key>PRODUCT_NAME</key>
+				<string>Pods_MightyMinders</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>4233AE03ABF88DC792F419BE4BA15F2E</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>Pods-MightyMinders.modulemap</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>447D10CA2BF4B009F3F9E5E06788ADEF</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>33DBB7D8314F51FBC9E36215D5D943A5</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>483A4A18830F5012C0BE694CA3540172</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>FF6E82D147EC39E5825E3779B39AE424</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>4BED8292E61163838867BA11555C330E</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text</string>
+			<key>path</key>
+			<string>Pods-MightyMinders-acknowledgements.markdown</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4D1A1A12DA372812BE1EFEDE8616ACC2</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>FIRMessaging.h</string>
+			<key>path</key>
+			<string>Sources/FIRMessaging.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>589CCFBD246F50AE7E57105CE1CB21AC</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>8F5A56F83BF1CA06905D3CFEE7C9C2EA</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEBUG_INFORMATION_FORMAT</key>
+				<string>dwarf</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_NO_COMMON_BLOCKS</key>
+				<string>YES</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/Pods-MightyMindersTests/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>9.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MACH_O_TYPE</key>
+				<string>staticlib</string>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/Pods-MightyMindersTests/Pods-MightyMindersTests.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>YES</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PODS_ROOT</key>
+				<string>$(SRCROOT)</string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>org.cocoapods.${PRODUCT_NAME:rfc1034identifier}</string>
+				<key>PRODUCT_NAME</key>
+				<string>Pods_MightyMindersTests</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>5DBA768D06A47924D8480E18BA847314</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>ABCE74B6CD6A8A7511BE19ADB4B618F0</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>60B456AB4D93CA7DC6CFBB4BCB3C9D09</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text</string>
+			<key>path</key>
+			<string>Pods-MightyMindersTests-acknowledgements.markdown</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>62B9C13607E04277E02EB26694B1E702</key>
+		<dict>
+			<key>fileRef</key>
+			<string>AD0CA04140DED3B276406C0F1B955B69</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>ATTRIBUTES</key>
+				<array>
+					<string>Public</string>
+				</array>
+			</dict>
+		</dict>
+		<key>636142E2E67BC975203150950992E0BA</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>GoogleIPhoneUtilities.framework</string>
+			<key>path</key>
+			<string>Frameworks/GoogleIPhoneUtilities.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>65436A030A2D64CAB0D4EE45AB1D30E4</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>25E55442E4E2C743ACF9A6E0DDB3D752</string>
+				<string>4233AE03ABF88DC792F419BE4BA15F2E</string>
+				<string>4BED8292E61163838867BA11555C330E</string>
+				<string>17539BC6A7ADD2EF876C7241999A70BD</string>
+				<string>F35101DABE7D2DE004E51E061F59A172</string>
+				<string>7E58247A737F42019FE4DD1A1B8F5D90</string>
+				<string>CB19442AA117C033F2BB2B153A14021C</string>
+				<string>AD0CA04140DED3B276406C0F1B955B69</string>
+				<string>692D9A29CA6F8D86E7323DF46615D1E0</string>
+				<string>BC9B05A1039E84D880936E6E10672FDD</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods-MightyMinders</string>
+			<key>path</key>
+			<string>Target Support Files/Pods-MightyMinders</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>67631107BCA9240503CC8E361AA32A44</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>AD5778C9BFDF51640495153B8CB930D8</string>
+			<key>buildPhases</key>
+			<array>
+				<string>9895AC0138A1705D0BD1E7F05C78846E</string>
+				<string>D2C82C096F473FF04101ADB762BEB265</string>
+				<string>136052DBD608F312EF0A6C4804BB855B</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-MightyMindersTests</string>
+			<key>productName</key>
+			<string>Pods-MightyMindersTests</string>
+			<key>productReference</key>
+			<string>73DCD1B03BF266D1F8025B3A8DEA038B</string>
+			<key>productType</key>
+			<string>com.apple.product-type.framework</string>
+		</dict>
+		<key>68559FB685879AB1AB17E5A465F3B88D</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>7FBE2B841B870BFCB13861F50DD718BE</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>GoogleInterchangeUtilities</string>
+			<key>path</key>
+			<string>GoogleInterchangeUtilities</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>692D9A29CA6F8D86E7323DF46615D1E0</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-MightyMinders.debug.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6DBFC3A0E62CBB91C69F3B9B1718B1A7</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>7C135A0DB4899C3040810ACE84C1354C</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>FirebaseAuth</string>
+			<key>path</key>
+			<string>FirebaseAuth</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>73DCD1B03BF266D1F8025B3A8DEA038B</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.framework</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>name</key>
+			<string>Pods_MightyMindersTests.framework</string>
+			<key>path</key>
+			<string>Pods-MightyMindersTests.framework</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>78179B78B162213DA6CDAA8A925FEE01</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>9F5F87A72CB69FF2AF7D5492AB76ABB5</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>7972DC9473D799254CA9EABCF8D5528F</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>FirebaseMessaging.framework</string>
+			<key>path</key>
+			<string>Frameworks/frameworks/FirebaseMessaging.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>79B4F054BB2A1E3BC09601E618F3E9A7</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>2BB30386BA77D970224ADEA8F3CDFDB7</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>7A3D56A22F6988198D40764F25AE8087</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>F413B64D85153C6FF8F66A92F70089CB</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEBUG_INFORMATION_FORMAT</key>
+				<string>dwarf-with-dsym</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_NO_COMMON_BLOCKS</key>
+				<string>YES</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/Pods-MightyMindersTests/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>9.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MACH_O_TYPE</key>
+				<string>staticlib</string>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/Pods-MightyMindersTests/Pods-MightyMindersTests.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>NO</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PODS_ROOT</key>
+				<string>$(SRCROOT)</string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>org.cocoapods.${PRODUCT_NAME:rfc1034identifier}</string>
+				<key>PRODUCT_NAME</key>
+				<string>Pods_MightyMindersTests</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>7C135A0DB4899C3040810ACE84C1354C</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>97D4F5A20C3C031BDF8D520CBB191526</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>7DB346D0F39D3F0E887471402A8071AB</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>93A4A3777CF96A4AAC1D13BA6DCCEA73</string>
+				<string>BC3CA7F9E30CC8F7E2DD044DD34432FC</string>
+				<string>1B53B3E13877764C80A8FAD82A428E34</string>
+				<string>9F4C917652095964AB8316E7E2CC7455</string>
+				<string>1ED154F644B5AD81B6404355263BECD6</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>7E58247A737F42019FE4DD1A1B8F5D90</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.script.sh</string>
+			<key>path</key>
+			<string>Pods-MightyMinders-frameworks.sh</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>7FBE2B841B870BFCB13861F50DD718BE</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>BC2BE2DE4E21B01B9841A8D2AE693056</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>81F713ADA1A8F8D94D126056FCBC19B1</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>B6A921C7E44230E505D48578270D86CC</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>848BD20A64E40E6CBA1BD43CCD672713</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>4168B5457A25E919F8E04BDBAF680720</string>
+				<string>ED6B9A7F4282B5BEDC379EDAA41FE091</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>8F32B2ED13B37355433755117704B2E9</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.script.sh</string>
+			<key>path</key>
+			<string>Pods-MightyMindersTests-frameworks.sh</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>8F5A56F83BF1CA06905D3CFEE7C9C2EA</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-MightyMindersTests.debug.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9146A8D09722DB4ACC4194EFB42E4258</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Pods-MightyMindersTests-acknowledgements.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>93A4A3777CF96A4AAC1D13BA6DCCEA73</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>text.script.ruby</string>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text</string>
+			<key>name</key>
+			<string>Podfile</string>
+			<key>path</key>
+			<string>../Podfile</string>
+			<key>sourceTree</key>
+			<string>SOURCE_ROOT</string>
+			<key>xcLanguageSpecificationIdentifier</key>
+			<string>xcode.lang.ruby</string>
+		</dict>
+		<key>956551DAD63552E05AB4B6FE3E054622</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>123885943C52CD1B2A88057D5220A505</string>
+				<string>5DBA768D06A47924D8480E18BA847314</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>FirebaseInstanceID</string>
+			<key>path</key>
+			<string>FirebaseInstanceID</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>97D4F5A20C3C031BDF8D520CBB191526</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>FirebaseAuth.framework</string>
+			<key>path</key>
+			<string>Frameworks/frameworks/FirebaseAuth.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9895AC0138A1705D0BD1E7F05C78846E</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>FA65F7D5997160F7CBD5636BB598268B</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>9F4C917652095964AB8316E7E2CC7455</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>D9BBB16E7573FA3E4A64A3AB9512F1F3</string>
+				<string>73DCD1B03BF266D1F8025B3A8DEA038B</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Products</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9F5F87A72CB69FF2AF7D5492AB76ABB5</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>FirebaseAnalytics.framework</string>
+			<key>path</key>
+			<string>Frameworks/frameworks/FirebaseAnalytics.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>A5F2941304987FA2570C8BA5888BC79D</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>20EC212255E3D86411DBFC6CBFE78D0C</string>
+				<string>CD7148550EB2571FCAF3EC60F5DDA538</string>
+				<string>60B456AB4D93CA7DC6CFBB4BCB3C9D09</string>
+				<string>9146A8D09722DB4ACC4194EFB42E4258</string>
+				<string>D13C3B830C88029A122A97E6F8DFE601</string>
+				<string>8F32B2ED13B37355433755117704B2E9</string>
+				<string>DC589FD16701819C35C279B22593674D</string>
+				<string>AEF84CBFE759E5192CECF9D35C252C37</string>
+				<string>8F5A56F83BF1CA06905D3CFEE7C9C2EA</string>
+				<string>F413B64D85153C6FF8F66A92F70089CB</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods-MightyMindersTests</string>
+			<key>path</key>
+			<string>Target Support Files/Pods-MightyMindersTests</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>ABCE74B6CD6A8A7511BE19ADB4B618F0</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>FirebaseInstanceID.framework</string>
+			<key>path</key>
+			<string>Frameworks/frameworks/FirebaseInstanceID.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>ACA2F3937DBED7180CEA946366CDBF70</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>Firebase.h</string>
+			<key>path</key>
+			<string>Analytics/Sources/Firebase.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>AD0CA04140DED3B276406C0F1B955B69</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>Pods-MightyMinders-umbrella.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>AD5778C9BFDF51640495153B8CB930D8</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>589CCFBD246F50AE7E57105CE1CB21AC</string>
+				<string>7A3D56A22F6988198D40764F25AE8087</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>AEF84CBFE759E5192CECF9D35C252C37</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>Pods-MightyMindersTests-umbrella.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>B6A921C7E44230E505D48578270D86CC</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>GoogleNetworkingUtilities.framework</string>
+			<key>path</key>
+			<string>Frameworks/GoogleNetworkingUtilities.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>BB88A17F1BB36C79344B5A89E8CE87E9</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>DDF5BA09E6D2EE393ED5F6957D2EFD83</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Firebase</string>
+			<key>path</key>
+			<string>Firebase</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>BC2BE2DE4E21B01B9841A8D2AE693056</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>GoogleInterchangeUtilities.framework</string>
+			<key>path</key>
+			<string>Frameworks/GoogleInterchangeUtilities.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>BC3CA7F9E30CC8F7E2DD044DD34432FC</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>3DCAB2B7CDE207B3958B6CB957FCC758</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>BC9B05A1039E84D880936E6E10672FDD</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-MightyMinders.release.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C14AFD5EF09C01CAD73C00C0727AAA71</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>E337D728FB830CED7787C425E01E5814</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C6C133385EFCC6C3BDCDD29DA3474702</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>059210D9E90F7E3394F04A1737B9FA6D</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C7E474A03CAE21F1CB6046E7344C59BD</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>CLANG_ANALYZER_NONNULL</key>
+				<string>YES</string>
+				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
+				<string>gnu++0x</string>
+				<key>CLANG_CXX_LIBRARY</key>
+				<string>libc++</string>
+				<key>CLANG_ENABLE_MODULES</key>
+				<string>YES</string>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
+				<key>CLANG_WARN_BOOL_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
+				<string>YES</string>
+				<key>CLANG_WARN_EMPTY_BODY</key>
+				<string>YES</string>
+				<key>CLANG_WARN_ENUM_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_INT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
+				<string>YES</string>
+				<key>CLANG_WARN_UNREACHABLE_CODE</key>
+				<string>YES</string>
+				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
+				<string>YES</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>ENABLE_NS_ASSERTIONS</key>
+				<string>NO</string>
+				<key>GCC_C_LANGUAGE_STANDARD</key>
+				<string>gnu99</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>POD_CONFIGURATION_RELEASE=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
+				<string>YES</string>
+				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_FUNCTION</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_VARIABLE</key>
+				<string>YES</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>9.0</string>
+				<key>STRIP_INSTALLED_PRODUCT</key>
+				<string>NO</string>
+				<key>SYMROOT</key>
+				<string>${SRCROOT}/../build</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>C8A0951AF9EC7F742D26EA416401C0F0</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>C14AFD5EF09C01CAD73C00C0727AAA71</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>GoogleSymbolUtilities</string>
+			<key>path</key>
+			<string>GoogleSymbolUtilities</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>CB19442AA117C033F2BB2B153A14021C</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.script.sh</string>
+			<key>path</key>
+			<string>Pods-MightyMinders-resources.sh</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>CD7148550EB2571FCAF3EC60F5DDA538</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>Pods-MightyMindersTests.modulemap</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>CEC22C73C1608DFA5D5D78BDCB218219</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>Foundation.framework</string>
+			<key>path</key>
+			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework</string>
+			<key>sourceTree</key>
+			<string>DEVELOPER_DIR</string>
+		</dict>
+		<key>D13C3B830C88029A122A97E6F8DFE601</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>Pods-MightyMindersTests-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D2C82C096F473FF04101ADB762BEB265</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>22EA20B171673A0A27566F8D8406D3B4</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>D41D8CD98F00B204E9800998ECF8427E</key>
+		<dict>
+			<key>attributes</key>
+			<dict>
+				<key>LastSwiftUpdateCheck</key>
+				<string>0730</string>
+				<key>LastUpgradeCheck</key>
+				<string>0700</string>
+			</dict>
+			<key>buildConfigurationList</key>
+			<string>2D8E8EC45A3A1A1D94AE762CB5028504</string>
+			<key>compatibilityVersion</key>
+			<string>Xcode 3.2</string>
+			<key>developmentRegion</key>
+			<string>English</string>
+			<key>hasScannedForEncodings</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXProject</string>
+			<key>knownRegions</key>
+			<array>
+				<string>en</string>
+			</array>
+			<key>mainGroup</key>
+			<string>7DB346D0F39D3F0E887471402A8071AB</string>
+			<key>productRefGroup</key>
+			<string>9F4C917652095964AB8316E7E2CC7455</string>
+			<key>projectDirPath</key>
+			<string></string>
+			<key>projectReferences</key>
+			<array/>
+			<key>projectRoot</key>
+			<string></string>
+			<key>targets</key>
+			<array>
+				<string>DEC44E01F2402D2FA49D65A88887C1A9</string>
+				<string>67631107BCA9240503CC8E361AA32A44</string>
+			</array>
+		</dict>
+		<key>D9BBB16E7573FA3E4A64A3AB9512F1F3</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.framework</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>name</key>
+			<string>Pods_MightyMinders.framework</string>
+			<key>path</key>
+			<string>Pods-MightyMinders.framework</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>DC589FD16701819C35C279B22593674D</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.script.sh</string>
+			<key>path</key>
+			<string>Pods-MightyMindersTests-resources.sh</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>DDF5BA09E6D2EE393ED5F6957D2EFD83</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>ACA2F3937DBED7180CEA946366CDBF70</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Analytics</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>DEC44E01F2402D2FA49D65A88887C1A9</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>848BD20A64E40E6CBA1BD43CCD672713</string>
+			<key>buildPhases</key>
+			<array>
+				<string>483A4A18830F5012C0BE694CA3540172</string>
+				<string>2DAF3F3B1F532F6DA1438C24804C2F7E</string>
+				<string>053113E80D006A6A982FB9BE8799B96D</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-MightyMinders</string>
+			<key>productName</key>
+			<string>Pods-MightyMinders</string>
+			<key>productReference</key>
+			<string>D9BBB16E7573FA3E4A64A3AB9512F1F3</string>
+			<key>productType</key>
+			<string>com.apple.product-type.framework</string>
+		</dict>
+		<key>E337D728FB830CED7787C425E01E5814</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>GoogleSymbolUtilities.framework</string>
+			<key>path</key>
+			<string>Frameworks/GoogleSymbolUtilities.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>E623A20A520A19DAEBE55B7B4C4F4F39</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>4D1A1A12DA372812BE1EFEDE8616ACC2</string>
+				<string>0FB9D72D08D2E86B5990A91AA82D8F17</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>FirebaseMessaging</string>
+			<key>path</key>
+			<string>FirebaseMessaging</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>ED6B9A7F4282B5BEDC379EDAA41FE091</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>BC9B05A1039E84D880936E6E10672FDD</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEBUG_INFORMATION_FORMAT</key>
+				<string>dwarf-with-dsym</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_NO_COMMON_BLOCKS</key>
+				<string>YES</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/Pods-MightyMinders/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>9.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MACH_O_TYPE</key>
+				<string>staticlib</string>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/Pods-MightyMinders/Pods-MightyMinders.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>NO</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PODS_ROOT</key>
+				<string>$(SRCROOT)</string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>org.cocoapods.${PRODUCT_NAME:rfc1034identifier}</string>
+				<key>PRODUCT_NAME</key>
+				<string>Pods_MightyMinders</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>EFB7F6EA4E56419905ED77A1F89C96F1</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>81F713ADA1A8F8D94D126056FCBC19B1</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>GoogleNetworkingUtilities</string>
+			<key>path</key>
+			<string>GoogleNetworkingUtilities</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F35101DABE7D2DE004E51E061F59A172</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>Pods-MightyMinders-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F413B64D85153C6FF8F66A92F70089CB</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-MightyMindersTests.release.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F4C346BF985242948AF9CD37185FEB62</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>79B4F054BB2A1E3BC09601E618F3E9A7</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>GoogleUtilities</string>
+			<key>path</key>
+			<string>GoogleUtilities</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6C4897B0F4AF28CA2B75ECD10DB9BFC</key>
+		<dict>
+			<key>fileRef</key>
+			<string>CEC22C73C1608DFA5D5D78BDCB218219</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F851F0F9F1E37DF9BD71942342024971</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>636142E2E67BC975203150950992E0BA</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>FA65F7D5997160F7CBD5636BB598268B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>D13C3B830C88029A122A97E6F8DFE601</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>FF6E82D147EC39E5825E3779B39AE424</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F35101DABE7D2DE004E51E061F59A172</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+	</dict>
+	<key>rootObject</key>
+	<string>D41D8CD98F00B204E9800998ECF8427E</string>
+</dict>
+</plist>
