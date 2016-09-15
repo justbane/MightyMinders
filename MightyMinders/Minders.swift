@@ -14,107 +14,107 @@ protocol Minder {}
 class Minders: Minder {
     
     let ref = FIRDatabase.database().reference()
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard
     
     var processedReminders = Set<Annotation>()
     
     // MARK: The minder getters
-    func getPrivateMinders(completion:(privateReminders: FIRDataSnapshot) -> Void) {
+    func getPrivateMinders(_ completion:@escaping (_ privateReminders: FIRDataSnapshot) -> Void) {
         
         // Private minders
         let userMindersRef = ref.child("minders").child((FIRAuth.auth()?.currentUser?.uid)!).child("private")
         
         // Listen for add of new minders
-        userMindersRef.observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            completion(privateReminders: snapshot)
+        userMindersRef.observe(.value, with: { (snapshot) -> Void in
+            completion(snapshot)
         })
 
         
     }
     
-    func getSharedReminders(completion:(sharedReminders: FIRDataSnapshot) -> Void) {
+    func getSharedReminders(_ completion:@escaping (_ sharedReminders: FIRDataSnapshot) -> Void) {
         
         let sharedMindersRef = ref.child("shared-minders")
         
         // Listen for add of new minders
         // Set for you
-        sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            completion(sharedReminders: snapshot)
+        sharedMindersRef.queryOrdered(byChild: "set-for").queryEqual(toValue: (FIRAuth.auth()?.currentUser?.uid)!).observe(.value, with: { (snapshot) -> Void in
+            completion(snapshot)
         })
 
         
     }
     
     // MARK: Listeners for removals
-    func getRemindersSetByYou(completion:(remindersSetByYou: FIRDataSnapshot) -> Void) {
+    func getRemindersSetByYou(_ completion:@escaping (_ remindersSetByYou: FIRDataSnapshot) -> Void) {
         
         let sharedMindersRef = ref.child("shared-minders")
         
-        sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            completion(remindersSetByYou: snapshot)
+        sharedMindersRef.queryOrdered(byChild: "set-by").queryEqual(toValue: (FIRAuth.auth()?.currentUser?.uid)!).observe(.value, with: { (snapshot) -> Void in
+            completion(snapshot)
         })
         
     }
     
-    func listenForRemindersRemovedForMe(completion:(remindersRemovedForMe: FIRDataSnapshot) -> Void) {
+    func listenForRemindersRemovedForMe(_ completion:@escaping (_ remindersRemovedForMe: FIRDataSnapshot) -> Void) {
         
         let sharedMindersRef = ref.child("shared-minders")
         
-        sharedMindersRef.queryOrderedByChild("set-for").queryEqualToValue((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
-            completion(remindersRemovedForMe: snapshot)
+        sharedMindersRef.queryOrdered(byChild: "set-for").queryEqual(toValue: (FIRAuth.auth()?.currentUser?.uid)!).observe(.childRemoved, with: { (snapshot) -> Void in
+            completion(snapshot)
         })
     }
     
-    func listenForRemindersRemovedByMe(completion:(remindersRemovedByMe: FIRDataSnapshot) -> Void) {
+    func listenForRemindersRemovedByMe(_ completion:@escaping (_ remindersRemovedByMe: FIRDataSnapshot) -> Void) {
         
         let sharedMindersRef = ref.child("shared-minders")
         
-        sharedMindersRef.queryOrderedByChild("set-by").queryEqualToValue((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.ChildRemoved, withBlock: { (snapshot) -> Void in
-            completion(remindersRemovedByMe: snapshot)
+        sharedMindersRef.queryOrdered(byChild: "set-by").queryEqual(toValue: (FIRAuth.auth()?.currentUser?.uid)!).observe(.childRemoved, with: { (snapshot) -> Void in
+            completion(snapshot)
         })
     }
     
     // MARK: Process Minders
-    func processMinders(reminderSubData: FIRDataSnapshot, type: String) -> Set<Annotation> {
+    func processMinders(_ reminderSubData: FIRDataSnapshot, type: String) -> Set<Annotation> {
         
         let enumerator = reminderSubData.children
         while let data = enumerator.nextObject() as? FIRDataSnapshot {
             
             // Add reminders to map
-            let pinLocation = data.value!.valueForKey("location") as! NSDictionary
+            let pinLocation = (data.value! as AnyObject).value(forKey: "location") as! NSDictionary
             
             var timing = 0
-            if let FBTiming = data.value!.valueForKey("timing") as? Int {
+            if let FBTiming = (data.value! as AnyObject).value(forKey: "timing") as? Int {
                 timing = FBTiming
             }
             
             var setFor = ""
-            if data.value!.valueForKey("set-for") !== nil {
-                setFor = data.value!.valueForKey("set-for") as! String
+            if (data.value! as AnyObject).value(forKey: "set-for") !== nil {
+                setFor = (data.value! as AnyObject).value(forKey: "set-for") as! String
             }
             
             var setBy = ""
-            if data.value!.valueForKey("set-by") !== nil {
-                setBy = data.value!.valueForKey("set-by") as! String
+            if (data.value! as AnyObject).value(forKey: "set-by") !== nil {
+                setBy = (data.value! as AnyObject).value(forKey: "set-by") as! String
             }
             
             var address = "";
-            if pinLocation.valueForKey("address") == nil {
+            if pinLocation.value(forKey: "address") == nil {
                 address = "Unknown Address"
             } else {
-                address = pinLocation.valueForKey("address") as! String
+                address = pinLocation.value(forKey: "address") as! String
             }
             
             let annotation = Annotation(
                 key: data.key,
-                title: pinLocation.valueForKey("name") as! String,
+                title: pinLocation.value(forKey: "name") as! String,
                 subtitle: address,
-                content: data.value!.valueForKey("content") as! String,
+                content: (data.value! as AnyObject).value(forKey: "content") as! String,
                 type: type,
                 event: timing,
                 coordinate: CLLocationCoordinate2D(
-                    latitude: pinLocation.valueForKey("latitude") as! CLLocationDegrees,
-                    longitude: pinLocation.valueForKey("longitude") as! CLLocationDegrees),
+                    latitude: pinLocation.value(forKey: "latitude") as! CLLocationDegrees,
+                    longitude: pinLocation.value(forKey: "longitude") as! CLLocationDegrees),
                 setFor: setFor,
                 setBy: setBy
             )
@@ -127,7 +127,7 @@ class Minders: Minder {
     }
     
     // MARK: Add Reminder
-    func addReminder(content: String, location: [String: AnyObject], timing: Int, setBy: String, setFor: String , completion: (returnedMinder: NSDictionary, error: Bool) -> Void) {
+    func addReminder(_ content: String, location: [String: AnyObject], timing: Int, setBy: String, setFor: String , completion: @escaping (_ returnedMinder: NSDictionary, _ error: Bool) -> Void) {
         
         let reminder = [
             "content": content,
@@ -135,7 +135,7 @@ class Minders: Minder {
             "timing": timing,
             "set-by": setBy,
             "set-for": setFor
-        ]
+        ] as [String : Any]
         
         // Set the ref path
         var usersMindersRef = ref.child("minders").child((FIRAuth.auth()?.currentUser?.uid)!).child("private")
@@ -157,7 +157,7 @@ class Minders: Minder {
     }
     
     // MARK: Edit Reminder
-    func editReminder(identifier: String, content: String, location: [String: AnyObject], timing: Int, setBy: String, setFor: String , completion: (returnedMinder: NSDictionary, error: Bool) -> Void) {
+    func editReminder(_ identifier: String, content: String, location: [String: AnyObject], timing: Int, setBy: String, setFor: String , completion: @escaping (_ returnedMinder: NSDictionary, _ error: Bool) -> Void) {
         
         let reminder = [
             "content": content,
@@ -165,7 +165,7 @@ class Minders: Minder {
             "timing": timing,
             "set-by": setBy,
             "set-for": setFor
-        ]
+        ] as [String : Any]
         
         // Set the ref path
         var usersMindersRef = ref.child("minders").child((FIRAuth.auth()?.currentUser?.uid)!).child("private").child(identifier)
@@ -176,7 +176,7 @@ class Minders: Minder {
             usersMindersRef = ref.child("shared-minders").child(identifier)
         }
         
-        usersMindersRef.updateChildValues(reminder as [NSObject : AnyObject], withCompletionBlock: { (error:NSError?, ref:FIRDatabaseReference!) in
+        usersMindersRef.updateChildValues(reminder as [AnyHashable: Any], withCompletionBlock: { (error:NSError?, ref:FIRDatabaseReference!) in
             if error != nil {
                 completion(returnedMinder: reminder, error: true)
             } else {
@@ -192,7 +192,7 @@ class Minders: Minder {
     }
     
     // MARK: Send Reminder Notification
-    func sendReminderNotification(userMinder: NSDictionary) {
+    func sendReminderNotification(_ userMinder: NSDictionary) {
         
         if (FIRAuth.auth()?.currentUser?.uid)! as String != userMinder["set-for"] as! String {
             
@@ -206,20 +206,20 @@ class Minders: Minder {
             
             // Get sender profile data
             let setByRef = self.ref.child("users").child(setBy)
-            setByRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                let first_name: String = snapshot.value!.objectForKey("first_name") as! String
-                let last_name: String = snapshot.value!.objectForKey("last_name") as! String
+            setByRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+                let first_name: String = (snapshot.value! as AnyObject).object(forKey: "first_name") as! String
+                let last_name: String = (snapshot.value! as AnyObject).object(forKey: "last_name") as! String
                 senderName = "\(first_name) \(last_name)"
                 
                 // Get reciever device token
-                self.ref.child("devices").child(setFor).observeEventType(.Value, withBlock: { (snapshot) in
+                self.ref.child("devices").child(setFor).observe(.value, with: { (snapshot) in
                     if snapshot.value != nil {
-                        token = snapshot.value!.objectForKey("token") as! String
+                        token = (snapshot.value! as AnyObject).object(forKey: "token") as! String
                     }
                     
                     if token != "" {
                         let data: [String: AnyObject] = [
-                            "to": token,
+                            "to": token as AnyObject,
                             "notification": [
                                 "title": "New MightyMinder",
                                 "body": "\(senderName) set a reminder for you: \(content) - Swipe to update your reminders",
@@ -236,7 +236,7 @@ class Minders: Minder {
                             // print(success)
                             
                             let status = msg["status"] as! String
-                            if status.containsString("FAILURE") {
+                            if status.contains("FAILURE") {
                                 print(status)
                             }
                         }

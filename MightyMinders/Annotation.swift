@@ -38,11 +38,11 @@ class Annotation : NSObject, MKAnnotation {
     func pinColor() -> MKPinAnnotationColor  {
         switch type {
         case "private":
-            return .Green
+            return .green
         case "shared":
-            return .Red
+            return .red
         default:
-            return .Purple
+            return .purple
         }
     }
     

@@ -11,7 +11,7 @@ import UIKit
 class RegisterViewController: UIViewController, UITextFieldDelegate {
 
     let ref = FIRDatabase.database().reference()
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard
     
     @IBOutlet weak var emailFld: UITextField!
     @IBOutlet weak var passFld: UITextField!
@@ -28,14 +28,14 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        activity.hidden = true
+        activity.isHidden = true
         
         // Set the background color
         // let background = Colors(colorString: "blue").getGradient()
         // background.frame = self.view.bounds
         // blueView.layer.insertSublayer(background, atIndex: 0)
         
-        errorTxt!.hidden = true
+        errorTxt!.isHidden = true
         
         emailFld.delegate = self
         passFld.delegate = self
@@ -48,12 +48,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
+        super.touchesBegan(touches, with: event)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         switch textField
         {
@@ -83,25 +83,25 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         
         if fnameFld.text!.isEmpty {
             fnameFld.layer.borderWidth = 1.0 as CGFloat
-            fnameFld.layer.borderColor = UIColor.redColor().CGColor
+            fnameFld.layer.borderColor = UIColor.red.cgColor
             error = true;
         }
         
         if lnameFld.text!.isEmpty {
             lnameFld.layer.borderWidth = 1.0 as CGFloat
-            lnameFld.layer.borderColor = UIColor.redColor().CGColor
+            lnameFld.layer.borderColor = UIColor.red.cgColor
             error = true;
         }
         
         if passFld.text!.isEmpty {
             passFld.layer.borderWidth = 1.0 as CGFloat
-            passFld.layer.borderColor = UIColor.redColor().CGColor
+            passFld.layer.borderColor = UIColor.red.cgColor
             error = true;
         }
         
         if emailFld.text!.isEmpty {
             emailFld.layer.borderWidth = 1.0 as CGFloat
-            emailFld.layer.borderColor = UIColor.redColor().CGColor
+            emailFld.layer.borderColor = UIColor.red.cgColor
             error = true;
         }
         
@@ -113,29 +113,29 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     // MARK: Actions
-    @IBAction func doRegistration(sender: AnyObject) {
+    @IBAction func doRegistration(_ sender: AnyObject) {
         
-        activity.hidden = false
+        activity.isHidden = false
         
         if (validate() && FIRAuth.auth()?.currentUser == nil) {
-            FIRAuth.auth()?.createUserWithEmail(emailFld.text!, password: passFld.text!,
+            FIRAuth.auth()?.createUser(withEmail: emailFld.text!, password: passFld.text!,
                 completion: { (user, error) in
                     
                     if error != nil {
-                        self.errorTxt.hidden = false
+                        self.errorTxt.isHidden = false
                         if let errorCode = FIRAuthErrorCode(rawValue: error!.code) {
                             
                             switch(errorCode) {
                                 
-                            case .ErrorCodeEmailAlreadyInUse:
+                            case .errorCodeEmailAlreadyInUse:
                                 self.errorTxt.text = "Error: This email is already in use!"
                                 self.emailFld.layer.borderWidth = 1.0 as CGFloat
-                                self.emailFld.layer.borderColor = UIColor.redColor().CGColor
+                                self.emailFld.layer.borderColor = UIColor.red.cgColor
                                 
-                            case .ErrorCodeInvalidEmail:
+                            case .errorCodeInvalidEmail:
                                 self.errorTxt.text = "Error: This email is invalid. Please follow the user@domain.com format."
                                 self.emailFld.layer.borderWidth = 1.0 as CGFloat
-                                self.emailFld.layer.borderColor = UIColor.redColor().CGColor
+                                self.emailFld.layer.borderColor = UIColor.red.cgColor
                                 
                             default:
                                 self.errorTxt.text = "Error: Unknown Error!"
@@ -155,17 +155,17 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                                 if error {
                                     
                                     self.errorTxt?.text = "Error: Please fill in all fields!"
-                                    self.errorTxt.hidden = false
+                                    self.errorTxt.isHidden = false
                                     
                                 } else {
                                     
                                     self.errorTxt?.text = "Success"
-                                    self.errorTxt.textColor = UIColor.greenColor()
-                                    self.errorTxt.hidden = false
+                                    self.errorTxt.textColor = UIColor.green
+                                    self.errorTxt.isHidden = false
                                     
-                                    self.dismissViewControllerAnimated(true, completion: nil)
+                                    self.dismiss(animated: true, completion: nil)
                                 }
-                                self.activity.hidden = true
+                                self.activity.isHidden = true
                             })
                             
                         }
@@ -177,8 +177,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         } else {
             
             self.errorTxt?.text = "Error: Please fill in all fields!"
-            self.errorTxt.hidden = false
-            activity.hidden = true
+            self.errorTxt.isHidden = false
+            activity.isHidden = true
             
         }
     }

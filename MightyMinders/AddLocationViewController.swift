@@ -46,7 +46,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // check for valid user
         if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
@@ -78,7 +78,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
     }
     
     // MARK: Segues
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         
         // check to see if segue should happen (have they selected a location?
         if identifier == "LocationUnwindSegue" {
@@ -97,15 +97,15 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
     
     
     // MARK: Button Actions
-    func addPinAction(sender: UIGestureRecognizer) {
+    func addPinAction(_ sender: UIGestureRecognizer) {
         
         // Catch long touch and add pin/annotation
-        if sender.state != UIGestureRecognizerState.Began {
+        if sender.state != UIGestureRecognizerState.began {
             return
         }
         
-        let touchPoint: CGPoint = sender.locationInView(mapView)
-        let touchedCoordinate: CLLocationCoordinate2D = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
+        let touchPoint: CGPoint = sender.location(in: mapView)
+        let touchedCoordinate: CLLocationCoordinate2D = mapView.convert(touchPoint, toCoordinateFrom: mapView)
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = touchedCoordinate
@@ -114,7 +114,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
         
     }
     
-    func pinButtonAction(sender: AnyObject) {
+    func pinButtonAction(_ sender: AnyObject) {
         
         // When an annotation button is pressed - handle action ans set data
         if self.mapView.selectedAnnotations.count == 0 {
@@ -135,19 +135,19 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
                 
                 if let title: String = annotation.title! {
                     self.locationLbl.text = title
-                    self.locationLbl.textColor = UIColor.grayColor()
-                    self.selectedLocation["name"] = title
+                    self.locationLbl.textColor = UIColor.gray
+                    self.selectedLocation["name"] = title as AnyObject?
                 }
                 
                 if let address = placeMark.thoroughfare {
                     self.locationLbl.text = "\(self.locationLbl.text!) at \(address)"
-                    self.selectedLocation["address"] = address
+                    self.selectedLocation["address"] = address as AnyObject?
                 }
                 
-                self.useLocationCheckMark.hidden = false
+                self.useLocationCheckMark.isHidden = false
                 
-                self.selectedLocation["latitude"] = annotation.coordinate.latitude
-                self.selectedLocation["longitude"] = annotation.coordinate.longitude
+                self.selectedLocation["latitude"] = annotation.coordinate.latitude as AnyObject?
+                self.selectedLocation["longitude"] = annotation.coordinate.longitude as AnyObject?
                 
                 
             })
@@ -156,15 +156,15 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
         
     }
     
-    @IBAction func closeBtnAction(sender: AnyObject) {
+    @IBAction func closeBtnAction(_ sender: AnyObject) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
     
     // MARK: Search Functions
-    @IBAction func searchFieldReturn(sender: AnyObject) {
+    @IBAction func searchFieldReturn(_ sender: AnyObject) {
         
         // Init search on map
         sender.resignFirstResponder()
@@ -183,23 +183,23 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
         
         let search = MKLocalSearch(request: request)
         
-        search.startWithCompletionHandler { (response, error) -> Void in
+        search.start { (response, error) -> Void in
             
             if error != nil {
-                let alert = UIAlertController(title: "Search Error", message: "There was an error with your search: \(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
-                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                let alert = UIAlertController(title: "Search Error", message: "There was an error with your search: \(error!.localizedDescription)", preferredStyle: UIAlertControllerStyle.alert)
+                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
                 
                 // Add the actions
                 alert.addAction(okAction)
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
                 
             } else if response!.mapItems.count == 0 {
-                let alert = UIAlertController(title: "No Matches Found", message: "No matches found for your search", preferredStyle: UIAlertControllerStyle.Alert)
-                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                let alert = UIAlertController(title: "No Matches Found", message: "No matches found for your search", preferredStyle: UIAlertControllerStyle.alert)
+                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
                 
                 // Add the actions
                 alert.addAction(okAction)
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
                 
             } else {
                 // print("Matches found")
@@ -227,23 +227,23 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
     
     
     // MARK: Location Manager
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == .AuthorizedAlways || status == .AuthorizedWhenInUse {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
             locationManager.startUpdatingLocation()
         }
         
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        let alert = UIAlertController(title: "Location Error", message: "There was an error getting your location. MightyMinders needs your location to work correctly. Please adjust your location settings in the Settings app.", preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        let alert = UIAlertController(title: "Location Error", message: "There was an error getting your location. MightyMinders needs your location to work correctly. Please adjust your location settings in the Settings app.", preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         
         // Add the actions
         alert.addAction(okAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         currentLocation = manager.location
         doMapView()
@@ -255,7 +255,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
     
     
     // MARK: Required Methods
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         // Draw map view and setup the annotation buttons and handler
         if annotation is MKUserLocation {
@@ -265,19 +265,19 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
         
         let reuseId = "pin"
         
-        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
             pinView!.animatesDrop = true
-            pinView!.pinColor = .Green
+            pinView!.pinColor = .green
             
             let pinIcon = UIImage(named: "sign-add.png")
             
-            let pinButton: UIButton = UIButton(type: UIButtonType.Custom)
-            pinButton.frame = CGRectMake(32, 32, 32, 32)
-            pinButton.setImage(pinIcon, forState: .Normal)
-            pinButton.addTarget(self, action: #selector(pinButtonAction), forControlEvents: UIControlEvents.TouchUpInside)
+            let pinButton: UIButton = UIButton(type: UIButtonType.custom)
+            pinButton.frame = CGRect(x: 32, y: 32, width: 32, height: 32)
+            pinButton.setImage(pinIcon, for: UIControlState())
+            pinButton.addTarget(self, action: #selector(pinButtonAction), for: UIControlEvents.touchUpInside)
             
             pinView!.rightCalloutAccessoryView = pinButton as UIView
             

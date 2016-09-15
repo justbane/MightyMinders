@@ -35,20 +35,20 @@ class ViewReminderViewController: MMCustomViewController {
         timingLbl.text = timingText
         
         if !(selectedFriendFromView.isEmpty) {
-            setByLbl.hidden = false
+            setByLbl.isHidden = false
             let friendRef = ref.child("users").child(selectedFriendFromView)
-            friendRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+            friendRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
                 // Set data from location controller
-                let first_name: String = snapshot.value!.objectForKey("first_name") as! String
-                let last_name: String = snapshot.value!.objectForKey("last_name") as! String
+                let first_name: String = (snapshot.value! as AnyObject).object(forKey: "first_name") as! String
+                let last_name: String = (snapshot.value! as AnyObject).object(forKey: "last_name") as! String
                 
                 if (FIRAuth.auth()?.currentUser?.uid)! != self.selectedFriendFromView {
                     self.setByLbl.text = "Set for: \(first_name) \(last_name)"
                 } else {
                     let setForRef = self.ref.child("users/\(self.setByFromView)")
-                    setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                        let first_name: String = snapshot.value!.objectForKey("first_name") as! String
-                        let last_name: String = snapshot.value!.objectForKey("last_name") as! String
+                    setForRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+                        let first_name: String = (snapshot.value! as AnyObject).object(forKey: "first_name") as! String
+                        let last_name: String = (snapshot.value! as AnyObject).object(forKey: "last_name") as! String
                         self.setByLbl.text = "Set for you by: \(first_name) \(last_name)"
                     })
                 }
@@ -58,7 +58,7 @@ class ViewReminderViewController: MMCustomViewController {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Check for valid user
         if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
@@ -70,18 +70,18 @@ class ViewReminderViewController: MMCustomViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func closeBtnAction(sender: AnyObject) {
+    @IBAction func closeBtnAction(_ sender: AnyObject) {
         completeReminder = false
     }
     
-    @IBAction func completeBtnAction(sender: AnyObject) {
+    @IBAction func completeBtnAction(_ sender: AnyObject) {
         completeReminder = true
     }
     
     
     // MARK: Segues
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        self.dismiss(animated: true, completion: nil)
         return true
     }
 

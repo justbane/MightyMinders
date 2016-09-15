@@ -11,8 +11,8 @@ import UIKit
 class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, UITableViewDataSource {
 
     let ref = FIRDatabase.database().reference()
-    let userDefaults = NSUserDefaults.standardUserDefaults()
-    var friendData: [FIRDataSnapshot!] = []
+    let userDefaults = UserDefaults.standard
+    var friendData: [FIRDataSnapshot?] = []
     var friendKeys: [String] = []
     
     @IBOutlet weak var tableView: UITableView!
@@ -26,15 +26,15 @@ class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, 
         // Table view setup
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorInset = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsets.zero
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         // Show the activity
         friendsActivity.startAnimating()
-        friendsActivity.hidden = false
+        friendsActivity.isHidden = false
         
         if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
@@ -45,8 +45,8 @@ class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, 
                 let enumerator = friendsRemindMe.children
                 
                 // Reset arrays - reset the table
-                self.friendKeys.removeAll(keepCapacity: false)
-                self.friendData.removeAll(keepCapacity: false)
+                self.friendKeys.removeAll(keepingCapacity: false)
+                self.friendData.removeAll(keepingCapacity: false)
                 self.tableView.reloadData()
                 
                 // Iterate over data
@@ -58,7 +58,7 @@ class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, 
                 
                 // Hide the activity
                 self.friendsActivity.stopAnimating()
-                self.friendsActivity.hidden = true
+                self.friendsActivity.isHidden = true
             })
         }
     }
@@ -86,7 +86,7 @@ class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, 
         
     }
     
-    @IBAction func removeBtnAction(sender: CustomButton) {
+    @IBAction func removeBtnAction(_ sender: CustomButton) {
         
         if (sender.actionData != nil) {
             
@@ -101,41 +101,41 @@ class FriendsRemindViewController: MMCustomViewController, UITableViewDelegate, 
     }
     
     // MARK: TableView requirements
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friendData.count
     }
     
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("canRemindMeCell") as! FindFriendsTableViewCell
-        cell.separatorInset = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
+        let cell = tableView.dequeueReusableCell(withIdentifier: "canRemindMeCell") as! FindFriendsTableViewCell
+        cell.separatorInset = UIEdgeInsets.zero
+        cell.layoutMargins = UIEdgeInsets.zero
         cell.preservesSuperviewLayoutMargins = false
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         
         // Cell button setup
-        cell.allowBtn.actionData = friendData[indexPath.row].key
-        cell.allowBtn.addTarget(self, action: #selector(removeBtnAction), forControlEvents: .TouchUpInside)
+        cell.allowBtn.actionData = friendData[(indexPath as NSIndexPath).row]?.key
+        cell.allowBtn.addTarget(self, action: #selector(removeBtnAction), for: .touchUpInside)
         
         var name : String = ""
         
-        if let firstName = friendData[indexPath.row].value!.valueForKey("first_name") as? NSString {
+        if let firstName = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "first_name") as? NSString {
             name += firstName as String
         }
         
-        if let lastName = friendData[indexPath.row].value!.valueForKey("last_name") as? NSString {
+        if let lastName = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "last_name") as? NSString {
             name += " \(lastName)"
         }
         
         (cell.contentView.viewWithTag(101) as! UILabel).text = name
         
-        if let email = friendData[indexPath.row].value!.valueForKey("email_address") as? NSString {
+        if let email = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "email_address") as? NSString {
             (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
         }
         

@@ -11,20 +11,20 @@ import Alamofire
 
 struct HTTPRequests {
     
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard
     
     // MARK: Send POST request
-    func sendPostRequest(params: [String: AnyObject], postCompleted : (success: Bool, msg: Dictionary<String, NSObject>) -> ()) {
+    func sendPostRequest(_ params: [String: AnyObject], postCompleted : @escaping (_ success: Bool, _ msg: Dictionary<String, NSObject>) -> ()) {
         
         let remoteConfig = FIRRemoteConfig.remoteConfig()
         
-        remoteConfig.fetchWithCompletionHandler { (status, error) in
-            if (status == FIRRemoteConfigFetchStatus.Success) {
+        remoteConfig.fetch { (status, error) in
+            if (status == FIRRemoteConfigFetchStatus.success) {
                 
                 // print("Config fetched!")
                 remoteConfig.activateFetched()
                 
-                let key = remoteConfig.configValueForKey("fcm_key").stringValue!
+                let key = remoteConfig.configValue(forKey: "fcm_key").stringValue!
                 let url = "https://fcm.googleapis.com/fcm/send"
                 let headers = [
                     "Authorization": "key=\(key)",
@@ -47,14 +47,14 @@ struct HTTPRequests {
                 
                 // Send the request
                 // let request =
-                Alamofire.request(.POST, url, parameters: paramData, encoding: .JSON, headers: headers)
+                Alamofire.request(.POST, url, parameters: paramData, encoding: .json, headers: headers)
                     .validate(statusCode: 200..<300)
                     .responseJSON { (response) -> Void in
                         switch response.result {
-                        case .Success:
+                        case .success:
                             postCompleted(success: true, msg: ["status": "\(response)"])
                             
-                        case .Failure:
+                        case .failure:
                             print(response)
                         }
                 }

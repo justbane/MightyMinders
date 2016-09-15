@@ -8,9 +8,9 @@
 
 import UIKit
 
-@IBDesignable public class CustomView: UIView {
+@IBDesignable open class CustomView: UIView {
     
-    override public class func layerClass()->AnyClass{
+    override open class var layerClass:AnyClass{
         return CAGradientLayer.self
     }
     
@@ -24,13 +24,13 @@ import UIKit
         updateUI()
     }
     
-    @IBInspectable var startColor: UIColor = UIColor.clearColor() {
+    @IBInspectable var startColor: UIColor = UIColor.clear {
         didSet {
             updateUI()
         }
     }
     
-    @IBInspectable var endColor: UIColor = UIColor.clearColor() {
+    @IBInspectable var endColor: UIColor = UIColor.clear {
         didSet {
             updateUI()
         }
@@ -48,7 +48,7 @@ import UIKit
         }
     }
     
-    @IBInspectable var borderColor: UIColor = UIColor.clearColor() {
+    @IBInspectable var borderColor: UIColor = UIColor.clear {
         didSet {
             updateUI()
         }
@@ -62,17 +62,17 @@ import UIKit
     
     func updateUI(){
         
-        layer.borderColor = borderColor.CGColor
+        layer.borderColor = borderColor.cgColor
         layer.borderWidth = borderWidth
         
-        let colors:Array = [startColor.CGColor, endColor.CGColor]
+        let colors:Array = [startColor.cgColor, endColor.cgColor]
         gradientLayer.colors = colors
         gradientLayer.cornerRadius = roundness
-        gradientLayer.startPoint = CGPointZero;
+        gradientLayer.startPoint = CGPoint.zero;
         if isHorizontal {
-            gradientLayer.endPoint = CGPointMake(1, 1);
+            gradientLayer.endPoint = CGPoint(x: 1, y: 1);
         } else {
-            gradientLayer.endPoint = CGPointMake(0, 1);
+            gradientLayer.endPoint = CGPoint(x: 0, y: 1);
         }
         
         self.setNeedsDisplay()

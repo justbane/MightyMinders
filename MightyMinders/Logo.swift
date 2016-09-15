@@ -16,7 +16,7 @@ class Logo {
     init(imgName: String, navController: UINavigationController) {
         
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 175, height: 35))
-        imageView!.contentMode = .ScaleAspectFit
+        imageView!.contentMode = .scaleAspectFit
         let image = UIImage(named: imgName)
         imageView!.image = image
         
@@ -25,7 +25,7 @@ class Logo {
     init(imgName: String, tabController: UITabBarController) {
         
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 175, height: 35))
-        imageView!.contentMode = .ScaleAspectFit
+        imageView!.contentMode = .scaleAspectFit
         let image = UIImage(named: imgName)
         imageView!.image = image
     

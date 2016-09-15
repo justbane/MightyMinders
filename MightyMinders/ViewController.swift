@@ -14,7 +14,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
 
     let ref = FIRDatabase.database().reference()
     let locationManager: CLLocationManager = CLLocationManager()
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard
     
     var privateData: FIRDataSnapshot!
     var sharedData: FIRDataSnapshot!
@@ -33,7 +33,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         super.viewDidLoad()
         
         // Listen for notification actions
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addMinderFromNotification), name: "addMinderPressed", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addMinderFromNotification), name: NSNotification.Name(rawValue: "addMinderPressed"), object: nil)
         
         // Do any additional setup after loading the view, typically from a nib.
         // ref.unauth()
@@ -47,7 +47,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         mapView.delegate = self
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // View is shown again
         // print("Updates viewDidAppear fired")
         
@@ -70,19 +70,19 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     func startActivity() {
         // Show the activity
         minderActivity.startAnimating()
-        minderActivity.hidden = false;
+        minderActivity.isHidden = false;
     }
     
     func stopActivity() {
         minderActivity.stopAnimating()
-        minderActivity.hidden = true;
+        minderActivity.isHidden = true;
     }
     
     
     // MARK: Segues
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ViewReminderSegue" {
-            let reminderViewController = segue.destinationViewController as! ViewReminderViewController
+            let reminderViewController = segue.destination as! ViewReminderViewController
             
             if let annotation = self.mapView.selectedAnnotations[0] as? Annotation {
                 reminderViewController.reminderText = annotation.content
@@ -94,18 +94,18 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         }
         
         // Only edit if not the add button
-        if sender!.tag! != 101 {
+        if (sender! as AnyObject).tag! != 101 {
             if segue.identifier == "AddReminderSegue" && self.mapView.selectedAnnotations.count != 0 {
-                let addReminderViewController = segue.destinationViewController as! AddReminderViewController
+                let addReminderViewController = segue.destination as! AddReminderViewController
                 
                 if let annotation = self.mapView.selectedAnnotations[0] as? Annotation {
                     addReminderViewController.reminderTextFromView = annotation.content
                     addReminderViewController.reminderIdentifier = annotation.key
                     addReminderViewController.reminderTimingFromView = annotation.event == 0 ? 0 : 1
-                    addReminderViewController.selectedLocationFromView["name"] = annotation.title
-                    addReminderViewController.selectedLocationFromView["address"] = annotation.subtitle
-                    addReminderViewController.selectedLocationFromView["latitude"] = annotation.coordinate.latitude
-                    addReminderViewController.selectedLocationFromView["longitude"] = annotation.coordinate.longitude
+                    addReminderViewController.selectedLocationFromView["name"] = annotation.title as AnyObject?
+                    addReminderViewController.selectedLocationFromView["address"] = annotation.subtitle as AnyObject?
+                    addReminderViewController.selectedLocationFromView["latitude"] = annotation.coordinate.latitude as AnyObject?
+                    addReminderViewController.selectedLocationFromView["longitude"] = annotation.coordinate.longitude as AnyObject?
                     addReminderViewController.selectedFriendFromView = annotation.setFor
                 }
             }
@@ -114,9 +114,9 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     
     
     // MARK: Notification actions
-    func addMinderFromNotification(notification: NSNotification) {
+    func addMinderFromNotification(_ notification: Notification) {
         
-        let data = notification.userInfo! as! [String: AnyObject]
+        let data = (notification as NSNotification).userInfo! as! [String: AnyObject]
         var latitude = 0.0
         var longitude = 0.0
         var centerMap = false
@@ -135,15 +135,15 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         
         // Center map on new minder
         if centerMap {
-            mapView.setCenterCoordinate(coordinates, animated: true)
+            mapView.setCenter(coordinates, animated: true)
         }
         
     }
     
     // MARK: Segue unwinds
-    @IBAction func unwindFromViewReminder(segue: UIStoryboardSegue) {
+    @IBAction func unwindFromViewReminder(_ segue: UIStoryboardSegue) {
         if segue.identifier == "CompleteBtnUnwindSegue" {
-            if let reminderViewController = segue.sourceViewController as? ViewReminderViewController {
+            if let reminderViewController = segue.source as? ViewReminderViewController {
                 // Remove reminder if complete selected
                 if reminderViewController.completeReminder  {
                     removeMinder(reminderViewController.reminderIdentifier)
@@ -153,23 +153,23 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         }
     }
     
-    @IBAction func unwindFromProfileView(segue: UIStoryboardSegue) {
+    @IBAction func unwindFromProfileView(_ segue: UIStoryboardSegue) {
         if segue.identifier == "LogoutUnwindSegue" {
             // Check for valid user
             if FIRAuth.auth()?.currentUser == nil {
                 showLogin()
-                reminderKeys.removeAll(keepCapacity: false)
+                reminderKeys.removeAll(keepingCapacity: false)
                 totalMindersLbl.text = "0"
                 
                 // Cancel the notifications
-                UIApplication.sharedApplication().cancelAllLocalNotifications()
+                UIApplication.shared.cancelAllLocalNotifications()
             }
         }
     }
     
-    @IBAction func unwindFromReminderListView(segue: UIStoryboardSegue) {
+    @IBAction func unwindFromReminderListView(_ segue: UIStoryboardSegue) {
         
-        let listController = segue.sourceViewController as! ListRemindersViewController
+        let listController = segue.source as! ListRemindersViewController
         
         if segue.identifier == "ListViewUnwindSegue" {
             
@@ -177,17 +177,17 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             var latitude = 0.0
             var longitude = 0.0
             
-            if let lat = data["latitude"] {
+            if let lat = data?["latitude"] {
                 latitude = lat
             }
-            if let long = data["longitude"] {
+            if let long = data?["longitude"] {
                 longitude = long
             }
             
             let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             
             // Center map on new minder
-            mapView.setCenterCoordinate(coordinates, animated: true)
+            mapView.setCenter(coordinates, animated: true)
             
         }
         
@@ -197,7 +197,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     func getReminders() {
         
         // Cancel the notifications then add from firebase
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        UIApplication.shared.cancelAllLocalNotifications()
         
         // Reset the map
         removeAllAnnotationAndOverlays()
@@ -260,7 +260,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     }
     
     // MARK: Update reminders
-    func updateReminders(type: String) {
+    func updateReminders(_ type: String) {
         
         if type == "private" {
             
@@ -285,7 +285,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                 ln.region = region
                 ln.regionTriggersOnce = false
                 ln.soundName = UILocalNotificationDefaultSoundName
-                UIApplication.sharedApplication().scheduleLocalNotification(ln)
+                UIApplication.shared.scheduleLocalNotification(ln)
             }
         
         }
@@ -320,14 +320,14 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                     ln.region = region
                     ln.regionTriggersOnce = false
                     ln.soundName = UILocalNotificationDefaultSoundName
-                    UIApplication.sharedApplication().scheduleLocalNotification(ln)
+                    UIApplication.shared.scheduleLocalNotification(ln)
                 }
             }
             
         }
         
         // Insert keys to defaults
-        userDefaults.setObject(Array(reminderKeys), forKey: "reminderKeys")
+        userDefaults.set(Array(reminderKeys), forKey: "reminderKeys")
         
         // Update total
         totalMindersLbl.text = String(reminderKeys.count)
@@ -337,7 +337,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     }
     
     // MARK: Remove reminders
-    func removeMinder(key: String) {
+    func removeMinder(_ key: String) {
         for annotation in self.mapView.annotations {
             if let minderAnnotation = annotation as? Annotation {
                 if minderAnnotation.key == key {
@@ -349,7 +349,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                         removeRef = ref.child("shared-minders").child(key)
                     }
                     
-                    removeRef.removeValueWithCompletionBlock({ (error, Firebase) -> Void in
+                    removeRef.removeValue(completionBlock: { (error, Firebase) -> Void in
                         if error == nil {
                             self.removePinAndOverlay(minderAnnotation)
                             
@@ -368,7 +368,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                     }
                     
                     // Insert keys to defaults
-                    userDefaults.setObject(Array(reminderKeys), forKey: "reminderKeys")
+                    userDefaults.set(Array(reminderKeys), forKey: "reminderKeys")
                     
                     // Get/update the reminders
                     self.getReminders()
@@ -379,7 +379,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     }
     
     // MARK: Remove pin and overlay
-    func removePinAndOverlay(minderAnnotation: Annotation) {
+    func removePinAndOverlay(_ minderAnnotation: Annotation) {
         // Remove the pin
         self.mapView.removeAnnotation(minderAnnotation)
         
@@ -389,7 +389,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                 if let circleOverlay = overlay as? MKCircle {
                     let coord = circleOverlay.coordinate
                     if coord.latitude == minderAnnotation.coordinate.latitude && coord.longitude == minderAnnotation.coordinate.longitude {
-                        self.mapView?.removeOverlay(circleOverlay)
+                        self.mapView?.remove(circleOverlay)
                         break
                     }
                 }
@@ -398,7 +398,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     }
     
     // MARK: Send complete notification
-    func sendCompleteNotification(userMinder: Annotation) {
+    func sendCompleteNotification(_ userMinder: Annotation) {
         
         if (FIRAuth.auth()?.currentUser?.uid)! as String != userMinder.setBy {
             
@@ -411,20 +411,20 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             
             // Get sender profile data
             let setByRef = self.ref.child("users").child(setFor)
-            setByRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                let first_name: String = snapshot.value!.objectForKey("first_name") as! String
-                let last_name: String = snapshot.value!.objectForKey("last_name") as! String
+            setByRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+                let first_name: String = (snapshot.value! as AnyObject).object(forKey: "first_name") as! String
+                let last_name: String = (snapshot.value! as AnyObject).object(forKey: "last_name") as! String
                 senderName = "\(first_name) \(last_name)"
                 
                 // Get reciever device token
-                self.ref.child("devices").child(setBy).observeEventType(.Value, withBlock: { (snapshot) in
+                self.ref.child("devices").child(setBy).observe(.value, with: { (snapshot) in
                     if snapshot.value != nil {
-                        token = snapshot.value!.objectForKey("token") as! String
+                        token = (snapshot.value! as AnyObject).object(forKey: "token") as! String
                     }
                     
                     if token != "" {
                         let data: [String: AnyObject] = [
-                            "to": token,
+                            "to": token as AnyObject,
                             "notification": [
                                 "title": "MightyMinder Completed",
                                 "body": "\(senderName) completed a reminder!: \(content) - Swipe to update your reminders",
@@ -437,7 +437,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                             // print(success)
                             
                             let status = msg["status"] as! String
-                            if status.containsString("FAILURE") {
+                            if status.contains("FAILURE") {
                                 print(status)
                             }
                         }
@@ -451,7 +451,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     }
     
     // MARK: Regions & Overlays
-    func regionWithMinder(annotation: Annotation) -> CLCircularRegion {
+    func regionWithMinder(_ annotation: Annotation) -> CLCircularRegion {
         
         var radius = 200.00
         if annotation.event == 1 {
@@ -464,7 +464,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         return region
     }
     
-    func addRadiusOverlayForMinder(annotation: Annotation) {
+    func addRadiusOverlayForMinder(_ annotation: Annotation) {
         
         var radius = 200.00
         if annotation.event == 1 {
@@ -480,8 +480,8 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         }
         
         if !hasOverlay {
-            let circle = MKCircle(centerCoordinate: annotation.coordinate, radius: radius)
-            mapView?.addOverlay(circle)
+            let circle = MKCircle(center: annotation.coordinate, radius: radius)
+            mapView?.add(circle)
         }
         
     }
@@ -497,86 +497,86 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     }
     
     // MARK: Location manager fence events
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == .AuthorizedAlways || status == .AuthorizedWhenInUse {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
             locationManager.startUpdatingLocation()
-            mapView.setUserTrackingMode(.Follow, animated: true)
+            mapView.setUserTrackingMode(.follow, animated: true)
         }
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        let alert = UIAlertController(title: "Location Error", message: "There was an error getting your location. MightyMinders needs your location to work correctly. Please adjust your location settings in the Settings app.", preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        let alert = UIAlertController(title: "Location Error", message: "There was an error getting your location. MightyMinders needs your location to work correctly. Please adjust your location settings in the Settings app.", preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         
         // Add the actions
         alert.addAction(okAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locationManager.location
         // Update the button if still tracking user
         if mapView.userTrackingMode.rawValue == 1 {
             let markImage = UIImage(named: "compass-on") as UIImage!
-            locationMarkBtn.setImage(markImage, forState: .Normal)
+            locationMarkBtn.setImage(markImage, for: UIControlState())
         } else {
             let markImage = UIImage(named: "compass") as UIImage!
-            locationMarkBtn.setImage(markImage, forState: .Normal)
+            locationMarkBtn.setImage(markImage, for: UIControlState())
         }
         // Set map region and add current location annotation
         mapView.showsUserLocation = true
     }
     
     // MARK: Button Actions
-    func editButtonAction(sender: AnyObject) {
-        performSegueWithIdentifier("AddReminderSegue", sender: sender)
+    func editButtonAction(_ sender: AnyObject) {
+        performSegue(withIdentifier: "AddReminderSegue", sender: sender)
     }
     
-    func viewButtonAction(sender: AnyObject) {
-        performSegueWithIdentifier("ViewReminderSegue", sender: sender)
+    func viewButtonAction(_ sender: AnyObject) {
+        performSegue(withIdentifier: "ViewReminderSegue", sender: sender)
         
     }
     
-    @IBAction func locateMe(sender: UIButton) {
+    @IBAction func locateMe(_ sender: UIButton) {
         if mapView.userTrackingMode.rawValue == 0 {
-            mapView.setUserTrackingMode(.Follow, animated: true)
+            mapView.setUserTrackingMode(.follow, animated: true)
         } else {
-            mapView.setUserTrackingMode(.None, animated: false)
+            mapView.setUserTrackingMode(.none, animated: false)
         }
         
     }
     
     // MARK: Required methods for mapview
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? Annotation {
             // Draw map view and setup the annotation buttons and handler
             let reuseId = "pin"
         
-            var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
+            var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId)
             
             pinView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
             
             pinView!.image = annotation.pinImage()
-            pinView!.centerOffset = CGPointMake(0, -8)
+            pinView!.centerOffset = CGPoint(x: 0, y: -8)
             
             // This is for pin view - requires different object type
             // pinView!.pinColor = annotation.pinColor()
             
             if annotation.setFor != (FIRAuth.auth()?.currentUser?.uid)! || annotation.type == "private" {
                 let completeIcon = UIImage(named: "edit-notepad.png")
-                let completeButton: UIButton = UIButton(type: UIButtonType.Custom)
-                completeButton.frame = CGRectMake(32, 32, 32, 32)
-                completeButton.setImage(completeIcon, forState: .Normal)
-                completeButton.addTarget(self, action: #selector(editButtonAction), forControlEvents: UIControlEvents.TouchUpInside)
+                let completeButton: UIButton = UIButton(type: UIButtonType.custom)
+                completeButton.frame = CGRect(x: 32, y: 32, width: 32, height: 32)
+                completeButton.setImage(completeIcon, for: UIControlState())
+                completeButton.addTarget(self, action: #selector(editButtonAction), for: UIControlEvents.touchUpInside)
                 pinView!.leftCalloutAccessoryView = completeButton as UIView
             }
             
             let viewIcon = UIImage(named: "info.png")
-            let viewButton: UIButton = UIButton(type: UIButtonType.Custom)
-            viewButton.frame = CGRectMake(32, 32, 32, 32)
-            viewButton.setImage(viewIcon, forState: .Normal)
-            viewButton.addTarget(self, action: #selector(viewButtonAction), forControlEvents: UIControlEvents.TouchUpInside)
+            let viewButton: UIButton = UIButton(type: UIButtonType.custom)
+            viewButton.frame = CGRect(x: 32, y: 32, width: 32, height: 32)
+            viewButton.setImage(viewIcon, for: UIControlState())
+            viewButton.addTarget(self, action: #selector(viewButtonAction), for: UIControlEvents.touchUpInside)
             pinView!.rightCalloutAccessoryView = viewButton as UIView
             
             return pinView
@@ -584,18 +584,18 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
         return nil
     }
     
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         
         let circleRenderer = MKCircleRenderer(overlay: overlay)
         circleRenderer.lineWidth = 1.0
-        circleRenderer.strokeColor = UIColor.grayColor()
-        circleRenderer.fillColor = UIColor.grayColor().colorWithAlphaComponent(0.25)
+        circleRenderer.strokeColor = UIColor.gray
+        circleRenderer.fillColor = UIColor.gray.withAlphaComponent(0.25)
         return circleRenderer
         
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
 }

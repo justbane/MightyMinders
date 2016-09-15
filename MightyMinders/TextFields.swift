@@ -13,13 +13,13 @@ import UIKit
 class MMTextField : UITextField {
     var leftMargin : CGFloat = 10.0
     
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
         var newBounds = bounds
         newBounds.origin.x += leftMargin
         return newBounds
     }
     
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
         var newBounds = bounds
         newBounds.origin.x += leftMargin
         return newBounds

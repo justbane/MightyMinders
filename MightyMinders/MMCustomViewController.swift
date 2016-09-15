@@ -30,8 +30,8 @@ class MMCustomViewController: UIViewController {
     func showLogin() {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") 
-        self.presentViewController(vc, animated: true, completion: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") 
+        self.present(vc, animated: true, completion: nil)
         
     }
     

@@ -13,7 +13,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
     let ref = FIRDatabase.database().reference()
     
     var searchActive: Bool = false;
-    var friendData: [FIRDataSnapshot!] = []
+    var friendData: [FIRDataSnapshot?] = []
     var searchDataCount: Int = 0
     var currentFriends = Set<String>()
     
@@ -30,12 +30,12 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         // Table view setup
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorInset = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsets.zero
         
         // Setup searchbar
         searchBar.delegate = self
-        searchBar.keyboardAppearance = UIKeyboardAppearance.Dark
-        searchBar.autocapitalizationType = UITextAutocapitalizationType.None
+        searchBar.keyboardAppearance = UIKeyboardAppearance.dark
+        searchBar.autocapitalizationType = UITextAutocapitalizationType.none
         
         // Get current friends
         Friends().getFriendKeysThatRemindMe { (friendsRemindMe) -> Void in
@@ -48,11 +48,11 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Check for valid user
         
         // Hide the activity
-        self.searchActivity.hidden = true
+        self.searchActivity.isHidden = true
         
         if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
@@ -65,11 +65,11 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
     }
     
     // MARK: Actions
-    @IBAction func closeBtnAction(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func closeBtnAction(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func allowBtnAction(sender: CustomButton) {
+    @IBAction func allowBtnAction(_ sender: CustomButton) {
         
         var errors = false
         
@@ -94,43 +94,43 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
             })
             
             if !errors {
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
         }
         
     }
     
     // MARK: Searchbar requirements
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchActive = true;
     }
     
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchActive = false;
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false;
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false;
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        if searchText != "" && searchText.characters.count >= 2 && searchText.containsString("@") {
+        if searchText != "" && searchText.characters.count >= 2 && searchText.contains("@") {
             
             // Show activity
             searchActivity.startAnimating()
-            searchActivity.hidden = false
+            searchActivity.isHidden = false
             
             // Search users by email
             Friends().searchFriendsByEmail(searchText, completion: { (usersFound) -> Void in
                 if usersFound.value!.count != nil {
                     
                     // Remove data from array and reset count
-                    self.friendData.removeAll(keepCapacity: false)
+                    self.friendData.removeAll(keepingCapacity: false)
                     self.searchDataCount = 0
                     
                     // Iterate the results and add to array
@@ -153,7 +153,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
                 
                 // Hide the activity
                 self.searchActivity.stopAnimating()
-                self.searchActivity.hidden = true
+                self.searchActivity.isHidden = true
             })
             
         }
@@ -161,39 +161,39 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
     }
 
     // MARK: TableView requirements
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchDataCount
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("friendsTableCell") as! FindFriendsTableViewCell
-        cell.separatorInset = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friendsTableCell") as! FindFriendsTableViewCell
+        cell.separatorInset = UIEdgeInsets.zero
+        cell.layoutMargins = UIEdgeInsets.zero
         cell.preservesSuperviewLayoutMargins = false
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         
         // Cell button setup
-        cell.allowBtn.actionData = friendData[indexPath.row].key
-        cell.allowBtn.addTarget(self, action: #selector(allowBtnAction), forControlEvents: .TouchUpInside)
+        cell.allowBtn.actionData = friendData[(indexPath as NSIndexPath).row]?.key
+        cell.allowBtn.addTarget(self, action: #selector(allowBtnAction), for: .touchUpInside)
         
         var name : String = ""
         
-        if let firstName = friendData[indexPath.row].value!.valueForKey("first_name") as? NSString {
+        if let firstName = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "first_name") as? NSString {
             name += firstName as String
         }
         
-        if let lastName = friendData[indexPath.row].value!.valueForKey("last_name") as? NSString {
+        if let lastName = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "last_name") as? NSString {
             name += " \(lastName)"
         }
         
         (cell.contentView.viewWithTag(101) as! UILabel).text = name
         
-        if let email = friendData[indexPath.row].value!.valueForKey("email_address") as? NSString {
+        if let email = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "email_address") as? NSString {
             (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
         }
         

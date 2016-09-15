@@ -13,7 +13,7 @@ import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard
     let environment = "prod"
     
     var window: UIWindow?
@@ -24,25 +24,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
     }
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         // Override point for customization after application launch.
-        application.setStatusBarStyle(UIStatusBarStyle.Default, animated: false)
+        application.setStatusBarStyle(UIStatusBarStyle.default, animated: false)
         
         // Actions
         let addMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
         addMinderAction.identifier = "ADD_MINDER"
         addMinderAction.title = "Update"
-        addMinderAction.activationMode = UIUserNotificationActivationMode.Foreground
-        addMinderAction.authenticationRequired = false
-        addMinderAction.destructive = false
+        addMinderAction.activationMode = UIUserNotificationActivationMode.foreground
+        addMinderAction.isAuthenticationRequired = false
+        addMinderAction.isDestructive = false
         
         let ignoreMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
         ignoreMinderAction.identifier = "IGNORE_MINDER"
         ignoreMinderAction.title = "Ignore"
-        ignoreMinderAction.activationMode = UIUserNotificationActivationMode.Background
-        ignoreMinderAction.authenticationRequired = false
-        ignoreMinderAction.destructive = true
+        ignoreMinderAction.activationMode = UIUserNotificationActivationMode.background
+        ignoreMinderAction.isAuthenticationRequired = false
+        ignoreMinderAction.isDestructive = true
         
         // Categories
         let mainCategory: UIMutableUserNotificationCategory = UIMutableUserNotificationCategory()
@@ -50,13 +50,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let minimalActionsArray: NSArray = [addMinderAction, ignoreMinderAction]
         
-        mainCategory.setActions(minimalActionsArray as? [UIUserNotificationAction], forContext: UIUserNotificationActionContext.Minimal)
+        mainCategory.setActions(minimalActionsArray as? [UIUserNotificationAction], for: UIUserNotificationActionContext.minimal)
         
         // Add notification set
         let categories: NSSet = NSSet(objects: mainCategory)
         
         // Notifications
-        let mySettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: categories as? Set<UIUserNotificationCategory>)
+        let mySettings: UIUserNotificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: categories as? Set<UIUserNotificationCategory>)
         application.registerUserNotificationSettings(mySettings)
         
         // Push notifications
@@ -66,17 +66,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         // Set observer for notification token updates
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.tokenRefreshNotification),
-                                                         name: kFIRInstanceIDTokenRefreshNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification),
+                                                         name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
         
         return true
     }
     
     // MARK: Handle remote notification action
-    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], withResponseInfo responseInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], withResponseInfo responseInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
         
         if identifier == "ADD_MINDER" {
-            NSNotificationCenter.defaultCenter().postNotificationName("addMinderPressed", object: nil, userInfo: userInfo)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "addMinderPressed"), object: nil, userInfo: userInfo)
             
         }
         if identifier == "IGNORE_MINDER" {
@@ -89,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: Recieve push
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         
         // Recieved a push notification
         // Print message ID.
@@ -101,32 +101,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: Register for push
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let tokenChars = UnsafePointer<CChar>(deviceToken.bytes)
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let tokenChars = (deviceToken as NSData).bytes.bindMemory(to: CChar.self, capacity: deviceToken.count)
         var tokenString = ""
         
-        for i in 0..<deviceToken.length {
+        for i in 0..<deviceToken.count {
             tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
         }
         
         // Tricky line
-        FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.Unknown)
+        FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.unknown)
         // print("Device Token:", tokenString)
         userDefaults.setValue(tokenString, forKey: "deviceToken")
     }
     
     // MARK: Failed to register
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print(error)
     }
     
     // MARK: Required methods
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
@@ -134,22 +134,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // print("Disconnected from FCM.")
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         connectToFcm()
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
     // MARK: FireBase Notifications
-    func tokenRefreshNotification(notification: NSNotification) {
+    func tokenRefreshNotification(_ notification: Notification) {
         if let refreshedToken = FIRInstanceID.instanceID().token() {
             // print("InstanceID token: \(refreshedToken)")
             userDefaults.setValue(refreshedToken, forKey: "fbInstanceToken")
@@ -163,7 +163,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func connectToFcm() {
-        FIRMessaging.messaging().connectWithCompletion { (error) in
+        FIRMessaging.messaging().connect { (error) in
             if (error != nil) {
                 // print("Unable to connect with FCM. \(error)")
             } else {

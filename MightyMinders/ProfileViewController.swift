@@ -31,18 +31,18 @@ class ProfileViewController: MMCustomViewController {
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         // Check for valid user
         
         // Show activity
         profileActivity.startAnimating()
-        profileActivity.hidden = false
+        profileActivity.isHidden = false
         
         if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         } else {
             // Get user data to fields
-            usersRef = ref.child("users").child((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) -> Void in
+            usersRef = ref.child("users").child((FIRAuth.auth()?.currentUser?.uid)!).observe(FIRDataEventType.value, with: { (snapshot) -> Void in
                 // set reminders object
                 let results = snapshot.value as! [String: AnyObject]
                 self.firstNameFld.text = results["first_name"] as? String
@@ -53,25 +53,25 @@ class ProfileViewController: MMCustomViewController {
                 
                 // hide the activity
                 self.profileActivity.stopAnimating()
-                self.profileActivity.hidden = true;
+                self.profileActivity.isHidden = true;
             })
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         
         // Remove observer
-        ref.removeObserverWithHandle(usersRef)
+        ref.removeObserver(withHandle: usersRef)
         
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
+        super.touchesBegan(touches, with: event)
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,7 +80,7 @@ class ProfileViewController: MMCustomViewController {
     }
     
     // MARK: Actions
-    @IBAction func saveProfileData(sender: AnyObject) {
+    @IBAction func saveProfileData(_ sender: AnyObject) {
         
         if newPasswdFld.text == "" {
             
@@ -141,22 +141,22 @@ class ProfileViewController: MMCustomViewController {
         
     }
     
-    @IBAction func logoutAction(sender: UIButton) {
+    @IBAction func logoutAction(_ sender: UIButton) {
         
         // Kill firebase session
         do {
             try FIRAuth.auth()!.signOut()
-        } catch FIRAuthErrorCode.ErrorCodeKeychainError {
+        } catch FIRAuthErrorCode.errorCodeKeychainError {
             print("Keychain Error")
         } catch {
             print("Unknown Error")
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
-    @IBAction func closeBtnAction(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func closeBtnAction(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
 
 }

@@ -11,7 +11,7 @@ import UIKit
 class LoginViewController: UIViewController {
 
     let ref = FIRDatabase.database().reference()
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard
     
     @IBOutlet weak var emailFld: UITextField!
     @IBOutlet weak var passFld: UITextField!
@@ -25,9 +25,9 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        activity.hidden = true
+        activity.isHidden = true
         if let error = errorTxt {
-            error.hidden = true;
+            error.isHidden = true;
         }
     }
 
@@ -36,39 +36,39 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if FIRAuth.auth()?.currentUser != nil {
             // User authenticated with Firebase
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
+        super.touchesBegan(touches, with: event)
     }
     
     // MARK: Login action
-    @IBAction func doLogin(sender: AnyObject) {
-        activity.hidden = false
-        FIRAuth.auth()?.signInWithEmail(emailFld.text!, password: passFld.text!, completion: { (user, error) in
+    @IBAction func doLogin(_ sender: AnyObject) {
+        activity.isHidden = false
+        FIRAuth.auth()?.signIn(withEmail: emailFld.text!, password: passFld.text!, completion: { (user, error) in
             if error != nil {
                 // There was an error logging in to this account
-                self.errorTxt.hidden = false
+                self.errorTxt.isHidden = false
                 if let errorCode = FIRAuthErrorCode(rawValue: error!.code) {
                     
                     switch(errorCode) {
                         
-                    case .ErrorCodeUserNotFound:
+                    case .errorCodeUserNotFound:
                         self.errorTxt.text = "Error: Invalid user"
                         
-                    case .ErrorCodeInvalidCredential:
+                    case .errorCodeInvalidCredential:
                         self.errorTxt.text = "Error: Invalid email or password"
                         
-                    case .ErrorCodeInvalidEmail:
+                    case .errorCodeInvalidEmail:
                         self.errorTxt.text = "Error: Invalid email or password"
                         
-                    case .ErrorCodeWrongPassword:
+                    case .errorCodeWrongPassword:
                         self.errorTxt.text = "Error: Invalid email or password"
                         
                     default:
@@ -81,18 +81,18 @@ class LoginViewController: UIViewController {
                 // Update device token
                 self.ref.child("devices").child((FIRAuth.auth()?.currentUser?.uid)!).setValue(["token": FIRInstanceID.instanceID().token()!])
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
-            self.activity.hidden = true
+            self.activity.isHidden = true
         })
         
     }
     
     // MARK: Forgot password action
-    @IBAction func forgetPasswdAction(sender: AnyObject) {
+    @IBAction func forgetPasswdAction(_ sender: AnyObject) {
         
         if emailFld.text != "" {
-            FIRAuth.auth()?.sendPasswordResetWithEmail(emailFld.text!, completion: { (error) in
+            FIRAuth.auth()?.sendPasswordReset(withEmail: emailFld.text!, completion: { (error) in
                 if error != nil {
                     // There was an error processing the request
                     let passwdError = UIAlertView(title: "Error", message: "There was an error resetting your password, please try again.", delegate: nil, cancelButtonTitle: "OK")

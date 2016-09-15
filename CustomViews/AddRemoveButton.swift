@@ -18,9 +18,9 @@ import UIKit
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        let path = UIBezierPath(ovalInRect: rect)
+        let path = UIBezierPath(ovalIn: rect)
         
         if plusButton {
             UIColor(red: 52/255.0, green: 186/255.0, blue: 158/255.0, alpha: 1.0).setFill()
@@ -41,18 +41,18 @@ import UIKit
         // Horizontal line
         // Move inital point of path to start of stroke
         // then add point to path at end of stroke
-        plusPath.moveToPoint(CGPoint(x: bounds.width/2 - plusWidth/2 + 0.5, y: bounds.height/2 + 0.5))
-        plusPath.addLineToPoint(CGPoint(x: bounds.width/2 + plusWidth/2 + 0.5, y: bounds.height/2 + 0.5))
+        plusPath.move(to: CGPoint(x: bounds.width/2 - plusWidth/2 + 0.5, y: bounds.height/2 + 0.5))
+        plusPath.addLine(to: CGPoint(x: bounds.width/2 + plusWidth/2 + 0.5, y: bounds.height/2 + 0.5))
         
         // Vertical Line
         if plusButton {
-            plusPath.moveToPoint(CGPoint(x: bounds.width/2 + 0.5, y: bounds.height/2 - plusWidth/2 + 0.5))
-            plusPath.addLineToPoint(CGPoint(x: bounds.width/2 + 0.5, y: bounds.height/2 + plusWidth/2 + 0.5))
+            plusPath.move(to: CGPoint(x: bounds.width/2 + 0.5, y: bounds.height/2 - plusWidth/2 + 0.5))
+            plusPath.addLine(to: CGPoint(x: bounds.width/2 + 0.5, y: bounds.height/2 + plusWidth/2 + 0.5))
         }
         
         
         // Draw :)
-        UIColor.whiteColor().setStroke()
+        UIColor.white.setStroke()
         plusPath.stroke()
         
     }

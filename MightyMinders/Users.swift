@@ -13,7 +13,7 @@ protocol User {}
 class Users: User {
     
     let ref = FIRDatabase.database().reference()
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard
     
     var currentEmail: String
     var currentFirstName: String
@@ -28,13 +28,13 @@ class Users: User {
     }
     
     // MARK: Change email for user
-    func changeEmailForUser(password: String, newEmail: String, completion: (error: Bool,String) -> Void) {
+    func changeEmailForUser(_ password: String, newEmail: String, completion: @escaping (_ error: Bool,String) -> Void) {
         
         // Change user email
         FIRAuth.auth()?.currentUser?.updateEmail(self.currentEmail, completion: { (error) in
             if error != nil {
                 // There was an error processing the request
-                completion(error: true, (error?.description)!)
+                completion(true, (error?.description)!)
             } else {
                 // Email changed successfully
                 self.currentEmail = newEmail
@@ -43,14 +43,14 @@ class Users: User {
                         // FIXME: alert an error
                     }
                 })
-                completion(error: false, "")
+                completion(false, "")
             }
         })
         
     }
     
     // MARK: Uodate user profile
-    func updateProfileData(completion: (error: Bool) -> Void) {
+    func updateProfileData(_ completion: @escaping (_ error: Bool) -> Void) {
         
         let dataToUpdate = [
             "email_address": currentEmail,
@@ -61,21 +61,21 @@ class Users: User {
         let profileRef = self.ref.child("users").child((FIRAuth.auth()?.currentUser?.uid)!)
         profileRef.setValue(dataToUpdate) { (error, Firebase) in
             if error != nil {
-                completion(error: true)
+                completion(true)
             } else {
-                completion(error: false)
+                completion(false)
             }
         }
     }
     
     // MARK: Update user password
-    func changeUserPassword(oldPassword: String, newPassword: String, completion: (error: Bool) -> Void) {
+    func changeUserPassword(_ oldPassword: String, newPassword: String, completion: @escaping (_ error: Bool) -> Void) {
         
         FIRAuth.auth()?.currentUser?.updatePassword(self.currentEmail, completion: { (error) in
             if error != nil {
-                completion(error: true)
+                completion(true)
             } else {
-                completion(error: false)
+                completion(false)
             }
         })
         
