@@ -31,7 +31,7 @@ struct HTTPRequests {
                     "Content-Type": "application/json",
                 ]
                 
-                var paramData: [String: AnyObject] = [
+                var paramData: [String: Any] = [
                     "to": params["to"]!,
                     "notification": [
                         "title": params["notification"]!["title"],
@@ -47,12 +47,13 @@ struct HTTPRequests {
                 
                 // Send the request
                 // let request =
-                Alamofire.request(.POST, url, parameters: paramData, encoding: .json, headers: headers)
+                // Alamofire.request(.POST, url, parameters: paramData, encoding: .json, headers: headers)
+                Alamofire.request(url, method: .post, parameters: paramData, encoding: JSONEncoding.default, headers: headers)
                     .validate(statusCode: 200..<300)
                     .responseJSON { (response) -> Void in
                         switch response.result {
                         case .success:
-                            postCompleted(success: true, msg: ["status": "\(response)"])
+                            postCompleted(true, ["status": "\(response)" as NSObject])
                             
                         case .failure:
                             print(response)

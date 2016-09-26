@@ -34,7 +34,7 @@ class Users: User {
         FIRAuth.auth()?.currentUser?.updateEmail(self.currentEmail, completion: { (error) in
             if error != nil {
                 // There was an error processing the request
-                completion(true, (error?.description)!)
+                completion(true, (error?.localizedDescription)!)
             } else {
                 // Email changed successfully
                 self.currentEmail = newEmail

@@ -84,8 +84,10 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
         if identifier == "LocationUnwindSegue" {
             if selectedLocation.count < 1 {
                 
-                let notPermitted = UIAlertView(title: "Alert", message: "Please select a location from the map!", delegate: nil, cancelButtonTitle: "OK")
-                notPermitted.show()
+                let notPermitted = UIAlertController(title: "Alert", message: "Please select a location from the map", preferredStyle: UIAlertControllerStyle.alert)
+                let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                notPermitted.addAction(OKAction)
+                self.present(notPermitted, animated: true, completion: nil)
                 
                 return false
                 
@@ -167,7 +169,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
     @IBAction func searchFieldReturn(_ sender: AnyObject) {
         
         // Init search on map
-        sender.resignFirstResponder()
+        _ = sender.resignFirstResponder()
         mapView.removeAnnotations(mapView.annotations)
         self.performSearch()
         
@@ -270,7 +272,7 @@ class AddLocationViewController: MMCustomViewController, MKMapViewDelegate, CLLo
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
             pinView!.animatesDrop = true
-            pinView!.pinColor = .green
+            pinView!.pinTintColor = .green
             
             let pinIcon = UIImage(named: "sign-add.png")
             

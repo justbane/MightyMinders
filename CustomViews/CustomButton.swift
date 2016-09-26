@@ -8,12 +8,12 @@
 
 import UIKit
 
-@IBDesignable open class CustomButton: UIButton {
+@IBDesignable class CustomButton: UIButton {
     
     var actionData: String!
     var locationData: [String: Double]!
     
-    override open class var layerClass:AnyClass{
+    override class var layerClass:AnyClass{
         return CAGradientLayer.self
     }
     

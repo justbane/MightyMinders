@@ -38,18 +38,25 @@ class ViewReminderViewController: MMCustomViewController {
             setByLbl.isHidden = false
             let friendRef = ref.child("users").child(selectedFriendFromView)
             friendRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+                let friendData = snapshot.value as! [String: AnyObject]
                 // Set data from location controller
-                let first_name: String = (snapshot.value! as AnyObject).object(forKey: "first_name") as! String
-                let last_name: String = (snapshot.value! as AnyObject).object(forKey: "last_name") as! String
+                let first_name: String = friendData["first_name"] as! String
+                let last_name: String = friendData["last_name"] as! String
                 
                 if (FIRAuth.auth()?.currentUser?.uid)! != self.selectedFriendFromView {
                     self.setByLbl.text = "Set for: \(first_name) \(last_name)"
                 } else {
                     let setForRef = self.ref.child("users/\(self.setByFromView)")
                     setForRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
-                        let first_name: String = (snapshot.value! as AnyObject).object(forKey: "first_name") as! String
-                        let last_name: String = (snapshot.value! as AnyObject).object(forKey: "last_name") as! String
-                        self.setByLbl.text = "Set for you by: \(first_name) \(last_name)"
+                        if snapshot.childrenCount > 0 {
+                            let setForData = snapshot.value as! [String: AnyObject]
+                            let first_name: String = setForData["first_name"] as! String
+                            let last_name: String = setForData["last_name"] as! String
+                            self.setByLbl.text = "Set for you by: \(first_name) \(last_name)"
+                        } else {
+                            self.setByLbl.text = "Set for you by:"
+                        }
+                        
                     })
                 }
                 

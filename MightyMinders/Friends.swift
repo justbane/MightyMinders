@@ -55,18 +55,18 @@ class Friends: Friend {
     // MARK: Allow friends
     func addAllowedFriends(_ uid: String, completion:@escaping (_ error: Bool) -> Void) {
         let remindMeRef = ref.child("friends").child((FIRAuth.auth()?.currentUser?.uid)!).child("remind-me")
-        remindMeRef.updateChildValues([uid: "true"] as [AnyHashable: Any], withCompletionBlock: { (error: NSError?, ref: FIRDatabaseReference!) in
+        remindMeRef.updateChildValues([uid: "true"] as [AnyHashable: Any], withCompletionBlock: { (error: Error?, ref: FIRDatabaseReference!) in
             if error != nil {
-                completion(error: true)
+                completion(true)
             }
         })
     }
     
     func addToCanRemindFriends(_ uid: String, completion:@escaping (_ error: Bool) -> Void) {
         let canRemindRef = ref.child("friends").child(uid).child("can-remind")
-        canRemindRef.updateChildValues([(FIRAuth.auth()?.currentUser?.uid)!: "true"] as [AnyHashable: Any], withCompletionBlock: { (error: NSError?, ref: FIRDatabaseReference!) in
+        canRemindRef.updateChildValues([(FIRAuth.auth()?.currentUser?.uid)!: "true"] as [AnyHashable: Any], withCompletionBlock: { (error: Error?, ref: FIRDatabaseReference!) in
             if error != nil {
-                completion(error: true)
+                completion(true)
             }
         })
     }

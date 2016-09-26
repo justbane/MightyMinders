@@ -123,7 +123,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     
                     if error != nil {
                         self.errorTxt.isHidden = false
-                        if let errorCode = FIRAuthErrorCode(rawValue: error!.code) {
+                        if let errorCode = FIRAuthErrorCode(rawValue: error!._code) {
                             
                             switch(errorCode) {
                                 

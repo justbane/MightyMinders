@@ -87,19 +87,30 @@ class ProfileViewController: MMCustomViewController {
             if emailFld.text != user.currentEmail {
                 // Check for passwd
                 if currPasswdFld.text == "" {
-                    let passwdError = UIAlertView(title: "Error", message: "Please enter your current password to change your email", delegate: nil, cancelButtonTitle: "OK")
-                    passwdError.show()
+                    
+                    let passwdError = UIAlertController(title: "Error", message: "Please enter your current password to change your email", preferredStyle: UIAlertControllerStyle.alert)
+                    let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    passwdError.addAction(OKAction)
+                    self.present(passwdError, animated: true, completion: nil)
+                
                 } else {
                     // Change email for user
                     user.changeEmailForUser(currPasswdFld.text!, newEmail: emailFld.text!) {(error: (Bool, String)) in
+                        var msg = ""
+                        var title = ""
                         if error.0 {
-                            let emailError = UIAlertView(title: "Error", message: "This is a sensitive operation and requires recent authentication. Please logout and back in and try again.", delegate: nil, cancelButtonTitle: "OK")
-                            emailError.show()
+                            title = "Error"
+                            msg = "This is a sensitive operation and requires recent authentication. Please logout and back in and try again."
                         } else {
-                            let emailSuccess = UIAlertView(title: "Success", message: "Your email has been updated", delegate: nil, cancelButtonTitle: "OK")
-                            emailSuccess.show()
+                            title = "Success"
+                            msg = "Your email has been updated!"
                             self.currPasswdFld.text = ""
                         }
+                        
+                        let emailMsg = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.alert)
+                        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                        emailMsg.addAction(OKAction)
+                        self.present(emailMsg, animated: true, completion: nil)
                     }
                     
                 }
@@ -111,8 +122,11 @@ class ProfileViewController: MMCustomViewController {
                 user.currentLastName = lastNameFld.text!
                 user.updateProfileData({ (error) -> Void in
                     if !error {
-                        let profileMsg = UIAlertView(title: "Success!", message: "Your profile information has been updated.", delegate: nil, cancelButtonTitle: "OK")
-                        profileMsg.show()
+                        let profileMsg = UIAlertController(title: "Success!", message: "Your profile information has been updated.", preferredStyle: UIAlertControllerStyle.alert)
+                        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                        profileMsg.addAction(OKAction)
+                        self.present(profileMsg, animated: true, completion: nil)
+                        
                     }
                 })
             }
@@ -124,17 +138,24 @@ class ProfileViewController: MMCustomViewController {
             
             // Update passwd
             user.changeUserPassword(currPasswdFld.text!, newPassword: newPasswdFld.text!, completion: { (error) -> Void in
+                var title = ""
+                var msg = ""
                 if error {
                     // There was an error processing the request
-                    let passwdError = UIAlertView(title: "Error", message: "There was an error changing your password", delegate: nil, cancelButtonTitle: "OK")
-                    passwdError.show()
+                    title = "Error"
+                    msg = "There was an error changing your password"
                 } else {
                     // Password changed successfully
-                    let passwdMsg = UIAlertView(title: "Success!", message: "Your password has been changed.", delegate: nil, cancelButtonTitle: "OK")
-                    passwdMsg.show()
+                    title = "Success!"
+                    msg = "Your password has been changed."
                     self.currPasswdFld.text = ""
                     self.newPasswdFld.text = ""
                 }
+                
+                let passwdMsg = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.alert)
+                let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                passwdMsg.addAction(OKAction)
+                self.present(passwdMsg, animated: true, completion: nil)
             })
             
         }

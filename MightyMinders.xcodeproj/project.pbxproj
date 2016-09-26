@@ -43,6 +43,7 @@
 		39958F831C30769B00F7CFA4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39423FEB1BE32DB800435724 /* Alamofire.framework */; };
 		39958F841C30769B00F7CFA4 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 39423FEB1BE32DB800435724 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39962C221B8D865900E264E2 /* FindFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */; };
+		39AE2D751D998B2900EDD799 /* MightyMindersUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE2D741D998B2900EDD799 /* MightyMindersUI.swift */; };
 		39AE3F4B1D6391870001CA6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39AE3F4A1D6391870001CA6B /* GoogleService-Info.plist */; };
 		39AEAC8D1BAE2D5300E33F3E /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AEAC8C1BAE2D5300E33F3E /* libc++.1.dylib */; };
 		39AEAC8F1BAE2D7700E33F3E /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AEAC8E1BAE2D7700E33F3E /* libicucore.A.dylib */; };
@@ -174,9 +175,11 @@
 		399557121CEECD5B0029AABD /* Values.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Values.swift; sourceTree = "<group>"; };
 		39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindFriendsTableViewCell.swift; sourceTree = "<group>"; };
 		3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddRemoveButton.swift; path = ../CustomViews/AddRemoveButton.swift; sourceTree = "<group>"; };
+		39AE2D741D998B2900EDD799 /* MightyMindersUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MightyMindersUI.swift; sourceTree = "<group>"; };
 		39AE3F4A1D6391870001CA6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		39AEAC8C1BAE2D5300E33F3E /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
 		39AEAC8E1BAE2D7700E33F3E /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = ../../../../../../usr/lib/libicucore.A.dylib; sourceTree = "<group>"; };
+		39B32A9E1D971B5E003290CA /* MightyMinders.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MightyMinders.entitlements; sourceTree = "<group>"; };
 		39BA7D761C557B2E00790840 /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		39C0A3AC1B76935C000A6CAD /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomView.swift; path = ../CustomViews/CustomView.swift; sourceTree = "<group>"; };
 		39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomButton.swift; path = ../CustomViews/CustomButton.swift; sourceTree = "<group>"; };
@@ -253,6 +256,8 @@
 		39305A941AE9EF9300773849 /* MightyMinders */ = {
 			isa = PBXGroup;
 			children = (
+				39AE2D741D998B2900EDD799 /* MightyMindersUI.swift */,
+				39B32A9E1D971B5E003290CA /* MightyMinders.entitlements */,
 				39305A971AE9EF9300773849 /* AppDelegate.swift */,
 				397558FE1CC33FD800F79038 /* Controllers */,
 				397559071CC3405C00F79038 /* Models */,
@@ -439,6 +444,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
 								enabled = 1;
 							};
@@ -449,6 +457,7 @@
 					};
 					39305AA61AE9EF9300773849 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = S4L5PVTT36;
 						LastSwiftMigration = 0800;
 						TestTargetID = 39305A911AE9EF9300773849;
 					};
@@ -660,6 +669,7 @@
 				397C5FB51AF1E7C40063E9DE /* Colors.swift in Sources */,
 				39305A9A1AE9EF9300773849 /* ViewController.swift in Sources */,
 				394E91E51B00FB3A00C701D3 /* AddLocationViewController.swift in Sources */,
+				39AE2D751D998B2900EDD799 /* MightyMindersUI.swift in Sources */,
 				390F26BF1BF2FA77001D6D06 /* ListViewTableViewCell.swift in Sources */,
 				390F26B71BF2F1CF001D6D06 /* ListRemindersViewController.swift in Sources */,
 				394E71881B77F03C0053B47B /* RemindFriendsViewController.swift in Sources */,
@@ -822,6 +832,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MightyMinders/MightyMinders.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -838,7 +849,7 @@
 				PROVISIONING_PROFILE = "83d25f4c-5068-4a85-8f4c-30da79402a8c";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -849,6 +860,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MightyMinders/MightyMinders.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -864,7 +876,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "83d25f4c-5068-4a85-8f4c-30da79402a8c";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -873,6 +885,7 @@
 			baseConfigurationReference = 8D749F876D8EFFC896119EDC /* Pods-MightyMindersTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = S4L5PVTT36;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -890,6 +903,7 @@
 			baseConfigurationReference = 12A400264BF974DA8DF54589 /* Pods-MightyMindersTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = S4L5PVTT36;
 				INFOPLIST_FILE = MightyMindersTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";

@@ -208,7 +208,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // Private minders
             Minders().getPrivateMinders({ (privateReminders) in
                 self.privateData = privateReminders
-                if self.privateData!.value!.count != nil {
+                if (self.privateData!.value! as AnyObject).count != nil {
                     self.updateReminders("private")
                 } else {
                     self.stopActivity()
@@ -218,7 +218,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // Shared minders
             Minders().getSharedReminders({ (sharedReminders) in
                 self.sharedData = sharedReminders
-                if self.sharedData!.value!.count != nil {
+                if (self.sharedData!.value! as AnyObject).count != nil {
                     self.updateReminders("shared")
                 } else {
                     self.stopActivity()
@@ -228,7 +228,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // Set for you (removal)
             Minders().listenForRemindersRemovedForMe({ (remindersRemovedForMe) in
                 // Remove the offending minders
-                if remindersRemovedForMe.value!.count != nil {
+                if (remindersRemovedForMe.value! as AnyObject).count != nil {
                     self.removeMinder(remindersRemovedForMe.key)
                 } else {
                     self.stopActivity()
@@ -239,7 +239,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             // Set by you
             Minders().getRemindersSetByYou({ (remindersSetByYou) in
                 self.sharedByData = remindersSetByYou
-                if self.sharedByData!.value!.count != nil {
+                if (self.sharedByData!.value! as AnyObject).count != nil {
                     self.updateReminders("shared-set-by")
                 } else {
                     self.stopActivity()
@@ -248,7 +248,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
             
             // Set by you (removal)
             Minders().listenForRemindersRemovedByMe({ (remindersRemovedByMe) in
-                if remindersRemovedByMe.value!.count != nil {
+                if (remindersRemovedByMe.value! as AnyObject).count != nil {
                     self.removeMinder(remindersRemovedByMe.key)
                 } else {
                     self.stopActivity()
@@ -423,7 +423,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                     }
                     
                     if token != "" {
-                        let data: [String: AnyObject] = [
+                        let data: [String: Any] = [
                             "to": token as AnyObject,
                             "notification": [
                                 "title": "MightyMinder Completed",
@@ -432,7 +432,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                         ]
                         
                         // Send to push server
-                        restReq.sendPostRequest(data) { (success, msg) -> () in
+                        restReq.sendPostRequest(data as [String : AnyObject]) { (success, msg) -> () in
                             // Completion code here
                             // print(success)
                             

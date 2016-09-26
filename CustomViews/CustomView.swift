@@ -8,9 +8,9 @@
 
 import UIKit
 
-@IBDesignable open class CustomView: UIView {
+@IBDesignable class CustomView: UIView {
     
-    override open class var layerClass:AnyClass{
+    override class var layerClass:AnyClass{
         return CAGradientLayer.self
     }
     

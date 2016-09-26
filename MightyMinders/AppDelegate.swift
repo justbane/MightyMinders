@@ -14,7 +14,6 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let userDefaults = UserDefaults.standard
-    let environment = "prod"
     
     var window: UIWindow?
     var reminderKeys = [String]()
@@ -25,9 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        // Override point for customization after application launch.
-        application.setStatusBarStyle(UIStatusBarStyle.default, animated: false)
         
         // Actions
         let addMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
@@ -66,8 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         // Set observer for notification token updates
-        NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification),
-                                                         name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification), name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
         
         return true
     }
@@ -102,6 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: Register for push
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
         let tokenChars = (deviceToken as NSData).bytes.bindMemory(to: CChar.self, capacity: deviceToken.count)
         var tokenString = ""
         
@@ -112,7 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Tricky line
         FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.unknown)
         // print("Device Token:", tokenString)
-        userDefaults.setValue(tokenString, forKey: "deviceToken")
+        userDefaults.set(tokenString, forKey: "deviceToken")
     }
     
     // MARK: Failed to register
@@ -152,7 +148,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func tokenRefreshNotification(_ notification: Notification) {
         if let refreshedToken = FIRInstanceID.instanceID().token() {
             // print("InstanceID token: \(refreshedToken)")
-            userDefaults.setValue(refreshedToken, forKey: "fbInstanceToken")
             if (FIRAuth.auth()?.currentUser != nil) {
                 let ref = FIRDatabase.database().reference()
                 ref.child("devices").child((FIRAuth.auth()?.currentUser?.uid)!).setValue(["token": refreshedToken])

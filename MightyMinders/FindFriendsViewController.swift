@@ -78,8 +78,6 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
             // Add to my allowed list
             Friends().addAllowedFriends(sender.actionData, completion: { (error) -> Void in
                 if error {
-                    let saveError = UIAlertView(title: "Error", message: "An error occured saving the data", delegate: nil, cancelButtonTitle: "OK")
-                    saveError.show()
                     errors = true
                 }
             })
@@ -87,14 +85,17 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
             // Add to their can remind list
             Friends().addToCanRemindFriends(sender.actionData, completion: { (error) -> Void in
                 if error {
-                    let saveError = UIAlertView(title: "Error", message: "An error occured saving the data", delegate: nil, cancelButtonTitle: "OK")
-                    saveError.show()
                     errors = true
                 }
             })
             
             if !errors {
                 self.dismiss(animated: true, completion: nil)
+            } else {
+                let saveError = UIAlertController(title: "Error", message: "An error occured saving the data", preferredStyle: UIAlertControllerStyle.alert)
+                let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                saveError.addAction(OKAction)
+                self.present(saveError, animated: true, completion: nil)
             }
         }
         
@@ -127,7 +128,7 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
             
             // Search users by email
             Friends().searchFriendsByEmail(searchText, completion: { (usersFound) -> Void in
-                if usersFound.value!.count != nil {
+                if (usersFound.value! as AnyObject).count != nil {
                     
                     // Remove data from array and reset count
                     self.friendData.removeAll(keepingCapacity: false)
@@ -177,24 +178,26 @@ class FindFriendsViewController: MMCustomViewController, UITableViewDelegate, UI
         cell.preservesSuperviewLayoutMargins = false
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         
+        let cellData = friendData[indexPath.row]?.value as! [String: AnyObject]
+        
         // Cell button setup
-        cell.allowBtn.actionData = friendData[(indexPath as NSIndexPath).row]?.key
+        cell.allowBtn.actionData = (friendData[indexPath.row]?.key)!
         cell.allowBtn.addTarget(self, action: #selector(allowBtnAction), for: .touchUpInside)
         
-        var name : String = ""
+        var name: String = ""
         
-        if let firstName = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "first_name") as? NSString {
-            name += firstName as String
+        if let firstName = cellData["first_name"] {
+            name += "\(firstName)"
         }
         
-        if let lastName = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "last_name") as? NSString {
+        if let lastName = cellData["last_name"] {
             name += " \(lastName)"
         }
         
         (cell.contentView.viewWithTag(101) as! UILabel).text = name
         
-        if let email = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "email_address") as? NSString {
-            (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
+        if let email = cellData["email_address"] as? String {
+            (cell.contentView.viewWithTag(102) as! UILabel).text = email
         }
         
         // TODO - add profile images

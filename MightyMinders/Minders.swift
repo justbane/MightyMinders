@@ -80,41 +80,43 @@ class Minders: Minder {
         let enumerator = reminderSubData.children
         while let data = enumerator.nextObject() as? FIRDataSnapshot {
             
+            let itemData = data.value as! [String: AnyObject]
+            
             // Add reminders to map
-            let pinLocation = (data.value! as AnyObject).value(forKey: "location") as! NSDictionary
+            let pinLocation = itemData["location"] as! NSDictionary
             
             var timing = 0
-            if let FBTiming = (data.value! as AnyObject).value(forKey: "timing") as? Int {
+            if let FBTiming = itemData["timing"] as? Int {
                 timing = FBTiming
             }
             
             var setFor = ""
-            if (data.value! as AnyObject).value(forKey: "set-for") !== nil {
-                setFor = (data.value! as AnyObject).value(forKey: "set-for") as! String
+            if itemData["set-for"] != nil {
+                setFor = itemData["set-for"] as! String
             }
             
             var setBy = ""
-            if (data.value! as AnyObject).value(forKey: "set-by") !== nil {
-                setBy = (data.value! as AnyObject).value(forKey: "set-by") as! String
+            if itemData["set-by"] != nil {
+                setBy = itemData["set-by"] as! String
             }
             
             var address = "";
-            if pinLocation.value(forKey: "address") == nil {
+            if pinLocation["address"] == nil {
                 address = "Unknown Address"
             } else {
-                address = pinLocation.value(forKey: "address") as! String
+                address = pinLocation["address"] as! String
             }
             
             let annotation = Annotation(
                 key: data.key,
-                title: pinLocation.value(forKey: "name") as! String,
+                title: pinLocation["name"] as! String,
                 subtitle: address,
-                content: (data.value! as AnyObject).value(forKey: "content") as! String,
+                content: itemData["content"] as! String,
                 type: type,
                 event: timing,
                 coordinate: CLLocationCoordinate2D(
-                    latitude: pinLocation.value(forKey: "latitude") as! CLLocationDegrees,
-                    longitude: pinLocation.value(forKey: "longitude") as! CLLocationDegrees),
+                    latitude: pinLocation["latitude"] as! CLLocationDegrees,
+                    longitude: pinLocation["longitude"] as! CLLocationDegrees),
                 setFor: setFor,
                 setBy: setBy
             )
@@ -147,11 +149,11 @@ class Minders: Minder {
         }
         
         let usersMindersRefAuto = usersMindersRef.childByAutoId()
-            usersMindersRefAuto.setValue(reminder, withCompletionBlock: { (error:NSError?, ref:FIRDatabaseReference!) in
+            usersMindersRefAuto.setValue(reminder, withCompletionBlock: { (error:Error?, ref:FIRDatabaseReference!) in
                 if error != nil {
-                    completion(returnedMinder: reminder, error: true)
+                    completion(reminder as NSDictionary, true)
                 } else {
-                    completion(returnedMinder: reminder, error: false)
+                    completion(reminder as NSDictionary, false)
                 }
             })
     }
@@ -176,11 +178,11 @@ class Minders: Minder {
             usersMindersRef = ref.child("shared-minders").child(identifier)
         }
         
-        usersMindersRef.updateChildValues(reminder as [AnyHashable: Any], withCompletionBlock: { (error:NSError?, ref:FIRDatabaseReference!) in
+        usersMindersRef.updateChildValues(reminder as [AnyHashable: Any], withCompletionBlock: { (error:Error?, ref:FIRDatabaseReference!) in
             if error != nil {
-                completion(returnedMinder: reminder, error: true)
+                completion(reminder as NSDictionary, true)
             } else {
-                completion(returnedMinder: reminder, error: false)
+                completion(reminder as NSDictionary, false)
             }
         })
         
@@ -200,26 +202,25 @@ class Minders: Minder {
             let setBy = userMinder["set-by"] as! String
             let setFor = userMinder["set-for"] as! String
             let content = userMinder["content"] as! String
-            let location = userMinder["location"]!
+            let location = userMinder["location"] as! [String: Any]
             var token: String = ""
             var senderName: String = "Someone"
             
             // Get sender profile data
             let setByRef = self.ref.child("users").child(setBy)
             setByRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
-                let first_name: String = (snapshot.value! as AnyObject).object(forKey: "first_name") as! String
-                let last_name: String = (snapshot.value! as AnyObject).object(forKey: "last_name") as! String
+                let userData = snapshot.value as! [String: AnyObject]
+                let first_name: String = userData["first_name"] as! String
+                let last_name: String = userData["last_name"] as! String
                 senderName = "\(first_name) \(last_name)"
                 
                 // Get reciever device token
                 self.ref.child("devices").child(setFor).observe(.value, with: { (snapshot) in
-                    if snapshot.value != nil {
-                        token = (snapshot.value! as AnyObject).object(forKey: "token") as! String
-                    }
-                    
-                    if token != "" {
-                        let data: [String: AnyObject] = [
-                            "to": token as AnyObject,
+                    let device = snapshot.value as! [String: AnyObject]
+                    if device["token"] != nil {
+                        token = device["token"] as! String
+                        let data = [
+                            "to": token,
                             "notification": [
                                 "title": "New MightyMinder",
                                 "body": "\(senderName) set a reminder for you: \(content) - Swipe to update your reminders",
@@ -228,10 +229,10 @@ class Minders: Minder {
                                 "latitude": location["latitude"]!,
                                 "longitude": location["longitude"]!
                             ]
-                        ]
+                            ] as [String : Any]
                         
                         // Send to push server
-                        restReq.sendPostRequest(data) { (success, msg) -> () in
+                        restReq.sendPostRequest(data as [String : AnyObject]) { (success, msg) -> () in
                             // Completion code here
                             // print(success)
                             
@@ -241,6 +242,7 @@ class Minders: Minder {
                             }
                         }
                     }
+                    
                 })
                 
             })

@@ -180,38 +180,38 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         cell.preservesSuperviewLayoutMargins = false
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         
-        if reminderData.count > 0 && (indexPath as NSIndexPath).section == 0 {
-            let reminders = (reminderData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "location")
-            if let location = reminders {
+        if reminderData.count > 0 && indexPath.section == 0 {
+            let cellData = reminderData[indexPath.row]?.value as! [String: AnyObject]
+            if let location = cellData["location"] {
                 cell.viewBtn.locationData = [
-                    "latitude": ((location as AnyObject).value(forKey: "latitude") as? Double)!,
-                    "longitude": ((location as AnyObject).value(forKey: "longitude") as? Double)!
+                    "latitude": (location.value(forKey: "latitude") as? Double)!,
+                    "longitude": (location.value(forKey: "longitude") as? Double)!
                 ]
                 
-                if let name = (location as AnyObject).value(forKey: "name") as? NSString {
+                if let name = location.value(forKey: "name") as? NSString {
                     (cell.contentView.viewWithTag(101) as! UILabel).text = name as String
                 }
                 
-                if let address = (location as AnyObject).value(forKey: "address") as? NSString {
+                if let address = location.value(forKey: "address") as? NSString {
                     (cell.contentView.viewWithTag(102) as! UILabel).text = address as String
                 }
                 
             }
         }
         
-        if theirReminderData.count > 0 && (indexPath as NSIndexPath).section == 1 {
-            let reminders = (theirReminderData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "location")
-            if let location = reminders {
+        if theirReminderData.count > 0 && indexPath.section == 1 {
+            let cellData = theirReminderData[indexPath.row]?.value as! [String: AnyObject]
+            if let location = cellData["location"] {
                 cell.viewBtn.locationData = [
-                    "latitude": ((location as AnyObject).value(forKey: "latitude") as? Double)!,
-                    "longitude": ((location as AnyObject).value(forKey: "longitude") as? Double)!
+                    "latitude": (location.value(forKey: "latitude") as? Double)!,
+                    "longitude": (location.value(forKey: "longitude") as? Double)!
                 ]
                 
-                if let name = (location as AnyObject).value(forKey: "name") as? NSString {
+                if let name = location.value(forKey: "name") as? NSString {
                     (cell.contentView.viewWithTag(101) as! UILabel).text = name as String
                 }
                 
-                if let address = (location as AnyObject).value(forKey: "address") as? NSString {
+                if let address = location.value(forKey: "address") as? NSString {
                     (cell.contentView.viewWithTag(102) as! UILabel).text = address as String
                 }
 

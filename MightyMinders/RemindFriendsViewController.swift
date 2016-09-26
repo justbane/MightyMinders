@@ -119,27 +119,29 @@ class RemindFriendsViewController: MMCustomViewController, UITableViewDelegate, 
         cell.preservesSuperviewLayoutMargins = false
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         
+        let cellData = friendData[indexPath.row]?.value as! [String: AnyObject]
+        
         // Cell button setup
         cell.addBtn.actionData = [
-            "id": friendData[(indexPath as NSIndexPath).row]!.key,
-            "first_name": (friendData[(indexPath as NSIndexPath).row]!.value! as AnyObject).value(forKey: "first_name") as! String,
-            "last_name": (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "last_name") as! String
+            "id": (friendData[indexPath.row]?.key)!,
+            "first_name": cellData["first_name"] as! String,
+            "last_name": cellData["last_name"] as! String
         ]
         
-        var name : String = ""
+        var name: String = ""
         
-        if let firstName = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "first_name") as? NSString {
-            name += firstName as String
+        if let firstName = cellData["first_name"] {
+            name += "\(firstName)"
         }
         
-        if let lastName = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "last_name") as? NSString {
+        if let lastName = cellData["last_name"] {
             name += " \(lastName)"
         }
         
         (cell.contentView.viewWithTag(101) as! UILabel).text = name
         
-        if let email = (friendData[(indexPath as NSIndexPath).row]?.value! as AnyObject).value(forKey: "email_address") as? NSString {
-            (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
+        if let email = cellData["email_address"] as? String {
+            (cell.contentView.viewWithTag(102) as! UILabel).text = email
         }
         
         // TODO: Add profile images

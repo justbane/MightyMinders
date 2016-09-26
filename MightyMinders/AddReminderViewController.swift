@@ -80,11 +80,11 @@ class AddReminderViewController: MMCustomViewController {
                 }
                 
                 if !(selectedFriendFromView.isEmpty) && selectedFriendFromView != (FIRAuth.auth()?.currentUser?.uid)! {
-                    ref.child("users/\(selectedFriendFromView)").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+                    ref.child("users").child(selectedFriendFromView).observeSingleEvent(of: .value, with: { (snapshot) -> Void in
                         // Set data from location controller
-                        
-                        let first_name: String = (snapshot.value! as AnyObject).object(forKey: "first_name") as! String
-                        let last_name: String = (snapshot.value! as AnyObject).object(forKey: "last_name") as! String
+                        let selectedFriendData = snapshot.value as! [String: AnyObject]
+                        let first_name: String = selectedFriendData["first_name"] as! String
+                        let last_name: String = selectedFriendData["last_name"] as! String
                         self.addFriendBtn.setTitle("\(first_name) \(last_name)", for: UIControlState())
                         
                         // Set local selectedLocation
@@ -124,7 +124,7 @@ class AddReminderViewController: MMCustomViewController {
         if isModal() {
             self.dismiss(animated: true, completion: nil)
         } else {
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
         
     }
@@ -140,23 +140,26 @@ class AddReminderViewController: MMCustomViewController {
         activity.isHidden = false
         activity.startAnimating()
         
-        let setFor = (selectedFriend.count > 0 ? selectedFriend["id"] : FIRAuth.auth()?.currentUser?.uid) as! String
+        let setFor = (selectedFriend.count > 0 ? selectedFriend["id"] as? String : FIRAuth.auth()?.currentUser?.uid)
         
-        let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let saveError = UIAlertController(title: "Error", message: "An error occured saving the reminder", preferredStyle: UIAlertControllerStyle.alert)
+        saveError.addAction(OKAction)
         
-        let locationError = UIAlertView(title: "Error", message: "Please select a location and enter some reminder text", delegate: nil, cancelButtonTitle: "OK")
+        let locationError = UIAlertController(title: "Error", message: "Please select a location and enter some reminder text.", preferredStyle: UIAlertControllerStyle.alert)
+        locationError.addAction(OKAction)
         
         // Validate
         if selectedLocation.count < 1 || reminderTxt.text == "" {
             
-            locationError.show()
+            self.present(locationError, animated: true, completion: nil)
         
         } else {
             
             // Save to firebase if editing else if adding new
             if let identifier = reminderIdentifier {
                 
-                Minders().editReminder(identifier, content: reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: (FIRAuth.auth()?.currentUser?.uid)!, setFor: setFor, completion: { (returnedMinder, error) -> Void in
+                Minders().editReminder(identifier, content: reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: (FIRAuth.auth()?.currentUser?.uid)!, setFor: setFor!, completion: { (returnedMinder, error) -> Void in
                     
                     if !error {
                         Minders().sendReminderNotification(returnedMinder)
@@ -164,13 +167,13 @@ class AddReminderViewController: MMCustomViewController {
                         self.activity.stopAnimating()
                         self.closeViewController()
                     } else {
-                        saveError.show()
+                        self.present(saveError, animated: true, completion: nil)
                     }
                 })
                 
             } else {
             
-                Minders().addReminder(reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: (FIRAuth.auth()?.currentUser?.uid)!, setFor: setFor, completion: { (returnedMinder, error) -> Void in
+                Minders().addReminder(reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: (FIRAuth.auth()?.currentUser?.uid)!, setFor: setFor!, completion: { (returnedMinder, error) -> Void in
                     
                     if !error {
                         Minders().sendReminderNotification(returnedMinder)
@@ -178,7 +181,7 @@ class AddReminderViewController: MMCustomViewController {
                         self.activity.stopAnimating()
                         self.closeViewController()
                     } else {
-                        saveError.show()
+                        self.present(saveError, animated: true, completion: nil)
                     }
                     
                 })
