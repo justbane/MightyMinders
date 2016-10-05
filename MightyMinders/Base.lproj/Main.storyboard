@@ -1103,7 +1103,6 @@
                         <constraints>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="MTA-ig-Uno" secondAttribute="bottom" constant="8" id="38U-Kn-3N2"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="7C1-NV-12G" secondAttribute="bottom" id="49V-MF-6LS"/>
-                            <constraint firstItem="gRS-uf-PkU" firstAttribute="centerY" secondItem="1Mu-Tb-lUa" secondAttribute="centerY" id="5jg-Ov-DwN"/>
                             <constraint firstItem="gRS-uf-PkU" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-8" id="IHU-FU-nwg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="SHT-yD-2gb" secondAttribute="trailing" constant="-6" id="KIS-54-reT"/>
                             <constraint firstItem="7C1-NV-12G" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-20" id="NkO-je-Ui3"/>
@@ -1117,6 +1116,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="7C1-NV-12G" secondAttribute="trailing" constant="-20" id="l6t-on-bIW"/>
                             <constraint firstItem="1Mu-Tb-lUa" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-20" id="m2F-4T-gBB"/>
                             <constraint firstItem="7C1-NV-12G" firstAttribute="top" secondItem="SHT-yD-2gb" secondAttribute="bottom" constant="8" symbolic="YES" id="mTk-m2-arM"/>
+                            <constraint firstItem="gRS-uf-PkU" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="17" id="nFJ-cR-Gva"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1Mu-Tb-lUa" secondAttribute="trailing" constant="-20" id="pYs-0B-dfP"/>
                             <constraint firstItem="SHT-yD-2gb" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="5" id="t2K-64-h55"/>
                             <constraint firstItem="NWS-zA-g22" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-8" id="vp6-eI-GPJ"/>
