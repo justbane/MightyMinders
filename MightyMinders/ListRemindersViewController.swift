@@ -10,16 +10,16 @@ import UIKit
 
 class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, UITableViewDataSource {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
-    let userDefaults = NSUserDefaults.standardUserDefaults()
-    var reminderData: [FDataSnapshot!] = []
-    var theirReminderData: [FDataSnapshot!] = []
+    let ref = FIRDatabase.database().reference()
+    let userDefaults = UserDefaults.standard
+    var reminderData: [FIRDataSnapshot?] = []
+    var theirReminderData: [FIRDataSnapshot?] = []
     var reminderKeys = Set<String>()
     var selectedReminder: [String: Double]!
     let sectionsInTable = ["Set For You", "Set for Friends"]
     
     // Table row heights
-    var selectedCellIndexPath: NSIndexPath?
+    var selectedCellIndexPath: IndexPath?
     let selectedCellHeight: CGFloat = 180.0
     let unselectedCellHeight: CGFloat = 90.0
     
@@ -40,9 +40,9 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Check for valid user
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         }
     }
@@ -58,7 +58,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         // Private reminders
         Minders().getPrivateMinders { (privateReminders) -> Void in
             let enumerator = privateReminders.children
-            while let data = enumerator.nextObject() as? FDataSnapshot {
+            while let data = enumerator.nextObject() as? FIRDataSnapshot {
                 //print(data.key)
                 if !self.reminderKeys.contains(data.key) {
                     self.reminderKeys.insert(data.key)
@@ -71,7 +71,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         // Shared minders
         Minders().getSharedReminders { (sharedReminders) -> Void in
             let enumerator = sharedReminders.children
-            while let data = enumerator.nextObject() as? FDataSnapshot {
+            while let data = enumerator.nextObject() as? FIRDataSnapshot {
                 //print(data.key)
                 if !self.reminderKeys.contains(data.key) {
                     self.reminderKeys.insert(data.key)
@@ -84,7 +84,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         // Set by you        
         Minders().getRemindersSetByYou { (remindersSetByYou) -> Void in
             let enumerator = remindersSetByYou.children
-            while let data = enumerator.nextObject() as? FDataSnapshot {
+            while let data = enumerator.nextObject() as? FIRDataSnapshot {
                 //print(data.key)
                 if !self.reminderKeys.contains(data.key) {
                     self.reminderKeys.insert(data.key)
@@ -96,7 +96,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         
     }
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         
         // Check to see if segue should happen (have they selected a reminder?
         if identifier == "ListViewUnwindSegue" {
@@ -108,19 +108,19 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         return true
     }
     
-    @IBAction func selectReminderAction(sender: AddRemoveButtonView) {
+    @IBAction func selectReminderAction(_ sender: AddRemoveButtonView) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
-        
-    }
-    
-    @IBAction func closeBtnAction(sender: AnyObject) {
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
-    func getSectionItems(section: Int) -> Int {
+    @IBAction func closeBtnAction(_ sender: AnyObject) {
+        
+        self.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func getSectionItems(_ section: Int) -> Int {
         
         var count = 0
         
@@ -137,22 +137,22 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
     }
     
     // MARK: TableView requirements
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return sectionsInTable.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return getSectionItems(section)
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         //if selectedCellIndexPath == indexPath {
         //    return selectedCellHeight
         //}
         return unselectedCellHeight
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedCellIndexPath != nil && selectedCellIndexPath == indexPath {
             selectedCellIndexPath = nil
         } else {
@@ -164,35 +164,35 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         
         if selectedCellIndexPath != nil {
             // This ensures, that the cell is fully visible once expanded
-            tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .None, animated: true)
+            tableView.scrollToRow(at: indexPath, at: .none, animated: true)
         }
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionsInTable[section]
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("remindersTableCell") as! ListViewTableViewCell
-        cell.separatorInset = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
+        let cell = tableView.dequeueReusableCell(withIdentifier: "remindersTableCell") as! ListViewTableViewCell
+        cell.separatorInset = UIEdgeInsets.zero
+        cell.layoutMargins = UIEdgeInsets.zero
         cell.preservesSuperviewLayoutMargins = false
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         
         if reminderData.count > 0 && indexPath.section == 0 {
-            let reminders = reminderData[indexPath.row].value.valueForKey("location")
-            if let location = reminders {
+            let cellData = reminderData[indexPath.row]?.value as! [String: AnyObject]
+            if let location = cellData["location"] {
                 cell.viewBtn.locationData = [
-                    "latitude": (location.valueForKey("latitude") as? Double)!,
-                    "longitude": (location.valueForKey("longitude") as? Double)!
+                    "latitude": (location.value(forKey: "latitude") as? Double)!,
+                    "longitude": (location.value(forKey: "longitude") as? Double)!
                 ]
                 
-                if let name = location.valueForKey("name") as? NSString {
+                if let name = location.value(forKey: "name") as? NSString {
                     (cell.contentView.viewWithTag(101) as! UILabel).text = name as String
                 }
                 
-                if let address = location.valueForKey("address") as? NSString {
+                if let address = location.value(forKey: "address") as? NSString {
                     (cell.contentView.viewWithTag(102) as! UILabel).text = address as String
                 }
                 
@@ -200,18 +200,18 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         }
         
         if theirReminderData.count > 0 && indexPath.section == 1 {
-            let reminders = theirReminderData[indexPath.row].value.valueForKey("location")
-            if let location = reminders {
+            let cellData = theirReminderData[indexPath.row]?.value as! [String: AnyObject]
+            if let location = cellData["location"] {
                 cell.viewBtn.locationData = [
-                    "latitude": (location.valueForKey("latitude") as? Double)!,
-                    "longitude": (location.valueForKey("longitude") as? Double)!
+                    "latitude": (location.value(forKey: "latitude") as? Double)!,
+                    "longitude": (location.value(forKey: "longitude") as? Double)!
                 ]
                 
-                if let name = location.valueForKey("name") as? NSString {
+                if let name = location.value(forKey: "name") as? NSString {
                     (cell.contentView.viewWithTag(101) as! UILabel).text = name as String
                 }
                 
-                if let address = location.valueForKey("address") as? NSString {
+                if let address = location.value(forKey: "address") as? NSString {
                     (cell.contentView.viewWithTag(102) as! UILabel).text = address as String
                 }
 
@@ -219,7 +219,7 @@ class ListRemindersViewController: MMCustomViewController, UITableViewDelegate, 
         }
         
         // Cell button setup
-        cell.viewBtn.addTarget(self, action: #selector(selectReminderAction), forControlEvents: .TouchUpInside)
+        cell.viewBtn.addTarget(self, action: #selector(selectReminderAction), for: .touchUpInside)
         
         // Return the cell with data
         return cell

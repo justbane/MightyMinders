@@ -10,6 +10,10 @@ import UIKit
 
 class MMCustomViewController: UIViewController {
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,7 +23,7 @@ class MMCustomViewController: UIViewController {
         if let navControl = navigationController  {
             navigationItem.titleView = Logo(imgName: "MightyMinders", navController: navControl).getLogoImage()
         }
-        
+                
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,8 +34,8 @@ class MMCustomViewController: UIViewController {
     func showLogin() {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") 
-        self.presentViewController(vc, animated: true, completion: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") 
+        self.present(vc, animated: true, completion: nil)
         
     }
     

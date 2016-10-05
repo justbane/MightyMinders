@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import AeroGearPush
 
 protocol User {}
 
 class Users: User {
     
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let ref = FIRDatabase.database().reference()
+    let userDefaults = UserDefaults.standard
     
     var currentEmail: String
     var currentFirstName: String
@@ -29,77 +28,55 @@ class Users: User {
     }
     
     // MARK: Change email for user
-    func changeEmailForUser(password: String, newEmail: String, completion: (error: Bool) -> Void) {
+    func changeEmailForUser(_ password: String, newEmail: String, completion: @escaping (_ error: Bool,String) -> Void) {
         
         // Change user email
-        ref.changeEmailForUser(self.currentEmail, password: password, toNewEmail: newEmail, withCompletionBlock: { error in
-            
-                if error != nil {
-                    // There was an error processing the request
-                    completion(error: true)
-                } else {
-                    // Email changed successfully
-                    self.currentEmail = newEmail
-                    self.updateProfileData({ (error) -> Void in
-                        if error {
-                            // FIXME: alert an error
-                        }
-                    })
-                    completion(error: false)
-                }
-        
+        FIRAuth.auth()?.currentUser?.updateEmail(self.currentEmail, completion: { (error) in
+            if error != nil {
+                // There was an error processing the request
+                completion(true, (error?.localizedDescription)!)
+            } else {
+                // Email changed successfully
+                self.currentEmail = newEmail
+                self.updateProfileData({ (error) -> Void in
+                    if error {
+                        // FIXME: alert an error
+                    }
+                })
+                completion(false, "")
+            }
         })
         
     }
     
     // MARK: Uodate user profile
-    func updateProfileData(completion: (error: Bool) -> Void) {
+    func updateProfileData(_ completion: @escaping (_ error: Bool) -> Void) {
         
-            let dataToUpdate = [
-                "email_address": currentEmail,
-                "first_name": currentFirstName,
-                "last_name": currentLastName
-            ]
+        let dataToUpdate = [
+            "email_address": currentEmail,
+            "first_name": currentFirstName,
+            "last_name": currentLastName
+        ]
         
-            let profileRef = self.ref.childByAppendingPath("users/\(ref.authData.uid)")
-            profileRef.setValue(dataToUpdate)
-            
-            let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
-            
-            registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
-                
-                // Apply the token, to identify this device
-                clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
-                
-                clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
-                clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
-                
-                // Optional config --
-                // Set some 'useful' hardware information params
-                clientInfo.alias = dataToUpdate["email_address"]
-                self.userDefaults.setValue(dataToUpdate["email_address"], forKey: "storedUserEmail")
-                
-                }, success: {
-                    print("device alias updated");
-                    
-                }, failure: { (error:NSError!) -> () in
-                    print("device alias update error: \(error.localizedDescription)")
-            })
-            
-            completion(error: false)
-        
+        let profileRef = self.ref.child("users").child((FIRAuth.auth()?.currentUser?.uid)!)
+        profileRef.setValue(dataToUpdate) { (error, Firebase) in
+            if error != nil {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
     }
     
     // MARK: Update user password
-    func changeUserPassword(oldPassword: String, newPassword: String, completion: (error: Bool) -> Void) {
+    func changeUserPassword(_ oldPassword: String, newPassword: String, completion: @escaping (_ error: Bool) -> Void) {
         
-        ref.changePasswordForUser(self.currentEmail, fromOld: oldPassword,
-            toNew: newPassword, withCompletionBlock: { error in
-                if error != nil {
-                    completion(error: true)
-                } else {
-                    completion(error: false)
-                }
+        FIRAuth.auth()?.currentUser?.updatePassword(self.currentEmail, completion: { (error) in
+            if error != nil {
+                completion(true)
+            } else {
+                completion(false)
+            }
         })
         
     }

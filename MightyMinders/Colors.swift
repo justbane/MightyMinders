@@ -52,10 +52,10 @@ struct Colors {
     }
     
     
-    func getGradientLayer(topColor: UIColor, bottomColor: UIColor) -> CAGradientLayer {
+    func getGradientLayer(_ topColor: UIColor, bottomColor: UIColor) -> CAGradientLayer {
         
         
-        let gradientColors: [AnyObject] = [topColor.CGColor, bottomColor.CGColor]
+        let gradientColors: [AnyObject] = [topColor.cgColor, bottomColor.cgColor]
         let gradientLocations: [NSNumber] = [0.0, 1.0]
         
         let gradientLayer: CAGradientLayer = CAGradientLayer()

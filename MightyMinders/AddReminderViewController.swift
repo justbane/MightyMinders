@@ -10,8 +10,8 @@ import UIKit
 
 class AddReminderViewController: MMCustomViewController {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let ref = FIRDatabase.database().reference()
+    let userDefaults = UserDefaults.standard
     
     var selectedLocation = [String: AnyObject]()
     var selectedFriend = [String: AnyObject]()
@@ -38,28 +38,28 @@ class AddReminderViewController: MMCustomViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        activity.hidden = true
+        activity.isHidden = true
         if isModal() {
-            closeBtn.hidden = false
+            closeBtn.isHidden = false
         }
         
         // Setup swipe down to hide keyboard
         let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        swipe.direction = UISwipeGestureRecognizerDirection.Down
+        swipe.direction = UISwipeGestureRecognizerDirection.down
         self.view.addGestureRecognizer(swipe)
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         // Check for valid user
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         } else {
             // If selected friend exits
             if !selectedFriend.isEmpty {
                 let first_name: String = selectedFriend["first_name"]! as! String
                 let last_name: String = selectedFriend["last_name"]! as! String
-                addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
+                addFriendBtn.setTitle("\(first_name) \(last_name)", for: UIControlState())
             }
             
             // Setup interface values if editing a reminder
@@ -71,27 +71,27 @@ class AddReminderViewController: MMCustomViewController {
                 selectedLocation = selectedLocationFromView
                 
                 if let selectedName = selectedLocationFromView["name"] as? String {
-                    addLocationBtn.setTitle(selectedName, forState: .Normal)
+                    addLocationBtn.setTitle(selectedName, for: UIControlState())
                 }
                 
                 if let selectedAddress = selectedLocationFromView["address"] as? String {
-                    let curText = addLocationBtn.titleForState(.Normal)!
-                    addLocationBtn.setTitle("\(curText) at \(selectedAddress)", forState: .Normal)
+                    let curText = addLocationBtn.title(for: UIControlState())!
+                    addLocationBtn.setTitle("\(curText) at \(selectedAddress)", for: UIControlState())
                 }
                 
-                if !(selectedFriendFromView.isEmpty) && selectedFriendFromView != ref.authData.uid {
-                    ref.childByAppendingPath("users/\(selectedFriendFromView)").observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+                if !(selectedFriendFromView.isEmpty) && selectedFriendFromView != (FIRAuth.auth()?.currentUser?.uid)! {
+                    ref.child("users").child(selectedFriendFromView).observeSingleEvent(of: .value, with: { (snapshot) -> Void in
                         // Set data from location controller
-                        
-                        let first_name: String = snapshot.value.objectForKey("first_name") as! String
-                        let last_name: String = snapshot.value.objectForKey("last_name") as! String
-                        self.addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
+                        let selectedFriendData = snapshot.value as! [String: AnyObject]
+                        let first_name: String = selectedFriendData["first_name"] as! String
+                        let last_name: String = selectedFriendData["last_name"] as! String
+                        self.addFriendBtn.setTitle("\(first_name) \(last_name)", for: UIControlState())
                         
                         // Set local selectedLocation
                         self.selectedFriend = [
-                            "id": snapshot.key,
-                            "first_name": first_name,
-                            "last_name": last_name
+                            "id": snapshot.key as AnyObject,
+                            "first_name": first_name as AnyObject,
+                            "last_name": last_name as AnyObject
                         ]
                     })
                 }
@@ -99,7 +99,7 @@ class AddReminderViewController: MMCustomViewController {
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // View is shown again
     }
     
@@ -108,9 +108,9 @@ class AddReminderViewController: MMCustomViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
+        super.touchesBegan(touches, with: event)
     }
     
     func dismissKeyboard() {
@@ -122,63 +122,66 @@ class AddReminderViewController: MMCustomViewController {
     func closeViewController() {
         
         if isModal() {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         } else {
-            self.navigationController?.popViewControllerAnimated(true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
         
     }
     
-    @IBAction func closeBtnAction(sender: AnyObject) {
+    @IBAction func closeBtnAction(_ sender: AnyObject) {
         
         closeViewController()
         
     }
     
-    @IBAction func addReminder(sender: AnyObject) {
+    @IBAction func addReminder(_ sender: AnyObject) {
         
-        activity.hidden = false
+        activity.isHidden = false
         activity.startAnimating()
         
-        let setFor = (selectedFriend.count > 0 ? selectedFriend["id"] : ref.authData.uid) as! String
+        let setFor = (selectedFriend.count > 0 ? selectedFriend["id"] as? String : FIRAuth.auth()?.currentUser?.uid)
         
-        let saveError = UIAlertView(title: "Error", message: "An error occured saving the reminder", delegate: nil, cancelButtonTitle: "OK")
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let saveError = UIAlertController(title: "Error", message: "An error occured saving the reminder", preferredStyle: UIAlertControllerStyle.alert)
+        saveError.addAction(OKAction)
         
-        let locationError = UIAlertView(title: "Error", message: "Please select a location and enter some reminder text", delegate: nil, cancelButtonTitle: "OK")
+        let locationError = UIAlertController(title: "Error", message: "Please select a location and enter some reminder text.", preferredStyle: UIAlertControllerStyle.alert)
+        locationError.addAction(OKAction)
         
         // Validate
         if selectedLocation.count < 1 || reminderTxt.text == "" {
             
-            locationError.show()
+            self.present(locationError, animated: true, completion: nil)
         
         } else {
             
             // Save to firebase if editing else if adding new
             if let identifier = reminderIdentifier {
                 
-                Minders().editReminder(identifier, content: reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: ref.authData.uid, setFor: setFor, completion: { (returnedMinder, error) -> Void in
+                Minders().editReminder(identifier, content: reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: (FIRAuth.auth()?.currentUser?.uid)!, setFor: setFor!, completion: { (returnedMinder, error) -> Void in
                     
                     if !error {
                         Minders().sendReminderNotification(returnedMinder)
-                        self.activity.hidden = true
+                        self.activity.isHidden = true
                         self.activity.stopAnimating()
                         self.closeViewController()
                     } else {
-                        saveError.show()
+                        self.present(saveError, animated: true, completion: nil)
                     }
                 })
                 
             } else {
             
-                Minders().addReminder(reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: ref.authData.uid, setFor: setFor, completion: { (returnedMinder, error) -> Void in
+                Minders().addReminder(reminderTxt.text, location: selectedLocation, timing: whenSelector.selectedSegmentIndex, setBy: (FIRAuth.auth()?.currentUser?.uid)!, setFor: setFor!, completion: { (returnedMinder, error) -> Void in
                     
                     if !error {
                         Minders().sendReminderNotification(returnedMinder)
-                        self.activity.hidden = true
+                        self.activity.isHidden = true
                         self.activity.stopAnimating()
                         self.closeViewController()
                     } else {
-                        saveError.show()
+                        self.present(saveError, animated: true, completion: nil)
                     }
                     
                 })
@@ -188,21 +191,21 @@ class AddReminderViewController: MMCustomViewController {
         }
     }
     
-    @IBAction func unwindFromLocationSelection(segue: UIStoryboardSegue) {
+    @IBAction func unwindFromLocationSelection(_ segue: UIStoryboardSegue) {
         
-        let locationController = segue.sourceViewController as! AddLocationViewController
+        let locationController = segue.source as! AddLocationViewController
         
         if segue.identifier == "LocationUnwindSegue" {
             
             // Set data from location controller
             let nameForLocation = locationController.selectedLocation["name"] as! String == "My current location" ? "Dropped pin" : locationController.selectedLocation["name"] as! String
-            locationController.selectedLocation["name"] = nameForLocation
+            locationController.selectedLocation["name"] = nameForLocation as AnyObject?
             
             var name: String = nameForLocation
             if let address: String = locationController.selectedLocation["address"] as? String {
                 name += " at \(address)"
             }
-            addLocationBtn.setTitle("\(name)", forState: .Normal)
+            addLocationBtn.setTitle("\(name)", for: UIControlState())
             
             // Set local selectedLocation
             selectedLocation = locationController.selectedLocation
@@ -210,20 +213,20 @@ class AddReminderViewController: MMCustomViewController {
         
     }
     
-    @IBAction func unwindFromFriendSelection(segue: UIStoryboardSegue) {
+    @IBAction func unwindFromFriendSelection(_ segue: UIStoryboardSegue) {
         
-        let friendController = segue.sourceViewController as! AddFriendViewController
+        let friendController = segue.source as! AddFriendViewController
         
         if segue.identifier == "AddFriendUnwindSegue" {
             
             // Set data from location controller
             var friendForLocation = friendController.selectedFriend
-            let first_name: String = friendForLocation["first_name"]!
-            let last_name: String = friendForLocation["last_name"]!
-            addFriendBtn.setTitle("\(first_name) \(last_name)", forState: .Normal)
+            let first_name: String = friendForLocation!["first_name"]!
+            let last_name: String = friendForLocation!["last_name"]!
+            addFriendBtn.setTitle("\(first_name) \(last_name)", for: UIControlState())
             
             // Set local selectedLocation
-            selectedFriend = friendController.selectedFriend
+            selectedFriend = friendController.selectedFriend as [String : AnyObject]
         }
         
     }
@@ -241,7 +244,7 @@ class AddReminderViewController: MMCustomViewController {
             return true
         }
         
-        if((self.tabBarController?.presentingViewController?.isKindOfClass(UITabBarController)) != nil) {
+        if((self.tabBarController?.presentingViewController?.isKind(of: UITabBarController.self)) != nil) {
             return true
         }
         

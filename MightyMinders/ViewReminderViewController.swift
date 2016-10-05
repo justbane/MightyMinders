@@ -10,7 +10,7 @@ import UIKit
 
 class ViewReminderViewController: MMCustomViewController {
     
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
+    let ref = FIRDatabase.database().reference()
     
     var reminderText: String!
     var reminderIdentifier: String!
@@ -35,21 +35,28 @@ class ViewReminderViewController: MMCustomViewController {
         timingLbl.text = timingText
         
         if !(selectedFriendFromView.isEmpty) {
-            setByLbl.hidden = false
-            let friendRef = ref.childByAppendingPath("users/\(selectedFriendFromView)")
-            friendRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
+            setByLbl.isHidden = false
+            let friendRef = ref.child("users").child(selectedFriendFromView)
+            friendRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+                let friendData = snapshot.value as! [String: AnyObject]
                 // Set data from location controller
-                let first_name: String = snapshot.value.objectForKey("first_name") as! String
-                let last_name: String = snapshot.value.objectForKey("last_name") as! String
+                let first_name: String = friendData["first_name"] as! String
+                let last_name: String = friendData["last_name"] as! String
                 
-                if self.ref.authData.uid != self.selectedFriendFromView {
+                if (FIRAuth.auth()?.currentUser?.uid)! != self.selectedFriendFromView {
                     self.setByLbl.text = "Set for: \(first_name) \(last_name)"
                 } else {
-                    let setForRef = self.ref.childByAppendingPath("users/\(self.setByFromView)")
-                    setForRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-                        let first_name: String = snapshot.value.objectForKey("first_name") as! String
-                        let last_name: String = snapshot.value.objectForKey("last_name") as! String
-                        self.setByLbl.text = "Set for you by: \(first_name) \(last_name)"
+                    let setForRef = self.ref.child("users/\(self.setByFromView)")
+                    setForRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+                        if snapshot.childrenCount > 0 {
+                            let setForData = snapshot.value as! [String: AnyObject]
+                            let first_name: String = setForData["first_name"] as! String
+                            let last_name: String = setForData["last_name"] as! String
+                            self.setByLbl.text = "Set for you by: \(first_name) \(last_name)"
+                        } else {
+                            self.setByLbl.text = "Set for you by:"
+                        }
+                        
                     })
                 }
                 
@@ -58,9 +65,9 @@ class ViewReminderViewController: MMCustomViewController {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Check for valid user
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         }
     }
@@ -70,18 +77,18 @@ class ViewReminderViewController: MMCustomViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func closeBtnAction(sender: AnyObject) {
+    @IBAction func closeBtnAction(_ sender: AnyObject) {
         completeReminder = false
     }
     
-    @IBAction func completeBtnAction(sender: AnyObject) {
+    @IBAction func completeBtnAction(_ sender: AnyObject) {
         completeReminder = true
     }
     
     
     // MARK: Segues
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        self.dismiss(animated: true, completion: nil)
         return true
     }
 

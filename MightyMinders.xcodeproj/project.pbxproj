@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28911A048C0257022C34813D /* Pods_MightyMinders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A895E4D54373DA26D5F062BB /* Pods_MightyMinders.framework */; };
 		390F26B71BF2F1CF001D6D06 /* ListRemindersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390F26B61BF2F1CF001D6D06 /* ListRemindersViewController.swift */; };
 		390F26BF1BF2FA77001D6D06 /* ListViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390F26BE1BF2FA77001D6D06 /* ListViewTableViewCell.swift */; };
 		3913E32F1B7C5391003D1C69 /* FindFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913E32E1B7C5391003D1C69 /* FindFriendsViewController.swift */; };
-		3914414C1AEDE0C100866679 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3914414B1AEDE0C100866679 /* Firebase.framework */; };
 		3914414E1AEDE1FF00866679 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3914414D1AEDE1FF00866679 /* RegisterViewController.swift */; };
 		39305A981AE9EF9300773849 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39305A971AE9EF9300773849 /* AppDelegate.swift */; };
 		39305A9A1AE9EF9300773849 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39305A991AE9EF9300773849 /* ViewController.swift */; };
@@ -30,7 +30,6 @@
 		394E81E31B52218A00C81664 /* ViewReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394E81E21B52218A00C81664 /* ViewReminderViewController.swift */; };
 		394E91E51B00FB3A00C701D3 /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394E91E41B00FB3A00C701D3 /* AddLocationViewController.swift */; };
 		3955CF821B9FE48B0037FA91 /* AddFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3955CF811B9FE48B0037FA91 /* AddFriendViewController.swift */; };
-		39589CB21BCCBC8800D9D804 /* AeroGearPush.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 39589CAC1BCCBBF500D9D804 /* AeroGearPush.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3960ACB11B901CD50064B2BE /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */; };
 		3960ACB21B901CD50064B2BE /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C0A3AC1B76935C000A6CAD /* CustomView.swift */; };
 		3960ACB31B901CD50064B2BE /* AddRemoveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */; };
@@ -40,9 +39,11 @@
 		398D959E1B88FBAE00D85F40 /* FriendsRemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */; };
 		398D95A21B8901AF00D85F40 /* MMCustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */; };
 		39947ACC1B0B824E003F142A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39947ACB1B0B824E003F142A /* MapKit.framework */; };
+		399557131CEECD5B0029AABD /* Values.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399557121CEECD5B0029AABD /* Values.swift */; };
 		39958F831C30769B00F7CFA4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39423FEB1BE32DB800435724 /* Alamofire.framework */; };
 		39958F841C30769B00F7CFA4 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 39423FEB1BE32DB800435724 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39962C221B8D865900E264E2 /* FindFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */; };
+		39AE3F4B1D6391870001CA6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39AE3F4A1D6391870001CA6B /* GoogleService-Info.plist */; };
 		39AEAC8D1BAE2D5300E33F3E /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AEAC8C1BAE2D5300E33F3E /* libc++.1.dylib */; };
 		39AEAC8F1BAE2D7700E33F3E /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39AEAC8E1BAE2D7700E33F3E /* libicucore.A.dylib */; };
 		39BA7D771C557B2E00790840 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BA7D761C557B2E00790840 /* Users.swift */; };
@@ -51,6 +52,7 @@
 		39E6E5C31AF32CAC0066B707 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E6E5C21AF32CAC0066B707 /* TextFields.swift */; };
 		39F0DCE71AFA6AF1002C91F5 /* AddReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */; };
 		39F8E2A51BA4D51C00C1EA99 /* default.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 39F8E2A41BA4D51C00C1EA99 /* default.gpx */; };
+		3F1A748EED20BE0EB6AEC1ED /* Pods_MightyMindersTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 771EAC328BC9E53D02E42D0A /* Pods_MightyMindersTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,27 +112,6 @@
 			remoteGlobalIDString = E4202FE01B667AA100C997FB;
 			remoteInfo = "Alamofire watchOS";
 		};
-		39589CAB1BCCBBF500D9D804 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6F71353119646266009B26D8;
-			remoteInfo = AeroGearPush;
-		};
-		39589CAF1BCCBC4200D9D804 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6F71353019646266009B26D8;
-			remoteInfo = AeroGearPush;
-		};
-		39713FD71C9F76EC00ADC5E7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6F71353C19646266009B26D8;
-			remoteInfo = AeroGearPushTests;
-		};
 		39958F851C30769B00F7CFA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39423FE01BE32DB700435724 /* Alamofire.xcodeproj */;
@@ -147,7 +128,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				39589CB21BCCBC8800D9D804 /* AeroGearPush.framework in Copy Frameworks */,
 				39958F841C30769B00F7CFA4 /* Alamofire.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -156,10 +136,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		12A400264BF974DA8DF54589 /* Pods-MightyMindersTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MightyMindersTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MightyMindersTests/Pods-MightyMindersTests.release.xcconfig"; sourceTree = "<group>"; };
 		390F26B61BF2F1CF001D6D06 /* ListRemindersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListRemindersViewController.swift; sourceTree = "<group>"; };
 		390F26BE1BF2FA77001D6D06 /* ListViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewTableViewCell.swift; sourceTree = "<group>"; };
 		3913E32E1B7C5391003D1C69 /* FindFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindFriendsViewController.swift; sourceTree = "<group>"; };
-		3914414B1AEDE0C100866679 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		3914414D1AEDE1FF00866679 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		39305A921AE9EF9300773849 /* MightyMinders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MightyMinders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39305A961AE9EF9300773849 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -185,17 +165,19 @@
 		394E81E21B52218A00C81664 /* ViewReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewReminderViewController.swift; sourceTree = "<group>"; };
 		394E91E41B00FB3A00C701D3 /* AddLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		3955CF811B9FE48B0037FA91 /* AddFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendViewController.swift; sourceTree = "<group>"; };
-		39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AeroGearPush.xcodeproj; path = "aerogear-ios-push/AeroGearPush.xcodeproj"; sourceTree = "<group>"; };
 		39713FDF1C9F93BB00ADC5E7 /* Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
 		397C5FB41AF1E7C40063E9DE /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		397E8D291B64247F0095B30D /* Logo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		398D959D1B88FBAE00D85F40 /* FriendsRemindViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsRemindViewController.swift; sourceTree = "<group>"; };
 		398D95A11B8901AF00D85F40 /* MMCustomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MMCustomViewController.swift; sourceTree = "<group>"; };
 		39947ACB1B0B824E003F142A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		399557121CEECD5B0029AABD /* Values.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Values.swift; sourceTree = "<group>"; };
 		39962C211B8D865900E264E2 /* FindFriendsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindFriendsTableViewCell.swift; sourceTree = "<group>"; };
 		3998474E1B7FCA2400DD8104 /* AddRemoveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddRemoveButton.swift; path = ../CustomViews/AddRemoveButton.swift; sourceTree = "<group>"; };
+		39AE3F4A1D6391870001CA6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		39AEAC8C1BAE2D5300E33F3E /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
 		39AEAC8E1BAE2D7700E33F3E /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = ../../../../../../usr/lib/libicucore.A.dylib; sourceTree = "<group>"; };
+		39B32A9E1D971B5E003290CA /* MightyMinders.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MightyMinders.entitlements; sourceTree = "<group>"; };
 		39BA7D761C557B2E00790840 /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		39C0A3AC1B76935C000A6CAD /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomView.swift; path = ../CustomViews/CustomView.swift; sourceTree = "<group>"; };
 		39C0A3B01B76A4E1000A6CAD /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomButton.swift; path = ../CustomViews/CustomButton.swift; sourceTree = "<group>"; };
@@ -204,6 +186,11 @@
 		39E6E5C21AF32CAC0066B707 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
 		39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReminderViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		39F8E2A41BA4D51C00C1EA99 /* default.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = default.gpx; sourceTree = "<group>"; };
+		771EAC328BC9E53D02E42D0A /* Pods_MightyMindersTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MightyMindersTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		812CA049AB1DDAF8EF7FF538 /* Pods-MightyMinders.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MightyMinders.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MightyMinders/Pods-MightyMinders.debug.xcconfig"; sourceTree = "<group>"; };
+		8D749F876D8EFFC896119EDC /* Pods-MightyMindersTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MightyMindersTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MightyMindersTests/Pods-MightyMindersTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A895E4D54373DA26D5F062BB /* Pods_MightyMinders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MightyMinders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7BFD805CDCB68C37B94C22E /* Pods-MightyMinders.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MightyMinders.release.xcconfig"; path = "Pods/Target Support Files/Pods-MightyMinders/Pods-MightyMinders.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,9 +204,9 @@
 				394259D21B0A40ED00918534 /* CoreLocation.framework in Frameworks */,
 				39305AC61AE9FDF000773849 /* SystemConfiguration.framework in Frameworks */,
 				39947ACC1B0B824E003F142A /* MapKit.framework in Frameworks */,
-				3914414C1AEDE0C100866679 /* Firebase.framework in Frameworks */,
 				39305AC41AE9FDE000773849 /* Security.framework in Frameworks */,
 				39305AC21AE9FDD200773849 /* CFNetwork.framework in Frameworks */,
+				28911A048C0257022C34813D /* Pods_MightyMinders.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +214,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F1A748EED20BE0EB6AEC1ED /* Pods_MightyMindersTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,14 +231,14 @@
 				39F8E2A41BA4D51C00C1EA99 /* default.gpx */,
 				39947ACB1B0B824E003F142A /* MapKit.framework */,
 				394259D11B0A40ED00918534 /* CoreLocation.framework */,
-				3914414B1AEDE0C100866679 /* Firebase.framework */,
 				39305AC51AE9FDF000773849 /* SystemConfiguration.framework */,
 				39305AC31AE9FDE000773849 /* Security.framework */,
 				39305AC11AE9FDD200773849 /* CFNetwork.framework */,
 				39305A941AE9EF9300773849 /* MightyMinders */,
 				39305AAA1AE9EF9300773849 /* MightyMindersTests */,
 				39305A931AE9EF9300773849 /* Products */,
-				39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */,
+				C9D1928CDBD1E644FBDB0827 /* Pods */,
+				E8D52203BC75E3FFBA177C90 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -266,6 +254,7 @@
 		39305A941AE9EF9300773849 /* MightyMinders */ = {
 			isa = PBXGroup;
 			children = (
+				39B32A9E1D971B5E003290CA /* MightyMinders.entitlements */,
 				39305A971AE9EF9300773849 /* AppDelegate.swift */,
 				397558FE1CC33FD800F79038 /* Controllers */,
 				397559071CC3405C00F79038 /* Models */,
@@ -280,6 +269,7 @@
 		39305A951AE9EF9300773849 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				39AE3F4A1D6391870001CA6B /* GoogleService-Info.plist */,
 				39305A961AE9EF9300773849 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -312,15 +302,6 @@
 				39423FF31BE32DB800435724 /* Alamofire.framework */,
 				39423FF51BE32DB800435724 /* Alamofire tvOS Tests.xctest */,
 				39423FF71BE32DB800435724 /* Alamofire.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		39589CA71BCCBBF500D9D804 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				39589CAC1BCCBBF500D9D804 /* AeroGearPush.framework */,
-				39713FD81C9F76EC00ADC5E7 /* AeroGearPushTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -370,8 +351,29 @@
 				397C5FB41AF1E7C40063E9DE /* Colors.swift */,
 				39E6E5C21AF32CAC0066B707 /* TextFields.swift */,
 				39CC99211BE07DE700F7F428 /* HTTPRequests.swift */,
+				399557121CEECD5B0029AABD /* Values.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		C9D1928CDBD1E644FBDB0827 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				812CA049AB1DDAF8EF7FF538 /* Pods-MightyMinders.debug.xcconfig */,
+				F7BFD805CDCB68C37B94C22E /* Pods-MightyMinders.release.xcconfig */,
+				8D749F876D8EFFC896119EDC /* Pods-MightyMindersTests.debug.xcconfig */,
+				12A400264BF974DA8DF54589 /* Pods-MightyMindersTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E8D52203BC75E3FFBA177C90 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A895E4D54373DA26D5F062BB /* Pods_MightyMinders.framework */,
+				771EAC328BC9E53D02E42D0A /* Pods_MightyMindersTests.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -381,15 +383,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 39305AB11AE9EF9300773849 /* Build configuration list for PBXNativeTarget "MightyMinders" */;
 			buildPhases = (
+				DA80E31427D874A230C9045A /* [CP] Check Pods Manifest.lock */,
 				39305A8E1AE9EF9300773849 /* Sources */,
 				39305A8F1AE9EF9300773849 /* Frameworks */,
 				39305A901AE9EF9300773849 /* Resources */,
 				39589CB11BCCBC5E00D9D804 /* Copy Frameworks */,
+				96C5D7FFD8A07F1189255EEF /* [CP] Embed Pods Frameworks */,
+				53D049B24E6EA396C747FF08 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				39589CB01BCCBC4200D9D804 /* PBXTargetDependency */,
 				39958F861C30769B00F7CFA4 /* PBXTargetDependency */,
 			);
 			name = MightyMinders;
@@ -401,9 +405,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 39305AB41AE9EF9300773849 /* Build configuration list for PBXNativeTarget "MightyMindersTests" */;
 			buildPhases = (
+				0711CFE654D7E3AAFE53E735 /* [CP] Check Pods Manifest.lock */,
 				39305AA31AE9EF9300773849 /* Sources */,
 				39305AA41AE9EF9300773849 /* Frameworks */,
 				39305AA51AE9EF9300773849 /* Resources */,
+				5D8DF66DACE5FBE37BE622B7 /* [CP] Embed Pods Frameworks */,
+				6006E3789129056E104AE685 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -423,14 +430,18 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Justin Bane";
 				TargetAttributes = {
 					39305A911AE9EF9300773849 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = S4L5PVTT36;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
 								enabled = 1;
 							};
 							com.apple.Maps.iOS = {
@@ -443,6 +454,8 @@
 					};
 					39305AA61AE9EF9300773849 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = S4L5PVTT36;
+						LastSwiftMigration = 0800;
 						TestTargetID = 39305A911AE9EF9300773849;
 					};
 				};
@@ -459,10 +472,6 @@
 			productRefGroup = 39305A931AE9EF9300773849 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = 39589CA71BCCBBF500D9D804 /* Products */;
-					ProjectRef = 39589CA61BCCBBF500D9D804 /* AeroGearPush.xcodeproj */;
-				},
 				{
 					ProductGroup = 39423FE11BE32DB700435724 /* Products */;
 					ProjectRef = 39423FE01BE32DB700435724 /* Alamofire.xcodeproj */;
@@ -526,20 +535,6 @@
 			remoteRef = 39423FF61BE32DB800435724 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		39589CAC1BCCBBF500D9D804 /* AeroGearPush.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AeroGearPush.framework;
-			remoteRef = 39589CAB1BCCBBF500D9D804 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		39713FD81C9F76EC00ADC5E7 /* AeroGearPushTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AeroGearPushTests.xctest;
-			remoteRef = 39713FD71C9F76EC00ADC5E7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -552,6 +547,7 @@
 				39F8E2A51BA4D51C00C1EA99 /* default.gpx in Resources */,
 				39305AA21AE9EF9300773849 /* LaunchScreen.xib in Resources */,
 				39305A9F1AE9EF9300773849 /* Images.xcassets in Resources */,
+				39AE3F4B1D6391870001CA6B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,6 +559,99 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0711CFE654D7E3AAFE53E735 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		53D049B24E6EA396C747FF08 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MightyMinders/Pods-MightyMinders-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5D8DF66DACE5FBE37BE622B7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MightyMindersTests/Pods-MightyMindersTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6006E3789129056E104AE685 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MightyMindersTests/Pods-MightyMindersTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		96C5D7FFD8A07F1189255EEF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MightyMinders/Pods-MightyMinders-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA80E31427D874A230C9045A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		39305A8E1AE9EF9300773849 /* Sources */ = {
@@ -592,6 +681,7 @@
 				398D95A21B8901AF00D85F40 /* MMCustomViewController.swift in Sources */,
 				394E718A1B77F9380053B47B /* ProfileViewController.swift in Sources */,
 				39713FE01C9F93BB00ADC5E7 /* Friends.swift in Sources */,
+				399557131CEECD5B0029AABD /* Values.swift in Sources */,
 				39BA7D771C557B2E00790840 /* Users.swift in Sources */,
 				39E6E5C31AF32CAC0066B707 /* TextFields.swift in Sources */,
 				394E81E31B52218A00C81664 /* ViewReminderViewController.swift in Sources */,
@@ -614,11 +704,6 @@
 			isa = PBXTargetDependency;
 			target = 39305A911AE9EF9300773849 /* MightyMinders */;
 			targetProxy = 39305AA81AE9EF9300773849 /* PBXContainerItemProxy */;
-		};
-		39589CB01BCCBC4200D9D804 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AeroGearPush;
-			targetProxy = 39589CAF1BCCBC4200D9D804 /* PBXContainerItemProxy */;
 		};
 		39958F861C30769B00F7CFA4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -660,8 +745,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -684,7 +771,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -706,8 +793,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -723,22 +812,25 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		39305AB21AE9EF9300773849 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 812CA049AB1DDAF8EF7FF538 /* Pods-MightyMinders.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MightyMinders/MightyMinders.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -746,24 +838,27 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MightyMinders/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8b2e5c2f-9519-4966-a7f7-fe207dcae1f3";
+				PROVISIONING_PROFILE = "83d25f4c-5068-4a85-8f4c-30da79402a8c";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		39305AB31AE9EF9300773849 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F7BFD805CDCB68C37B94C22E /* Pods-MightyMinders.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MightyMinders/MightyMinders.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -771,19 +866,22 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MightyMinders/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8b2e5c2f-9519-4966-a7f7-fe207dcae1f3";
+				PROVISIONING_PROFILE = "83d25f4c-5068-4a85-8f4c-30da79402a8c";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		39305AB51AE9EF9300773849 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8D749F876D8EFFC896119EDC /* Pods-MightyMindersTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = S4L5PVTT36;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -792,17 +890,21 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		39305AB61AE9EF9300773849 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 12A400264BF974DA8DF54589 /* Pods-MightyMindersTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = S4L5PVTT36;
 				INFOPLIST_FILE = MightyMindersTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

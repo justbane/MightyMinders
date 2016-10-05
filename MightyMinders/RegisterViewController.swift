@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import AeroGearPush
 
 class RegisterViewController: UIViewController, UITextFieldDelegate {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com")
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let ref = FIRDatabase.database().reference()
+    let userDefaults = UserDefaults.standard
     
     @IBOutlet weak var emailFld: UITextField!
     @IBOutlet weak var passFld: UITextField!
@@ -29,14 +28,14 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        activity.hidden = true
+        activity.isHidden = true
         
         // Set the background color
         // let background = Colors(colorString: "blue").getGradient()
         // background.frame = self.view.bounds
         // blueView.layer.insertSublayer(background, atIndex: 0)
         
-        errorTxt!.hidden = true
+        errorTxt!.isHidden = true
         
         emailFld.delegate = self
         passFld.delegate = self
@@ -49,12 +48,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
+        super.touchesBegan(touches, with: event)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         switch textField
         {
@@ -84,25 +83,25 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         
         if fnameFld.text!.isEmpty {
             fnameFld.layer.borderWidth = 1.0 as CGFloat
-            fnameFld.layer.borderColor = UIColor.redColor().CGColor
+            fnameFld.layer.borderColor = UIColor.red.cgColor
             error = true;
         }
         
         if lnameFld.text!.isEmpty {
             lnameFld.layer.borderWidth = 1.0 as CGFloat
-            lnameFld.layer.borderColor = UIColor.redColor().CGColor
+            lnameFld.layer.borderColor = UIColor.red.cgColor
             error = true;
         }
         
         if passFld.text!.isEmpty {
             passFld.layer.borderWidth = 1.0 as CGFloat
-            passFld.layer.borderColor = UIColor.redColor().CGColor
+            passFld.layer.borderColor = UIColor.red.cgColor
             error = true;
         }
         
         if emailFld.text!.isEmpty {
             emailFld.layer.borderWidth = 1.0 as CGFloat
-            emailFld.layer.borderColor = UIColor.redColor().CGColor
+            emailFld.layer.borderColor = UIColor.red.cgColor
             error = true;
         }
         
@@ -114,27 +113,29 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     // MARK: Actions
-    @IBAction func doRegistration(sender: AnyObject) {
-        activity.hidden = false
-        if (validate() && ref.authData == nil) {
-            ref.createUser(emailFld.text, password: passFld.text,
-                withValueCompletionBlock: { error, result in
+    @IBAction func doRegistration(_ sender: AnyObject) {
+        
+        activity.isHidden = false
+        
+        if (validate() && FIRAuth.auth()?.currentUser == nil) {
+            FIRAuth.auth()?.createUser(withEmail: emailFld.text!, password: passFld.text!,
+                completion: { (user, error) in
                     
                     if error != nil {
-                        self.errorTxt.hidden = false
-                        if let errorCode = FAuthenticationError(rawValue: error.code) {
+                        self.errorTxt.isHidden = false
+                        if let errorCode = FIRAuthErrorCode(rawValue: error!._code) {
                             
                             switch(errorCode) {
                                 
-                            case .EmailTaken:
+                            case .errorCodeEmailAlreadyInUse:
                                 self.errorTxt.text = "Error: This email is already in use!"
                                 self.emailFld.layer.borderWidth = 1.0 as CGFloat
-                                self.emailFld.layer.borderColor = UIColor.redColor().CGColor
+                                self.emailFld.layer.borderColor = UIColor.red.cgColor
                                 
-                            case .InvalidEmail:
+                            case .errorCodeInvalidEmail:
                                 self.errorTxt.text = "Error: This email is invalid. Please follow the user@domain.com format."
                                 self.emailFld.layer.borderWidth = 1.0 as CGFloat
-                                self.emailFld.layer.borderColor = UIColor.redColor().CGColor
+                                self.emailFld.layer.borderColor = UIColor.red.cgColor
                                 
                             default:
                                 self.errorTxt.text = "Error: Unknown Error!"
@@ -145,78 +146,26 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                         
                     } else {
                         
-                        if let _ = result["uid"] as? String {
+                        if user?.uid != nil {
                             
-                            self.ref.authUser(self.emailFld.text, password: self.passFld.text, withCompletionBlock: { error, authData in
-                                
-                                if error != nil {
-                                    // There was an error logging in to this account
-                                    self.errorTxt.hidden = false
-                                    if let errorCode = FAuthenticationError(rawValue: error.code) {
-                                        
-                                        switch(errorCode) {
-                                            
-                                        case .UserDoesNotExist:
-                                            self.errorTxt.text = "Error: Invalid user"
-                                            
-                                        case .InvalidCredentials:
-                                            self.errorTxt.text = "Error: Invalid email or password"
-                                            
-                                        case .InvalidEmail:
-                                            self.errorTxt.text = "Error: Invalid email or password"
-                                            
-                                        case .InvalidPassword:
-                                            self.errorTxt.text = "Error: Invalid email or password"
-                                            
-                                        default:
-                                            self.errorTxt.text = "Error: unknown error"
-                                            
-                                        }
-                                    }
+                            // Update device token
+                            self.ref.child("devices").child((FIRAuth.auth()?.currentUser?.uid)!).setValue(["token": FIRInstanceID.instanceID().token()!])
+                            
+                            Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.fnameFld.text! as String, currentLastName: self.lnameFld.text! as String).updateProfileData({ (error) -> Void in
+                                if error {
+                                    
+                                    self.errorTxt?.text = "Error: Please fill in all fields!"
+                                    self.errorTxt.isHidden = false
                                     
                                 } else {
                                     
-                                    // We are now logged in
-                                    let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
+                                    self.errorTxt?.text = "Success"
+                                    self.errorTxt.textColor = UIColor.green
+                                    self.errorTxt.isHidden = false
                                     
-                                    registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
-                                        
-                                        // Apply the token, to identify this device
-                                        clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
-                                        
-                                        clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
-                                        clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
-                                        
-                                        // --optional config--
-                                        // Set some 'useful' hardware information params
-                                        clientInfo.alias = self.ref.authData.providerData["email"] as? String
-                                        self.userDefaults.setValue(self.ref.authData.providerData["email"] as? String, forKey: "storedUserEmail")
-                                        
-                                        }, success: {
-                                            print("device alias updated");
-                                            
-                                        }, failure: { (error:NSError!) -> () in
-                                            print("device alias update error: \(error.localizedDescription)")
-                                    })
-                                    
-                                    Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.fnameFld.text! as String, currentLastName: self.lnameFld.text! as String).updateProfileData({ (error) -> Void in
-                                        if error {
-                                            
-                                            self.errorTxt?.text = "Error: Please fill in all fields!"
-                                            self.errorTxt.hidden = false
-                                    
-                                        } else {
-                                            
-                                            self.errorTxt?.text = "Success"
-                                            self.errorTxt.textColor = UIColor.greenColor()
-                                            self.errorTxt.hidden = false
-                                            
-                                            self.dismissViewControllerAnimated(true, completion: nil)
-                                        }
-                                        self.activity.hidden = true
-                                    })
+                                    self.dismiss(animated: true, completion: nil)
                                 }
-                                
+                                self.activity.isHidden = true
                             })
                             
                         }
@@ -227,22 +176,9 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             
         } else {
             
-            Users(currentEmail: self.emailFld.text! as String, currentFirstName: self.fnameFld.text! as String, currentLastName: self.lnameFld.text! as String).updateProfileData({ (error) -> Void in
-                if error {
-                    
-                    self.errorTxt?.text = "Error: Please fill in all fields!"
-                    self.errorTxt.hidden = false
-                    
-                } else {
-                    
-                    self.errorTxt?.text = "Success"
-                    self.errorTxt.textColor = UIColor.greenColor()
-                    self.errorTxt.hidden = false
-                    
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }
-                self.activity.hidden = true
-            })
+            self.errorTxt?.text = "Error: Please fill in all fields!"
+            self.errorTxt.isHidden = false
+            activity.isHidden = true
             
         }
     }

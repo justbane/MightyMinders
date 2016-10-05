@@ -1,0 +1,37 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "74E46BDF96ED8DD435D41AFEE8E455AD60EF12EB",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8C8496B28BFDEA9C8392B07098B1022DA1FCE318" : 0,
+    "67620B5EFA902936DF04070AF595B76AB0333747" : 0,
+    "74E46BDF96ED8DD435D41AFEE8E455AD60EF12EB" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "94B8DDD5-E6E1-4984-BD6B-7084275D2715",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8C8496B28BFDEA9C8392B07098B1022DA1FCE318" : "mightyminders\/aerogear-ios-push\/",
+    "67620B5EFA902936DF04070AF595B76AB0333747" : "mightyminders\/Alamofire\/",
+    "74E46BDF96ED8DD435D41AFEE8E455AD60EF12EB" : "mightyminders\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MightyMinders",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "MightyMinders.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Alamofire\/Alamofire.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "67620B5EFA902936DF04070AF595B76AB0333747"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:justbane\/mightyminders.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "74E46BDF96ED8DD435D41AFEE8E455AD60EF12EB"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/aerogear\/aerogear-ios-push.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8C8496B28BFDEA9C8392B07098B1022DA1FCE318"
+    }
+  ]
+}

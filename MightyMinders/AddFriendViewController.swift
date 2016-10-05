@@ -10,9 +10,9 @@ import UIKit
 
 class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com/")
-    let userDefaults = NSUserDefaults.standardUserDefaults()
-    var friendData: [FDataSnapshot!] = []
+    let ref = FIRDatabase.database().reference()
+    let userDefaults = UserDefaults.standard
+    var friendData: [FIRDataSnapshot?] = []
     var friendKeys: [String] = []
     var selectedFriend: [String: String]!
     
@@ -27,21 +27,21 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         // Table view setup
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorInset = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsets.zero
         
         // Get keys data
-        let canRemindKeys = ref.childByAppendingPath("friends/\(ref.authData.uid)/can-remind")
-        canRemindKeys.observeEventType(.Value, withBlock: { (snapshot) -> Void in
+        let canRemindKeys = ref.child("friends").child((FIRAuth.auth()?.currentUser?.uid)!).child("can-remind")
+        canRemindKeys.observe(.value, with: { (snapshot) -> Void in
             // Set object
             let enumerator = snapshot.children
             
             // Reset arrays - reset the table
-            self.friendKeys.removeAll(keepCapacity: false)
-            self.friendData.removeAll(keepCapacity: false)
+            self.friendKeys.removeAll(keepingCapacity: false)
+            self.friendData.removeAll(keepingCapacity: false)
             self.tableView.reloadData()
             
             // Iterate over data
-            while let data = enumerator.nextObject() as? FDataSnapshot {
+            while let data = enumerator.nextObject() as? FIRDataSnapshot {
                 self.friendKeys.append(data.key)
             }
             // Get friends
@@ -50,9 +50,9 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Check for valid user
-        if ref.authData == nil {
+        if FIRAuth.auth()?.currentUser == nil {
             super.showLogin()
         }
     }
@@ -68,8 +68,8 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
         if friendKeys.count > 0 {
             // Loop over firend IDs
             for uid in friendKeys {
-                let canRemindFriends = ref.childByAppendingPath("users/\(uid)")
-                canRemindFriends.observeEventType(.Value, withBlock: { snapshot in
+                let canRemindFriends = ref.child("users/\(uid)")
+                canRemindFriends.observe(.value, with: { snapshot in
                     self.friendData.append(snapshot)
                     if self.friendData.count > 0 {
                         // Reload the table
@@ -84,7 +84,7 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
     }
     
     // MARK: Segues
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         
         // Check to see if segue should happen (have they selected a location?
         if identifier == "AddFriendUnwindSegue" {
@@ -97,58 +97,62 @@ class AddFriendViewController: MMCustomViewController, UITableViewDelegate, UITa
     }
     
     // MARK: Button Actions
-    @IBAction func addFriendBtnAction(sender: AddRemoveButtonView) {
+    @IBAction func addFriendBtnAction(_ sender: AddRemoveButtonView) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
 
-    @IBAction func closeBtnAction(sender: AnyObject) {
+    @IBAction func closeBtnAction(_ sender: AnyObject) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
     // MARK: Table View Methods
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friendData.count
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("friendsTableCell") as! FindFriendsTableViewCell
-        cell.separatorInset = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friendsTableCell") as! FindFriendsTableViewCell
+        cell.separatorInset = UIEdgeInsets.zero
+        cell.layoutMargins = UIEdgeInsets.zero
         cell.preservesSuperviewLayoutMargins = false
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        
+        let cellData = friendData[indexPath.row]?.value as! [String: AnyObject]
         
         // Cell button setup
+        // Cell button setup
         cell.addBtn.actionData = [
-            "id": friendData[indexPath.row].key,
-            "first_name": friendData[indexPath.row].value.valueForKey("first_name") as! String,
-            "last_name": friendData[indexPath.row].value.valueForKey("last_name") as! String
+            "id": (friendData[indexPath.row]?.key)!,
+            "first_name": cellData["first_name"] as! String,
+            "last_name": cellData["last_name"] as! String
         ]
-        cell.addBtn.addTarget(self, action: #selector(addFriendBtnAction), forControlEvents: .TouchUpInside)
         
-        var name : String = ""
+        cell.addBtn.addTarget(self, action: #selector(addFriendBtnAction), for: .touchUpInside)
         
-        if let firstName = friendData[indexPath.row].value.valueForKey("first_name") as? NSString {
-            name += firstName as String
+        var name: String = ""
+        
+        if let firstName = cellData["first_name"] {
+            name += "\(firstName)"
         }
         
-        if let lastName = friendData[indexPath.row].value.valueForKey("last_name") as? NSString {
+        if let lastName = cellData["last_name"] {
             name += " \(lastName)"
         }
         
         (cell.contentView.viewWithTag(101) as! UILabel).text = name
         
-        if let email = friendData[indexPath.row].value.valueForKey("email_address") as? NSString {
-            (cell.contentView.viewWithTag(102) as! UILabel).text = email as String
+        if let email = cellData["email_address"] as? String {
+            (cell.contentView.viewWithTag(102) as! UILabel).text = email
         }
         
         // TODO: Add profile images

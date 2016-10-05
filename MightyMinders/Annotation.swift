@@ -35,14 +35,14 @@ class Annotation : NSObject, MKAnnotation {
         super.init()
     }
     
-    func pinColor() -> MKPinAnnotationColor  {
+    func pinColor() -> UIColor {
         switch type {
         case "private":
-            return .Green
+            return .green
         case "shared":
-            return .Red
+            return .red
         default:
-            return .Purple
+            return .purple
         }
     }
     

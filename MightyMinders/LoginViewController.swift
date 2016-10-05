@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import AeroGearPush
 
 class LoginViewController: UIViewController {
 
-    let ref = Firebase(url: "https://mightyminders.firebaseio.com")
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let ref = FIRDatabase.database().reference()
+    let userDefaults = UserDefaults.standard
     
     @IBOutlet weak var emailFld: UITextField!
     @IBOutlet weak var passFld: UITextField!
@@ -26,9 +25,9 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        activity.hidden = true
+        activity.isHidden = true
         if let error = errorTxt {
-            error.hidden = true;
+            error.isHidden = true;
         }
     }
 
@@ -37,40 +36,54 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
-        if ref.authData != nil {
+    override func viewDidAppear(_ animated: Bool) {
+        if FIRAuth.auth()?.currentUser != nil {
             // User authenticated with Firebase
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    func touchesBegan(touches: Set<UITouch>, with: UIEvent?) {
         view.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
+        super.touchesBegan(touches, with: with)
+    }
+    
+    func validate() -> Bool {
+        if (emailFld.text == nil) || (passFld.text == nil) {
+            
+            let loginError = UIAlertController(title: "Error", message: "Both fields are required to login", preferredStyle: UIAlertControllerStyle.alert)
+            let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            loginError.addAction(OKAction)
+            self.present(loginError, animated: true, completion: nil)
+            return false
+            
+        } else {
+            return true
+        }
     }
     
     // MARK: Login action
-    @IBAction func doLogin(sender: AnyObject) {
-        activity.hidden = false
-        ref.authUser(emailFld.text, password: passFld.text,
-            withCompletionBlock: { error, authData in
+    @IBAction func login() {
+        activity.isHidden = false
+        if validate() {
+            FIRAuth.auth()?.signIn(withEmail: emailFld.text!, password: passFld.text!, completion: { (user, error) in
                 if error != nil {
                     // There was an error logging in to this account
-                    self.errorTxt.hidden = false
-                    if let errorCode = FAuthenticationError(rawValue: error.code) {
+                    self.errorTxt.isHidden = false
+                    if let errorCode = FIRAuthErrorCode(rawValue: error!._code) {
                         
                         switch(errorCode) {
                             
-                        case .UserDoesNotExist:
+                        case .errorCodeUserNotFound:
                             self.errorTxt.text = "Error: Invalid user"
-                        
-                        case .InvalidCredentials:
+                            
+                        case .errorCodeInvalidCredential:
                             self.errorTxt.text = "Error: Invalid email or password"
                             
-                        case .InvalidEmail:
+                        case .errorCodeInvalidEmail:
                             self.errorTxt.text = "Error: Invalid email or password"
                             
-                        case .InvalidPassword:
+                        case .errorCodeWrongPassword:
                             self.errorTxt.text = "Error: Invalid email or password"
                             
                         default:
@@ -80,54 +93,40 @@ class LoginViewController: UIViewController {
                     }
                 } else {
                     // We are now logged in
-                    let registration = AGDeviceRegistration(serverURL: NSURL(string: "https://push-baneville.rhcloud.com/ag-push/")!)
-                    
-                    registration.registerWithClientInfo({ (clientInfo: AGClientDeviceInformation!)  in
-                        
-                        // Apply the token, to identify this device
-                        clientInfo.deviceToken = self.userDefaults.objectForKey("deviceToken") as? NSData
-                        
-                        clientInfo.variantID = self.userDefaults.valueForKey("variantID") as? String
-                        clientInfo.variantSecret = self.userDefaults.valueForKey("variantSecret") as? String
-                        
-                        // --optional config--
-                        // Set some 'useful' hardware information params
-                        clientInfo.alias = self.ref.authData.providerData["email"] as? String
-                        self.userDefaults.setValue(self.ref.authData.providerData["email"] as? String, forKey: "storedUserEmail")
-                        
-                        }, success: {
-                            print("device alias updated");
-                            
-                        }, failure: { (error:NSError!) -> () in
-                            print("device alias update error: \(error.localizedDescription)")
-                    })
-                    
-                    
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    // Update device token
+                    self.ref.child("devices").child((user?.uid)!).setValue(["token": FIRInstanceID.instanceID().token()!])
+                    self.dismiss(animated: true, completion: nil)
                 }
-                self.activity.hidden = true
-        })
-        
+                self.activity.isHidden = true
+            })
+        }
+    
     }
     
     // MARK: Forgot password action
     @IBAction func forgetPasswdAction(sender: AnyObject) {
         
         if emailFld.text != "" {
-            ref.resetPasswordForUser(emailFld.text, withCompletionBlock: { error in
+            FIRAuth.auth()?.sendPasswordReset(withEmail: emailFld.text!, completion: { (error) in
                 if error != nil {
                     // There was an error processing the request
-                    let passwdError = UIAlertView(title: "Error", message: "There was an error resetting your password, please try again.", delegate: nil, cancelButtonTitle: "OK")
-                    passwdError.show()
+                    let passwdError = UIAlertController(title: "Error", message: "There was an error resetting your password, please try again.", preferredStyle: UIAlertControllerStyle.alert)
+                    let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    passwdError.addAction(OKAction)
+                    self.present(passwdError, animated: true, completion: nil)
                 } else {
                     // Password reset sent successfully
-                    let emailError = UIAlertView(title: "Success", message: "Plesae check your email for instructions on resetting your password.", delegate: nil, cancelButtonTitle: "OK")
-                    emailError.show()
+                    let emailError = UIAlertController(title: "Success", message: "Please check your email for instructions on resetting your password.", preferredStyle: UIAlertControllerStyle.alert)
+                    let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    emailError.addAction(OKAction)
+                    self.present(emailError, animated: true, completion: nil)
                 }
             })
         } else {
-            let emailError = UIAlertView(title: "Error", message: "Please enter your email address and click \"I forgot my password\" again.", delegate: nil, cancelButtonTitle: "OK")
-            emailError.show()
+            let emailError = UIAlertController(title: "Error", message: "Please enter your email address and click \"I forgot my password\" again.", preferredStyle: UIAlertControllerStyle.alert)
+            let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            emailError.addAction(OKAction)
+            self.present(emailError, animated: true, completion: nil)
         }
         
         
