@@ -54,8 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Notifications
         let mySettings: UIUserNotificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: categories as? Set<UIUserNotificationCategory>)
         application.registerUserNotificationSettings(mySettings)
-        
-        // Push notifications
         application.registerForRemoteNotifications()
         
         // Background fetch - dont need it currently but setting it up anyway
@@ -88,10 +86,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Recieved a push notification
         // Print message ID.
-        // print("Message: \(userInfo)")
+        //print("Message: \(userInfo)")
         
         // Print full message.
-        // print("%@", userInfo)
+        //print("%@", userInfo)
         
     }
     

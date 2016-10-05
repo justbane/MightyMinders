@@ -169,7 +169,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o7V-8l-2pX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-184" y="1112"/>
+            <point key="canvasLocation" x="-185" y="1200"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="hqJ-5U-ikX">
@@ -303,7 +303,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QR2-Fc-bKm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-184" y="1803"/>
+            <point key="canvasLocation" x="-186" y="1994"/>
         </scene>
         <!--You Can Remind-->
         <scene sceneID="gru-64-tTB">
@@ -328,10 +328,10 @@
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="iCanRemindCell" rowHeight="90" id="5oT-Ii-77K" customClass="FindFriendsTableViewCell" customModule="MightyMinders" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="22" width="375" height="90"/>
+                                                <rect key="frame" x="0.0" y="22" width="1000" height="90"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5oT-Ii-77K" id="FSL-AZ-9Gp">
-                                                    <frame key="frameInset" width="375" height="90"/>
+                                                    <frame key="frameInset" width="1000" height="90"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v9G-1E-d0V" customClass="CustomView" customModule="MightyMinders">
@@ -438,7 +438,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ArD-DB-1TK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1151" y="-981"/>
+            <point key="canvasLocation" x="1151" y="-1113"/>
         </scene>
         <!--Find Friends View Controller-->
         <scene sceneID="yNA-qk-Lg8">
@@ -472,10 +472,10 @@
                                                     <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <prototypes>
                                                         <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="friendsTableCell" rowHeight="90" id="PhU-eb-deA" customClass="FindFriendsTableViewCell" customModule="MightyMinders" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="22" width="1000" height="90"/>
+                                                            <rect key="frame" x="0.0" y="22" width="343" height="90"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PhU-eb-deA" id="dVR-zT-VrK">
-                                                                <frame key="frameInset" width="1000" height="90"/>
+                                                                <frame key="frameInset" width="343" height="90"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="krE-Pb-0ya" customClass="CustomView" customModule="MightyMinders">
@@ -630,7 +630,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xIQ-gm-8kP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1580" y="-327"/>
+            <point key="canvasLocation" x="1580" y="-368"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="GGI-HA-eJ3">
@@ -963,7 +963,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Yq-IN-9Bk" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="FVu-35-W8i" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="268" y="-327"/>
+            <point key="canvasLocation" x="268" y="-367"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -1358,10 +1358,10 @@
                                                     <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <prototypes>
                                                         <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="friendsTableCell" rowHeight="90" id="2cP-Eq-Elg" customClass="FindFriendsTableViewCell" customModule="MightyMinders" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="22" width="343" height="90"/>
+                                                            <rect key="frame" x="0.0" y="22" width="1000" height="90"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2cP-Eq-Elg" id="dZQ-Mb-D2E">
-                                                                <frame key="frameInset" width="343" height="90"/>
+                                                                <frame key="frameInset" width="1000" height="90"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RnK-5K-vg2" customClass="CustomView" customModule="MightyMinders">
@@ -1684,7 +1684,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJJ-2N-7hE" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="bgB-Jy-yy2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="268" y="1112"/>
+            <point key="canvasLocation" x="268" y="1200"/>
         </scene>
         <!--List Reminders View Controller-->
         <scene sceneID="N5d-Nw-bZp">
@@ -1854,7 +1854,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tcd-92-naO" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="TIq-X5-GuX" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="707" y="1112"/>
+            <point key="canvasLocation" x="707" y="1200"/>
         </scene>
         <!--Add Location View Controller-->
         <scene sceneID="DI8-4U-RZK">
@@ -2009,7 +2009,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2zY-z1-w4U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="707" y="-327"/>
+            <point key="canvasLocation" x="707" y="-368"/>
         </scene>
         <!--Can Remind You-->
         <scene sceneID="Kfg-RJ-819">
@@ -2035,10 +2035,10 @@
                                         <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="canRemindMeCell" rowHeight="90" id="ceT-UI-e6N" customClass="FindFriendsTableViewCell" customModule="MightyMinders">
-                                                <rect key="frame" x="0.0" y="22" width="1000" height="90"/>
+                                                <rect key="frame" x="0.0" y="22" width="375" height="90"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ceT-UI-e6N" id="0FI-H8-ah6">
-                                                    <frame key="frameInset" width="1000" height="90"/>
+                                                    <frame key="frameInset" width="375" height="90"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="04V-TZ-ZYv" customClass="CustomView" customModule="MightyMinders">
@@ -2195,7 +2195,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OgC-2B-uq5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1151" y="-327"/>
+            <point key="canvasLocation" x="1151" y="-368"/>
         </scene>
     </scenes>
     <resources>
@@ -2216,7 +2216,7 @@
         <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="5QT-31-jrX"/>
         <segue reference="GLK-rv-Nvf"/>
+        <segue reference="rb4-aS-UQM"/>
     </inferredMetricsTieBreakers>
 </document>
