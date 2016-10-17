@@ -50,6 +50,7 @@
 		39CC99221BE07DE700F7F428 /* HTTPRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CC99211BE07DE700F7F428 /* HTTPRequests.swift */; };
 		39DEE9D21BEB1FE8007B5C67 /* GreenBack and FairOaks.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 39DEE9D11BEB1FE8007B5C67 /* GreenBack and FairOaks.gpx */; };
 		39E6E5C31AF32CAC0066B707 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E6E5C21AF32CAC0066B707 /* TextFields.swift */; };
+		39E8331A1DAA199D00751EAA /* MightyMindersJingle.aif in Resources */ = {isa = PBXBuildFile; fileRef = 39E833191DAA199D00751EAA /* MightyMindersJingle.aif */; };
 		39F0DCE71AFA6AF1002C91F5 /* AddReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */; };
 		39F8E2A51BA4D51C00C1EA99 /* default.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 39F8E2A41BA4D51C00C1EA99 /* default.gpx */; };
 		3F1A748EED20BE0EB6AEC1ED /* Pods_MightyMindersTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 771EAC328BC9E53D02E42D0A /* Pods_MightyMindersTests.framework */; };
@@ -184,6 +185,7 @@
 		39CC99211BE07DE700F7F428 /* HTTPRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequests.swift; sourceTree = "<group>"; };
 		39DEE9D11BEB1FE8007B5C67 /* GreenBack and FairOaks.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "GreenBack and FairOaks.gpx"; sourceTree = "<group>"; };
 		39E6E5C21AF32CAC0066B707 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
+		39E833191DAA199D00751EAA /* MightyMindersJingle.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = MightyMindersJingle.aif; sourceTree = "<group>"; };
 		39F0DCE61AFA6AF1002C91F5 /* AddReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReminderViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		39F8E2A41BA4D51C00C1EA99 /* default.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = default.gpx; sourceTree = "<group>"; };
 		771EAC328BC9E53D02E42D0A /* Pods_MightyMindersTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MightyMindersTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +262,7 @@
 				397559071CC3405C00F79038 /* Models */,
 				397559061CC3401700F79038 /* Views */,
 				39305A9E1AE9EF9300773849 /* Images.xcassets */,
+				39E8331B1DAA19D200751EAA /* Sounds */,
 				39305A951AE9EF9300773849 /* Supporting Files */,
 				39305AC71AE9FE3100773849 /* MightyMinders-Bridging-Header.h */,
 			);
@@ -354,6 +357,14 @@
 				399557121CEECD5B0029AABD /* Values.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		39E8331B1DAA19D200751EAA /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				39E833191DAA199D00751EAA /* MightyMindersJingle.aif */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 		C9D1928CDBD1E644FBDB0827 /* Pods */ = {
@@ -548,6 +559,7 @@
 				39305AA21AE9EF9300773849 /* LaunchScreen.xib in Resources */,
 				39305A9F1AE9EF9300773849 /* Images.xcassets in Resources */,
 				39AE3F4B1D6391870001CA6B /* GoogleService-Info.plist in Resources */,
+				39E8331A1DAA199D00751EAA /* MightyMindersJingle.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,7 +850,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MightyMinders/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -866,7 +878,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MightyMinders/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
