@@ -25,34 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        // Actions
-        let addMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
-        addMinderAction.identifier = "ADD_MINDER"
-        addMinderAction.title = "Update"
-        addMinderAction.activationMode = UIUserNotificationActivationMode.foreground
-        addMinderAction.isAuthenticationRequired = false
-        addMinderAction.isDestructive = false
-        
-        let ignoreMinderAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
-        ignoreMinderAction.identifier = "IGNORE_MINDER"
-        ignoreMinderAction.title = "Ignore"
-        ignoreMinderAction.activationMode = UIUserNotificationActivationMode.background
-        ignoreMinderAction.isAuthenticationRequired = false
-        ignoreMinderAction.isDestructive = true
-        
-        // Categories
-        let mainCategory: UIMutableUserNotificationCategory = UIMutableUserNotificationCategory()
-        mainCategory.identifier = "MAIN_CATEGORY"
-        
-        let minimalActionsArray: NSArray = [addMinderAction, ignoreMinderAction]
-        
-        mainCategory.setActions(minimalActionsArray as? [UIUserNotificationAction], for: UIUserNotificationActionContext.minimal)
-        
-        // Add notification set
-        let categories: NSSet = NSSet(objects: mainCategory)
-        
         // Notifications
-        let mySettings: UIUserNotificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: categories as? Set<UIUserNotificationCategory>)
+        let mySettings: UIUserNotificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
         application.registerUserNotificationSettings(mySettings)
         application.registerForRemoteNotifications()
         
@@ -63,22 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification), name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
         
         return true
-    }
-    
-    // MARK: Handle remote notification action
-    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], withResponseInfo responseInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
-        
-        if identifier == "ADD_MINDER" {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "addMinderPressed"), object: nil, userInfo: userInfo)
-            
-        }
-        if identifier == "IGNORE_MINDER" {
-            // what shall we do here?
-            print("ignored")
-            
-        }
-        
-        completionHandler()
     }
     
     // MARK: Recieve push

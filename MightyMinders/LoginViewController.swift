@@ -104,7 +104,7 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: Forgot password action
-    @IBAction func forgetPasswdAction(sender: AnyObject) {
+    @IBAction func forgetPasswdAction(_ sender: AnyObject) {
         
         if emailFld.text != "" {
             FIRAuth.auth()?.sendPasswordReset(withEmail: emailFld.text!, completion: { (error) in
@@ -128,8 +128,6 @@ class LoginViewController: UIViewController {
             emailError.addAction(OKAction)
             self.present(emailError, animated: true, completion: nil)
         }
-        
-        
         
     }
     

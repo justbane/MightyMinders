@@ -46,7 +46,7 @@ class ViewReminderViewController: MMCustomViewController {
                 if (FIRAuth.auth()?.currentUser?.uid)! != self.selectedFriendFromView {
                     self.setByLbl.text = "Set for: \(first_name) \(last_name)"
                 } else {
-                    let setForRef = self.ref.child("users/\(self.setByFromView)")
+                    let setForRef = self.ref.child("users").child(self.setByFromView)
                     setForRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
                         if snapshot.childrenCount > 0 {
                             let setForData = snapshot.value as! [String: AnyObject]

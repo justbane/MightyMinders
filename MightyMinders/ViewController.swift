@@ -195,7 +195,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
     
     // MARK: Get reminders
     func getReminders() {
-        
+
         // Cancel the notifications then add from firebase
         UIApplication.shared.cancelAllLocalNotifications()
         
@@ -279,13 +279,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                 let region = self.regionWithMinder(annotation)
                 
                 // Set localNotification
-                let ln:UILocalNotification = UILocalNotification()
-                ln.alertAction = annotation.title
-                ln.alertBody = annotation.content
-                ln.region = region
-                ln.regionTriggersOnce = false
-                ln.soundName = UILocalNotificationDefaultSoundName
-                UIApplication.shared.scheduleLocalNotification(ln)
+                Minders().setNotifications(annotation: annotation, region: region)
             }
         
         }
@@ -313,15 +307,7 @@ class ViewController: MMCustomViewController, MKMapViewDelegate, CLLocationManag
                 let region = self.regionWithMinder(annotation)
             
                 // Set localNotification
-                if annotation.setFor == FIRAuth.auth()?.currentUser?.uid {
-                    let ln:UILocalNotification = UILocalNotification()
-                    ln.alertAction = annotation.title
-                    ln.alertBody = annotation.content
-                    ln.region = region
-                    ln.regionTriggersOnce = false
-                    ln.soundName = UILocalNotificationDefaultSoundName
-                    UIApplication.shared.scheduleLocalNotification(ln)
-                }
+                Minders().setNotifications(annotation: annotation, region: region)
             }
             
         }
