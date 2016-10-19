@@ -843,6 +843,7 @@
 				CODE_SIGN_ENTITLEMENTS = MightyMinders/MightyMinders.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = S4L5PVTT36;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -855,6 +856,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "83d25f4c-5068-4a85-8f4c-30da79402a8c";
+				PROVISIONING_PROFILE_SPECIFIER = "MightyMinders Dev 20160904";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -870,7 +872,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MightyMinders/MightyMinders.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = S4L5PVTT36;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -882,7 +885,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justinbane.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "83d25f4c-5068-4a85-8f4c-30da79402a8c";
+				PROVISIONING_PROFILE = "8961830b-c88b-418f-9318-765aad9f7921";
+				PROVISIONING_PROFILE_SPECIFIER = "MightyMinders Distribution 20161016";
 				SWIFT_OBJC_BRIDGING_HEADER = "MightyMinders/MightyMinders-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

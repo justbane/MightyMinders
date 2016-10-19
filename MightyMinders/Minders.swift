@@ -195,14 +195,15 @@ class Minders: Minder {
     
     // MARK: Set local notification
     func setNotifications(annotation: Annotation, region: CLCircularRegion) {
-        
-        let ln:UILocalNotification = UILocalNotification()
-        ln.alertAction = annotation.title
-        ln.alertBody = annotation.content
-        ln.region = region
-        ln.regionTriggersOnce = false
-        ln.soundName = "MightyMindersJingle.aif"
-        UIApplication.shared.scheduleLocalNotification(ln)
+        if annotation.setFor == (FIRAuth.auth()?.currentUser?.uid)! {
+            let ln:UILocalNotification = UILocalNotification()
+            ln.alertAction = annotation.title
+            ln.alertBody = annotation.content
+            ln.region = region
+            ln.regionTriggersOnce = false
+            ln.soundName = "MightyMindersJingle.aif"
+            UIApplication.shared.scheduleLocalNotification(ln)
+        }
         
     }
     
